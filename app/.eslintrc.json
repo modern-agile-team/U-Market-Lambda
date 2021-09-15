@@ -25,7 +25,6 @@
   "env": {
     "browser": false,
     "jest": true,
-    "node": true,
     "es6": true
   },
   // ESLint가 무시할 디렉토리, 파일을 설정
@@ -36,6 +35,7 @@
   // ESLint 룰을 설정
   "rules": {
     // prettier에 맞게 룰을 설정
-    "prettier/prettier": ["error"]
+    "no-unused-vars": "warn",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }]
   }
 }
