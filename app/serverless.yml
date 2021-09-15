@@ -28,6 +28,7 @@ provider:
 # 로컬에서 serverless test
 plugins:
   - serverless-offline
+  - serverless-express
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -59,8 +60,14 @@ plugins:
 #    - '!exclude-me-dir/**'
 #    - include-me.js
 #    - include-me-dir/**
-
 functions:
+  app:
+    handler: handler.handler
+    events:
+      - http:
+          method: GET
+          path: /hi
+
   hello:
     handler: handler.hello
 #    The following are a few example events you can configure
