@@ -12,11 +12,12 @@
   
   // 코드를 해석하는 parser에 대한 설정
   "parserOptions": {
-    "ecmaVersion": 11,
+    "ecmaVersion": 2020,
     // 모듈 export를 위해 import, export를 사용 가능여부를 설정, script는 사용불가
-    "sourceType": "script",
+    "sourceType": "module",
     "ecmaFeatures": {
-      "jsx": false
+      "jsx": false,
+      "sourceType": "module"
     }
   },
   
@@ -24,7 +25,8 @@
   "env": {
     "browser": false,
     "jest": true,
-    "node": true
+    "node": true,
+    "es6": true
   },
   // ESLint가 무시할 디렉토리, 파일을 설정
   "ignorePatterns": [
@@ -34,6 +36,6 @@
   // ESLint 룰을 설정
   "rules": {
     // prettier에 맞게 룰을 설정
-    "prettier/prettier": "error"
+    "prettier/prettier": ["error"]
   }
 }
