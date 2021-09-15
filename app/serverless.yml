@@ -13,8 +13,8 @@
 
 service: app
 # app and org for use with dashboard.serverless.com
-#app: your-app-name
-#org: your-org-name
+app: app
+org: jiwonpg98
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -25,6 +25,10 @@ provider:
   runtime: nodejs12.x
   lambdaHashingVersion: 20201221
 
+# 로컬에서 serverless test
+plugins:
+  - serverless-offline
+  - serverless-express
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -56,8 +60,14 @@ provider:
 #    - '!exclude-me-dir/**'
 #    - include-me.js
 #    - include-me-dir/**
-
 functions:
+  app:
+    handler: handler.handler
+    events:
+      - http:
+          method: GET
+          path: /hi
+
   hello:
     handler: handler.hello
 #    The following are a few example events you can configure
