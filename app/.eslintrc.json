@@ -6,8 +6,8 @@
   
   // eslint의 룰을 기본 권장설정으로 설정
   "extends": [
-    "eslint:recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "eslint:recommended"
   ],
   
   // 코드를 해석하는 parser에 대한 설정
@@ -25,17 +25,18 @@
   "env": {
     "browser": false,
     "jest": true,
-    "es6": true
+    "es6": true,
+    "node": true
   },
   // ESLint가 무시할 디렉토리, 파일을 설정
   "ignorePatterns": [
     "node_modules/"
   ],
   
-  // ESLint 룰을 설정
   "rules": {
-    // prettier에 맞게 룰을 설정
     "no-unused-vars": "warn",
-    "prettier/prettier": ["error", { "endOfLine": "auto" }]
+    "prettier/prettier": ["error", { "endOfLine": "auto"}],
+    "no-useless-catch": 0,
+    "no-unused-declaration": 0
   }
 }
