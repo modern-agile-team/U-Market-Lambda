@@ -6,7 +6,7 @@ class UserStorage {
     try {
       conn = await mariadb.getConnection();
       const query = `INSERT INTO users(school_no, department_no, major_no, detail_major_no, grade, email, nickname, psword, salt) 
-      VAULES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
       const result = await conn.query(query, [
         number.school,
@@ -25,7 +25,7 @@ class UserStorage {
     } catch (err) {
       throw err;
     } finally {
-      conn?.release();
+      conn?.end();
     }
   }
 }

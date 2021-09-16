@@ -10,7 +10,7 @@ class User {
   async signup() {
     const user = this.body;
     try {
-      const number = this.findNumByRequest(user);
+      const number = await this.findNumByRequest(user);
 
       const { hash, salt } = await Cryptor.encrypt(user.psword);
       user.psword = hash;
@@ -62,7 +62,7 @@ class User {
     //     user.detailMajor,
     //   );
     number.school = schoolNum;
-    number.deparment = departmentNum;
+    number.department = departmentNum;
     number.major = majorNum;
     number.detailMajor = detailMajorNum;
 
