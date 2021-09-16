@@ -1,4 +1,4 @@
-import * as bcrypt from "bcrypt";
+const bcrypt = require("bcrypt");
 
 class Cryptor {
   constructor() {
@@ -29,4 +29,4 @@ class Cryptor {
   }
 }
 
-export default Cryptor;
+module.exports = Cryptor;
