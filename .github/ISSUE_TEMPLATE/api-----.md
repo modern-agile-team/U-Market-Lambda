@@ -7,28 +7,28 @@ assignees: ''
 
 ---
 
-## 목적
-> 목적
+# 💡 API 명세서
+* <a href="#0">0</a>
+   * <a href="#00">00</a>
 
-<br>
+## 0
+### 00
+> **URL:** ```/api/```  
+**METHOD:** ```POST```
 
-### 💡 API 명세서
-> 1. 00 API
 * Request
-
-**URL :**  /api/
-**Method :** GET
+   * **Content-Type:** ```application/json; charset=utf-8```
+```js
+{
+   id: 1
+}
+```
 
 <br>
 
-* Response  
-
-**Status** 
->**성공 :** 200 (OK)
->**실패 :** 
-  (1) 401 (Unauthorized)  
-
-**Content-type :** application/json; charset=utf-8
+* Response
+   * **Status:** ```201 Created```
+   * **Content-Type:** ```application/json; charset=utf-8```
 
 * 성공
 ```js
