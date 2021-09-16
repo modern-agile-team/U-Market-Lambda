@@ -65,8 +65,8 @@ functions:
     handler: handler.handler
     events:
       - http:
-          method: GET
-          path: /hi
+          method: POST
+          path: /api/signup
 
   hello:
     handler: handler.hello
