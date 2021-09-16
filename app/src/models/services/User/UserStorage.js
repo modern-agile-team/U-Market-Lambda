@@ -1,4 +1,4 @@
-import mariadb from "../../../config/mariadb";
+const mariadb = require("../../../config/mariadb");
 
 class UserStorage {
   static async signup(user, number) {
@@ -30,4 +30,4 @@ class UserStorage {
   }
 }
 
-export default UserStorage;
+module.exports = UserStorage;

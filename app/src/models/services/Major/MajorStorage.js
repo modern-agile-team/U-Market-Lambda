@@ -1,4 +1,4 @@
-import mariadb from "../../../config/mariadb";
+const mariadb = require("../../../config/mariadb");
 
 class MajorStorage {
   static async findRegionNumByName(region) {
@@ -8,7 +8,6 @@ class MajorStorage {
       const query = `SELECT no FROM regions WHERE name = ?;`;
 
       const result = conn.query(query, [region]);
-
       return result[0].no;
     } catch (err) {
       throw err;
@@ -88,8 +87,7 @@ class MajorStorage {
       const query = `INSERT INTO schools(region_no ,name) VAULES(?, ?);`;
 
       const result = conn.query(query, [regionNum, school]);
-
-      if (result.affectedRows) return true;
+      if (result.affectedRows) return result.insertID;
       return false;
     } catch (err) {
       throw err;
@@ -105,8 +103,7 @@ class MajorStorage {
       const query = `INSERT INTO departments(name) VAULES(?);`;
 
       const result = conn.query(query, [department]);
-
-      if (result.affectedRows) return true;
+      if (result.affectedRows) return result.insertID;
       return false;
     } catch (err) {
       throw err;
@@ -123,7 +120,7 @@ class MajorStorage {
 
       const result = conn.query(query, [departmentNum, major]);
 
-      if (result.affectedRows) return true;
+      if (result.affectedRows) return result.insertID;
       return false;
     } catch (err) {
       throw err;
@@ -140,7 +137,7 @@ class MajorStorage {
 
       const result = conn.query(query, [majorNum, detailMajor]);
 
-      if (result.affectedRows) return true;
+      if (result.affectedRows) return result.insertID;
       return false;
     } catch (err) {
       throw err;
@@ -150,4 +147,4 @@ class MajorStorage {
   }
 }
 
-export default MajorStorage;
+module.exports = MajorStorage;
