@@ -17,7 +17,7 @@ assignees: ''
 **METHOD:** ```POST```
 
 ### Request
-   * **Content-Type:** ```application/json; charset=utf-8```
+* **Content-Type:** ```application/json; charset=utf-8```
 ```js
 {
    id: 1
@@ -27,9 +27,9 @@ assignees: ''
 <br>
 
 ### Response
-* Success
-   * **Status:** ```201 Created```
-   * **Content-Type:** ```application/json; charset=utf-8```
+#### Success
+* **Status:** ```201 Created```
+* **Content-Type:** ```application/json; charset=utf-8```
 ```js
 {
    success: true,
@@ -39,9 +39,9 @@ assignees: ''
 
 <br>
 
-* Fail
-   * **Status:** ```404 Not Found```
-   * **Content-Type:** ```application/json; charset=utf-8```
+#### Fail
+* **Status:** ```404 Not Found```
+* **Content-Type:** ```application/json; charset=utf-8```
 ```js
 // 주석
 {
