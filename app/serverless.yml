@@ -52,7 +52,7 @@ plugins:
 # you can define service wide environment variables here
 #  environment:
 #    variable1: value1
-
+useDotenv: true
 # you can add packaging information here
 #package:
 #  patterns:
