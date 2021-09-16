@@ -16,7 +16,7 @@ assignees: ''
 > **URL:** ```/api/```  
 **METHOD:** ```POST```
 
-* Request
+### Request
    * **Content-Type:** ```application/json; charset=utf-8```
 ```js
 {
@@ -26,11 +26,10 @@ assignees: ''
 
 <br>
 
-* Response
+### Response
+* Success
    * **Status:** ```201 Created```
    * **Content-Type:** ```application/json; charset=utf-8```
-
-* 성공
 ```js
 {
    success: true,
@@ -40,12 +39,14 @@ assignees: ''
 
 <br>
 
-* 실패
+* Fail
+   * **Status:** ```404 Not Found```
+   * **Content-Type:** ```application/json; charset=utf-8```
 ```js
 // 주석
 {
    success: false,
-   msg: ""
+   msg: "존재하지 않는 API입니다."
 }
 ```
 
