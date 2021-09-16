@@ -9,4 +9,4 @@ const mariadb = db.createPool({
   connectionLimit: 300,
 });
 
-module.exports = mariadb;
+export default mariadb;
