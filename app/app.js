@@ -13,7 +13,9 @@ app.get("/hi", (req, res) => {
 });
 
 const user = require("./src/apis/user");
+const home = require("./src/apis/home");
 
 app.use("/api/", user);
+app.use("/api/home", home);
 
 module.exports = app;
