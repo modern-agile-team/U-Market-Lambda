@@ -25,7 +25,7 @@ class UserStorage {
     } catch (err) {
       throw err;
     } finally {
-      conn?.end();
+      conn?.release();
     }
   }
 }

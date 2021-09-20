@@ -12,7 +12,7 @@ class MajorStorage {
     } catch (err) {
       throw err;
     } finally {
-      conn?.end();
+      conn?.release();
     }
   }
 
@@ -27,7 +27,7 @@ class MajorStorage {
     } catch (err) {
       throw err;
     } finally {
-      conn?.end();
+      conn?.release();
     }
   }
 
@@ -42,7 +42,7 @@ class MajorStorage {
     } catch (err) {
       throw err;
     } finally {
-      conn?.end();
+      conn?.release();
     }
   }
 
@@ -57,7 +57,7 @@ class MajorStorage {
     } catch (err) {
       throw err;
     } finally {
-      conn?.end();
+      conn?.release();
     }
   }
 
@@ -71,7 +71,7 @@ class MajorStorage {
     } catch (err) {
       throw err;
     } finally {
-      conn?.end();
+      conn?.release();
     }
   }
 
@@ -87,7 +87,7 @@ class MajorStorage {
     } catch (err) {
       throw err;
     } finally {
-      conn?.end();
+      conn?.release();
     }
   }
 
@@ -102,7 +102,7 @@ class MajorStorage {
     } catch (err) {
       throw err;
     } finally {
-      conn?.end();
+      conn?.release();
     }
   }
 
@@ -119,7 +119,7 @@ class MajorStorage {
     } catch (err) {
       throw err;
     } finally {
-      conn?.end();
+      conn?.release();
     }
   }
 
@@ -136,7 +136,7 @@ class MajorStorage {
     } catch (err) {
       throw err;
     } finally {
-      conn?.end();
+      conn?.release();
     }
   }
 }
