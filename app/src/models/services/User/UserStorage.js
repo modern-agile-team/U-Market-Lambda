@@ -1,14 +1,13 @@
-const mariadb = require("../../../config/mysql");
+const mysql = require("../../../config/mysql");
 
 class UserStorage {
   static async signup(user, number) {
-    let conn;
     try {
-      conn = await mariadb.getConnection();
+      await mysql.connect();
       const query = `INSERT INTO users(school_no, detail_major_no, grade, email, nickname, psword, salt) 
       VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-      const result = await conn.query(query, [
+      const result = await mysql.query(query, [
         number.school,
         number.detailMajor,
         user.grade,
@@ -22,7 +21,7 @@ class UserStorage {
     } catch (err) {
       throw err;
     } finally {
-      await conn?.release();
+      await mysql?.end();
     }
   }
 }
