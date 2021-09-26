@@ -11,10 +11,7 @@
 #
 # Happy Coding!
 
-service: app
-# app and org for use with dashboard.serverless.com
-app: app
-org: woorim960
+service: school-barter
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -23,6 +20,7 @@ frameworkVersion: '2'
 provider:
   name: aws
   runtime: nodejs12.x
+  region: ap-northeast-2
   lambdaHashingVersion: 20201221
 
 # 로컬에서 serverless test
@@ -52,7 +50,7 @@ plugins:
 # you can define service wide environment variables here
 #  environment:
 #    variable1: value1
-
+useDotenv: true
 # you can add packaging information here
 #package:
 #  patterns:
@@ -70,16 +68,19 @@ functions:
       - http:
           method: GET
           path: /api/home
-
-  hello:
-    handler: handler.hello
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
-    events:
-      - httpApi:
-         path: /users/create
-         method: get
+      - http:
+          method: GET
+          path: /api/signup
+      - http:
+          method: POST
+          path: /api/choose/school
+      - http:
+          method: POST
+          path: /api/choose/major
+          # request:
+          #   parameters:
+          #     paths:
+          #       id: true
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)

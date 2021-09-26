@@ -1,148 +1,125 @@
-const mariadb = require("../../../config/mariadb");
+const mysql = require("../../../config/mysql");
 
 class MajorStorage {
   static async findRegionNumByName(region) {
-    let conn;
     try {
-      conn = await mariadb.getConnection();
       const query = `SELECT no FROM regions WHERE name = ?;`;
-
-      const result = conn.query(query, [region]);
+      await mysql.connect();
+      const result = await mysql.query(query, [region]);
       return result[0].no;
     } catch (err) {
       throw err;
     } finally {
-      conn?.release();
+      await mysql?.end();
     }
   }
 
   static async findSchoolNumByName(school) {
-    let conn;
     try {
-      conn = await mariadb.getConnection();
-      const query = `SELECT no FROM schools WHERE name = ?;`;
-
-      const result = conn.query(query, [school]);
-
-      return result[0].no;
+      const query = `SELECT no, region_no FROM schools WHERE name = ?;`;
+      await mysql.connect();
+      const result = await mysql.query(query, [school]);
+      return [result[0].region_no, result[0].no];
     } catch (err) {
       throw err;
     } finally {
-      conn?.release();
+      await mysql?.end();
     }
   }
 
   static async findDepartmentNumByName(department) {
-    let conn;
     try {
-      conn = await mariadb.getConnection();
       const query = `SELECT no FROM departments WHERE name = ?;`;
-
-      const result = conn.query(query, [department]);
-
+      await mysql.connect();
+      const result = await mysql.query(query, [department]);
       return result[0].no;
     } catch (err) {
       throw err;
     } finally {
-      conn?.release();
+      await mysql?.end();
     }
   }
 
   static async findMajorNumByName(major) {
-    let conn;
     try {
-      conn = await mariadb.getConnection();
       const query = `SELECT no FROM majors WHERE name = ?;`;
-
-      const result = conn.query(query, [major]);
-
+      await mysql.connect();
+      const result = await mysql.query(query, [major]);
       return result[0].no;
     } catch (err) {
       throw err;
     } finally {
-      conn?.release();
+      await mysql?.end();
     }
   }
 
   static async findDetailMajorNumByName(detailMajor) {
-    let conn;
     try {
-      conn = await mariadb.getConnection();
       const query = `SELECT no FROM detail_majors WHERE name = ?;`;
-
-      const result = conn.query(query, [detailMajor]);
-
+      await mysql.connect();
+      const result = await mysql.query(query, [detailMajor]);
       return result[0].no;
     } catch (err) {
       throw err;
     } finally {
-      conn?.release();
+      await mysql?.end();
     }
   }
 
   static async createSchoolByName(regionNum, school) {
-    let conn;
     try {
-      conn = await mariadb.getConnection();
       const query = `INSERT INTO schools(region_no ,name) VAULES(?, ?);`;
-
-      const result = conn.query(query, [regionNum, school]);
+      await mysql.connect();
+      const result = await mysql.query(query, [regionNum, school]);
       if (result.affectedRows) return result.insertID;
       return false;
     } catch (err) {
       throw err;
     } finally {
-      conn?.release();
+      await mysql?.end();
     }
   }
 
   static async createDepartmentByName(department) {
-    let conn;
     try {
-      conn = await mariadb.getConnection();
       const query = `INSERT INTO departments(name) VAULES(?);`;
-
-      const result = conn.query(query, [department]);
+      await mysql.connect();
+      const result = await mysql.query(query, [department]);
       if (result.affectedRows) return result.insertID;
       return false;
     } catch (err) {
       throw err;
     } finally {
-      conn?.release();
+      await mysql?.end();
     }
   }
 
   static async createMajorByName(departmentNum, major) {
-    let conn;
     try {
-      conn = await mariadb.getConnection();
       const query = `INSERT INTO majors(department_no, name) VAULES(?, ?);`;
-
-      const result = conn.query(query, [departmentNum, major]);
+      await mysql.connect();
+      const result = await mysql.query(query, [departmentNum, major]);
 
       if (result.affectedRows) return result.insertID;
       return false;
     } catch (err) {
       throw err;
     } finally {
-      conn?.release();
+      await mysql?.end();
     }
   }
 
   static async createDetailMajorByName(majorNum, detailMajor) {
-    let conn;
     try {
-      conn = await mariadb.getConnection();
       const query = `INSERT INTO detail_majors(major_no, name) VAULES(?, ?);`;
-
-      const result = conn.query(query, [majorNum, detailMajor]);
-
+      await mysql.connect();
+      const result = await mysql.query(query, [majorNum, detailMajor]);
       if (result.affectedRows) return result.insertID;
       return false;
     } catch (err) {
       throw err;
     } finally {
-      conn?.release();
+      await mysql?.end();
     }
   }
 }
