@@ -19,7 +19,8 @@ class MajorStorage {
       const query = `SELECT no, region_no FROM schools WHERE name = ?;`;
       await mysql.connect();
       const result = await mysql.query(query, [school]);
-      return [result[0].region_no, result[0].no];
+      if (result.length > 0) return [result[0].region_no, result[0].no];
+      return [false, false];
     } catch (err) {
       throw err;
     } finally {
@@ -32,7 +33,8 @@ class MajorStorage {
       const query = `SELECT no FROM departments WHERE name = ?;`;
       await mysql.connect();
       const result = await mysql.query(query, [department]);
-      return result[0].no;
+      if (result.length > 0) return result[0].no;
+      return false;
     } catch (err) {
       throw err;
     } finally {
@@ -45,7 +47,8 @@ class MajorStorage {
       const query = `SELECT no FROM majors WHERE name = ?;`;
       await mysql.connect();
       const result = await mysql.query(query, [major]);
-      return result[0].no;
+      if (result.length > 0) return result[0].no;
+      return false;
     } catch (err) {
       throw err;
     } finally {
@@ -58,7 +61,8 @@ class MajorStorage {
       const query = `SELECT no FROM detail_majors WHERE name = ?;`;
       await mysql.connect();
       const result = await mysql.query(query, [detailMajor]);
-      return result[0].no;
+      if (result.length > 0) return result[0].no;
+      return false;
     } catch (err) {
       throw err;
     } finally {
@@ -68,10 +72,11 @@ class MajorStorage {
 
   static async createSchoolByName(regionNum, school) {
     try {
-      const query = `INSERT INTO schools(region_no ,name) VAULES(?, ?);`;
+      const query = `INSERT INTO schools(region_no ,name) VALUES(?, ?);`;
       await mysql.connect();
       const result = await mysql.query(query, [regionNum, school]);
-      if (result.affectedRows) return result.insertID;
+
+      if (result.affectedRows) return result.insertId;
       return false;
     } catch (err) {
       throw err;
@@ -82,10 +87,10 @@ class MajorStorage {
 
   static async createDepartmentByName(department) {
     try {
-      const query = `INSERT INTO departments(name) VAULES(?);`;
+      const query = `INSERT INTO departments(name) VALUES(?);`;
       await mysql.connect();
       const result = await mysql.query(query, [department]);
-      if (result.affectedRows) return result.insertID;
+      if (result.affectedRows) return result.insertId;
       return false;
     } catch (err) {
       throw err;
@@ -96,11 +101,11 @@ class MajorStorage {
 
   static async createMajorByName(departmentNum, major) {
     try {
-      const query = `INSERT INTO majors(department_no, name) VAULES(?, ?);`;
+      const query = `INSERT INTO majors(department_no, name) VALUES(?, ?);`;
       await mysql.connect();
       const result = await mysql.query(query, [departmentNum, major]);
 
-      if (result.affectedRows) return result.insertID;
+      if (result.affectedRows) return result.insertId;
       return false;
     } catch (err) {
       throw err;
@@ -111,10 +116,10 @@ class MajorStorage {
 
   static async createDetailMajorByName(majorNum, detailMajor) {
     try {
-      const query = `INSERT INTO detail_majors(major_no, name) VAULES(?, ?);`;
+      const query = `INSERT INTO detail_majors(major_no, name) VALUES(?, ?);`;
       await mysql.connect();
       const result = await mysql.query(query, [majorNum, detailMajor]);
-      if (result.affectedRows) return result.insertID;
+      if (result.affectedRows) return result.insertId;
       return false;
     } catch (err) {
       throw err;

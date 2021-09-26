@@ -3,58 +3,108 @@ const MajorStorage = require("./MajorStorage");
 class Major {
   constructor(req) {
     this.body = req.body;
+    this.Create = new Create(this.body);
   }
   async createSchoolByname() {
     const user = this.body;
     let region, schoolNum;
 
-    const regionNum = await MajorStorage.findRegionNumByName(user.region);
-    if (regionNum) {
-      [region, schoolNum] = await MajorStorage.findSchoolNumByName(user.school);
-      if (regionNum === region)
-        return { success: false, msg: "이미 존재하는 학교입니다." };
-      if (!schoolNum) {
-        schoolNum = await MajorStorage.createSchoolByName(
-          regionNum,
+    try {
+      const regionNum = await MajorStorage.findRegionNumByName(user.region);
+      if (regionNum) {
+        [region, schoolNum] = await MajorStorage.findSchoolNumByName(
           user.school,
         );
-        return { success: true, msg: "학교 생성 완료" };
+        if (regionNum === region)
+          return { success: true, msg: "학교 조회 완료", schoolNum, regionNum };
+        if (!schoolNum) {
+          schoolNum = await MajorStorage.createSchoolByName(
+            regionNum,
+            user.school,
+          );
+        }
+        if (schoolNum)
+          return { success: true, msg: "학교 조회 완료", schoolNum, regionNum };
+        return { success: false, msg: "학교 조회 실패" };
       }
-      return { success: true, msg: "학교 조회 완료" };
+    } catch (err) {
+      return { success: false, msg: err.sqlMessage };
     }
   }
 
   async createMajorByname() {
-    const user = this.body;
-    let number = {};
     let majorNum, detailMajorNum, departmentNum;
 
     try {
-      departmentNum = await MajorStorage.findDepartmentNumByName(
-        user.department,
-      );
-      if (!departmentNum)
-        departmentNum = await MajorStorage.createDepartmentByName(
-          user.department,
-        );
+      departmentNum = await this.Create.findOrCreatedepartment();
+
       if (departmentNum)
-        majorNum = await MajorStorage.findMajorNumByName(user.major);
+        majorNum = await this.Create.findOrCreateMajor(departmentNum);
+      if (majorNum)
+        detailMajorNum = await this.Create.findOrCreateDetailMajor(majorNum);
+      return detailMajorNum;
+    } catch (err) {
+      return { success: false, msg: err.sqlMessage };
+    }
+  }
+}
+
+class Create {
+  constructor(body) {
+    this.department = body.department;
+    this.major = body.major;
+    this.detailMajor = body.detailMajor;
+  }
+
+  async findOrCreatedepartment() {
+    let departmentNum;
+    try {
+      departmentNum = await MajorStorage.findDepartmentNumByName(
+        this.department,
+      );
+      if (!departmentNum) {
+        departmentNum = await MajorStorage.createDepartmentByName(
+          this.department,
+        );
+      }
+      return departmentNum;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findOrCreateMajor(departmentNum) {
+    console.log(departmentNum);
+    let majorNum;
+    try {
+      majorNum = await MajorStorage.findMajorNumByName(this.major);
       if (!majorNum)
         majorNum = await MajorStorage.createMajorByName(
           departmentNum,
-          user.major,
+          this.major,
         );
+      return majorNum;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findOrCreateDetailMajor(majorNum) {
+    let detailMajorNum;
+    try {
       detailMajorNum = await MajorStorage.findDetailMajorNumByName(
-        user.detailMajor,
+        this.detailMajor,
       );
       if (!detailMajorNum)
         detailMajorNum = await MajorStorage.createDetailMajorByName(
           majorNum,
-          user.detailMajor,
+          this.detailMajor,
         );
-      return { success: true, msg: "계열 생성에 성공했습니다", detail: number };
+      if (detailMajorNum)
+        return { success: true, msg: "계열 조회 완료", detailMajorNum };
+      return { success: false, msg: "계열 조회 실패" };
     } catch (err) {
-      return { success: false, msg: err.sqlMessage };
+      throw err;
     }
   }
 }
