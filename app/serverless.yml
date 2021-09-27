@@ -72,8 +72,11 @@ functions:
           method: GET
           path: /api/signup
       - http:
-          method: POST
+          method: GET
           path: /api/choose/school
+      - http:
+          method: GET
+          path: /api/choose/department
       - http:
           method: POST
           path: /api/choose/major
