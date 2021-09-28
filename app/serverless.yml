@@ -64,13 +64,10 @@ functions:
     events:
       - http:
           method: POST
-          path: /api/signup
+          path: /api/user/signup
       - http:
           method: GET
           path: /api/home
-      - http:
-          method: GET
-          path: /api/signup
       - http:
           method: GET
           path: /api/choose/school
@@ -84,6 +81,10 @@ functions:
           #   parameters:
           #     paths:
           #       id: true
+
+custom:
+  serverless-offline:
+    lambdaPort: 4000
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
