@@ -66,6 +66,9 @@ functions:
           method: POST
           path: /api/user/signup
       - http:
+          method: POST
+          path: /api/user/login
+      - http:
           method: GET
           path: /api/home
       - http:
