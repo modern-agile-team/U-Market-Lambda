@@ -1,5 +1,6 @@
 const UserStorage = require("./UserStorage");
 const Cryptor = require("../../utils/Cryptor");
+const Auth = require("../Auth/Auth");
 
 class User {
   constructor(req) {
@@ -21,6 +22,34 @@ class User {
         return { success: false, msg: "이메일이 중복되었습니다." };
       if (err.sqlMessage.includes("nickname_UNIQUE"))
         return { success: false, msg: "닉네임이 중복되었습니다." };
+      return { success: false, msg: err };
+    }
+  }
+
+  async login() {
+    const user = this.body;
+    try {
+      const whoWantsLogin = await UserStorage.findAllByEmail(user);
+
+      if (whoWantsLogin) {
+        user.psword = await Cryptor.encryptBySalt(
+          user.psword,
+          whoWantsLogin.salt || "",
+        );
+        if (user.psword === whoWantsLogin.psword) {
+          const jwt = await Auth.createJWT(user);
+          const email = user.email;
+          return {
+            success: true,
+            msg: `${whoWantsLogin.nickname}님이 로그인을 성공했습니다.`,
+            jwt,
+            email,
+          };
+        }
+        return { success: false, msg: "비밀번호가 틀립니다." };
+      }
+      return { success: false, msg: "이메일이 존재하지 않습니다." };
+    } catch (err) {
       return { success: false, msg: err };
     }
   }
