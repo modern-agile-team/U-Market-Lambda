@@ -9,8 +9,11 @@ class Major {
   async findSchoolNumAndName() {
     try {
       const result = await MajorStorage.findSchoolNumAndName();
-      if (result) return result;
-      return false;
+      if (result.length !== 0) return { success: true, result };
+      return {
+        success: false,
+        msg: "학교 목록 불러오기 실패했습니다. 문의주세요",
+      };
     } catch (err) {
       return { success: false, msg: err.sqlMessage };
     }
@@ -19,26 +22,11 @@ class Major {
   async findDepartmentNumAndName() {
     try {
       const result = await MajorStorage.findDepartmentNumAndName();
-      if (result) return result;
-      return false;
-    } catch (err) {
-      return { success: false, msg: err.sqlMessage };
-    }
-  }
-
-  async findSchoolByname() {
-    const user = this.body;
-    let region, schoolNum;
-    // regions 없어도 되게 만들어도 됌
-    try {
-      const regionNum = await MajorStorage.findRegionNumByName(user.region);
-      if (regionNum) {
-        [region, schoolNum] = await MajorStorage.findSchoolNumByName(
-          user.school,
-        );
-        if (regionNum === region) return schoolNum, regionNum;
-        return { success: false, msg: "학교 조회 실패" };
-      }
+      if (result.length !== 0) return { success: true, result };
+      return {
+        success: false,
+        msg: "계열 목록 불러오기 실패했습니다. 문의주세요",
+      };
     } catch (err) {
       return { success: false, msg: err.sqlMessage };
     }
@@ -51,9 +39,9 @@ class Major {
       departmentNum = await this.Create.findDepartment();
 
       if (departmentNum)
-        majorNum = await this.Create.findOrCreateDetailMajor(departmentNum);
+        majorNum = await this.Create.findOrCreateMajor(departmentNum);
       if (!majorNum) return { success: false, msg: "전공 조회 실패" };
-      return majorNum;
+      return { success: true, majorNum };
     } catch (err) {
       return { success: false, msg: err.sqlMessage };
     }
@@ -75,7 +63,8 @@ class Create {
 
       return departmentNum;
     } catch (err) {
-      throw err;
+      // err.sqlMessage
+      return { success: false, msg: `계열 조회 실패했습니다 문의주세요` };
     }
   }
 
@@ -90,7 +79,7 @@ class Create {
         );
       return majorNum;
     } catch (err) {
-      throw err;
+      return { success: false, msg: `계열 조회 실패했습니다 문의주세요` };
     }
   }
 }

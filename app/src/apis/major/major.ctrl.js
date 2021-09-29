@@ -5,7 +5,7 @@ const process = {
     try {
       const user = new Major(req);
       const response = await user.findSchoolNumAndName();
-      if (response) return res.status(201).json(response);
+      if (response.success) return res.status(201).json(response.result);
       return res.status(401).json(response);
     } catch (err) {
       return res.status(500).json(err);
@@ -16,7 +16,7 @@ const process = {
     try {
       const user = new Major(req);
       const response = await user.findDepartmentNumAndName();
-      if (response) return res.status(201).json(response);
+      if (response.success) return res.status(201).json(response.result);
       return res.status(401).json(response);
     } catch (err) {
       return res.status(500).json(err);
@@ -27,7 +27,7 @@ const process = {
     try {
       const user = new Major(req);
       const response = await user.createMajorByname();
-      if (response) return res.status(201).json(response);
+      if (response.success) return res.status(201).json(response);
       return res.status(401).json(response);
     } catch (err) {
       return res.status(500).json(err);

@@ -1,7 +1,6 @@
 const mysql = require("../../../config/mysql");
 
 class MajorStorage {
-  //삭제해도 됌
   static async findRegionNumByName(region) {
     try {
       const query = `SELECT no FROM regions WHERE name = ?;`;
@@ -31,7 +30,7 @@ class MajorStorage {
 
   static async findSchoolNumAndName() {
     try {
-      const query = `SELECT no AS value, name AS item FROM schools`;
+      const query = `SELECT no AS value, name AS item FROM schools ORDER BY no`;
       await mysql.connect();
       const result = await mysql.query(query);
       if (result.length > 0) return result;
