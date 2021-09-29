@@ -4,10 +4,11 @@ class UserStorage {
   static async signup(user) {
     try {
       await mysql.connect();
-      const query = `INSERT INTO users(school_no, major_no, grade, email, nickname, psword, salt) 
-      VALUES (?, ?, ?, ?, ?, ?, ?)`;
+      const query = `INSERT INTO users(region_no, school_no, major_no, grade, email, nickname, psword, salt) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
       const result = await mysql.query(query, [
+        user.regionNum,
         user.schoolNum,
         user.majorNum,
         user.grade,
