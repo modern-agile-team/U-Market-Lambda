@@ -26,6 +26,22 @@ class UserStorage {
       await mysql?.end();
     }
   }
+
+  static async findAllByEmail(user) {
+    try {
+      await mysql.connect();
+
+      const query = `SELECT region_no AS regionNum, school_no AS schoolNum, major_no AS majorNum,
+      grade, nickname, psword, salt FROM users WHERE email = ?;`;
+
+      const result = await mysql.query(query, [user.email]);
+      return result[0];
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = UserStorage;
