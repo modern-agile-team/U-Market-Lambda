@@ -9,7 +9,8 @@ class Major {
   async findSchoolNumAndName() {
     try {
       const result = await MajorStorage.findSchoolNumAndName();
-      if (result.length !== 0) return { success: true, result };
+      if (result.length !== 0)
+        return { success: true, msg: "학교 조회 성공", result };
       return {
         success: false,
         msg: "학교 목록 불러오기 실패했습니다. 문의주세요",
