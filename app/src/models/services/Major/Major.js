@@ -9,7 +9,8 @@ class Major {
   async findSchoolNumAndName() {
     try {
       const result = await MajorStorage.findSchoolNumAndName();
-      if (result.length !== 0) return { success: true, result };
+      if (result.length !== 0)
+        return { success: true, msg: "학교 조회 성공", result };
       return {
         success: false,
         msg: "학교 목록 불러오기 실패했습니다. 문의주세요",
@@ -22,7 +23,8 @@ class Major {
   async findDepartmentNumAndName() {
     try {
       const result = await MajorStorage.findDepartmentNumAndName();
-      if (result.length !== 0) return { success: true, result };
+      if (result.length !== 0)
+        return { success: true, msg: "계열 목록 불러오기 성공", result };
       return {
         success: false,
         msg: "계열 목록 불러오기 실패했습니다. 문의주세요",
@@ -41,7 +43,7 @@ class Major {
       if (departmentNum)
         majorNum = await this.Create.findOrCreateMajor(departmentNum);
       if (!majorNum) return { success: false, msg: "전공 조회 실패" };
-      return { success: true, majorNum };
+      return { success: true, msg: "전공 조회 성공", majorNum };
     } catch (err) {
       return { success: false, msg: err.sqlMessage };
     }
