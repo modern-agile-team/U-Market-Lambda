@@ -70,7 +70,10 @@ functions:
           path: /api/user/login
       - http:
           method: GET
-          path: /api/home
+          path: /api/home/today
+      - http:
+          method: GET
+          path: /api/home/by-price
       - http:
           method: GET
           path: /api/choose/school

@@ -1,7 +1,7 @@
 const ProductStorage = require("../../models/services/Product/ProductStorage");
 
-const process = {
-  home: async (req, res) => {
+const home = {
+  today: async (req, res) => {
     try {
       const hotProducts = await ProductStorage.findHotsByLimit(10);
       const newProducts = await ProductStorage.findNewsByLimit(12);
@@ -19,4 +19,6 @@ const process = {
   },
 };
 
-module.exports = process;
+module.exports = {
+  home,
+};

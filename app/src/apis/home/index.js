@@ -3,6 +3,6 @@ const ctrl = require("./home.ctrl");
 
 const router = express.Router();
 
-router.get("/", ctrl.home);
+router.get("/today", ctrl.home.today);
 
 module.exports = router;
