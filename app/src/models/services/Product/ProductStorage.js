@@ -5,7 +5,7 @@ class ProductStorage {
     try {
       await mysql.connect();
       const query = `
-        SELECT title, price, COUNT(p_cmt.no) AS commentCnt, interest_cnt FROM products AS pd
+        SELECT title, price, COUNT(p_cmt.no) AS commentCnt, interest_cnt AS interestCnt FROM products AS pd
         LEFT JOIN product_comments AS p_cmt
         ON pd.no = p_cmt.product_no
         WHERE pd.in_date > (CURRENT_TIMESTAMP() - INTERVAL 7 DAY)
@@ -27,7 +27,7 @@ class ProductStorage {
     try {
       await mysql.connect();
       const query = `
-        SELECT title, price, COUNT(p_cmt.no) AS commentCnt, interest_cnt FROM products AS pd
+        SELECT title, price, COUNT(p_cmt.no) AS commentCnt, interest_cnt AS interestCnt FROM products AS pd
         LEFT JOIN product_comments AS p_cmt
         ON pd.no = p_cmt.product_no
         GROUP BY pd.no
@@ -37,6 +37,27 @@ class ProductStorage {
       const newProducts = await mysql.query(query);
 
       return newProducts;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAllBasedPriceBy(attr) {
+    try {
+      await mysql.connect();
+      const query = `
+        SELECT title, price, ifnull(i_pd.user_no, 0) AS checkedUserNo, interest_cnt AS interestCnt FROM products AS pd
+        LEFT JOIN interest_products AS i_pd
+        ON i_pd.product_no = pd.no
+        WHERE pd.no >= ${attr.startNo}
+        ORDER BY price ${attr.sort}
+        LIMIT ${attr.limit};`;
+
+      const products = await mysql.query(query);
+
+      return products;
     } catch (err) {
       throw err;
     } finally {

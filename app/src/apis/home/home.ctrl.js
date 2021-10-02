@@ -1,3 +1,6 @@
+const logger = require("../../config/logger");
+
+const Product = require("../../models/services/Product/Product");
 const ProductStorage = require("../../models/services/Product/ProductStorage");
 
 const home = {
@@ -8,12 +11,33 @@ const home = {
 
       const response = {
         success: true,
-        msg: "홈 화면 물품 데이터 조회에 성공하셨습니다.",
+        msg: "TODAY 물품 데이터 조회에 성공하셨습니다.",
         hotProducts,
         newProducts,
       };
       return res.status(200).json(response);
     } catch (err) {
+      return res.status(500).json(err);
+    }
+  },
+  byPrice: async (req, res) => {
+    try {
+      const product = new Product(req);
+      const products = await product.findAllAboutHomeBasedPrice();
+
+      const response = {
+        success: true,
+        msg: "가격별 물품 데이터 조회에 성공하셨습니다.",
+        products,
+      };
+      logger.info(
+        `GET /api/home/by-price/:sort/:startNo/:limit 200 ${response.msg}`,
+      );
+      return res.status(200).json(response);
+    } catch (err) {
+      logger.error(
+        `GET /api/home/by-price/:sort/:startNo/:limit 500 err: ${err}`,
+      );
       return res.status(500).json(err);
     }
   },
