@@ -1,10 +1,10 @@
 const logger = require("../../config/logger");
-const Major = require("../../models/services/Major/Major");
+const MajorService = require("../../services/Major/MajorService");
 
 const process = {
   findSchoolNumAndName: async (req, res) => {
     try {
-      const user = new Major(req);
+      const user = new MajorService(req);
       const response = await user.findSchoolNumAndName();
       if (response.success) {
         logger.info(`GET /api/choose/school 200 ${response.msg}`);
@@ -18,9 +18,9 @@ const process = {
     }
   },
 
-  findDepartmentNumAndName: async (req, res) => {
+  findDepartmentNumAndName: async (req, res, next) => {
     try {
-      const user = new Major(req);
+      const user = new MajorService(req);
       const response = await user.findDepartmentNumAndName();
       if (response.success) {
         logger.info(`GET /api/choose/department 200 ${response.msg}`);
@@ -30,13 +30,13 @@ const process = {
       return res.status(400).json(response);
     } catch (err) {
       logger.error(`GET /api/choose/department 500 err: ${err}`);
-      return res.status(500).json(err);
+      next(err);
     }
   },
 
   createMajorByname: async (req, res) => {
     try {
-      const user = new Major(req);
+      const user = new MajorService(req);
       const response = await user.createMajorByname();
       if (response.success) {
         logger.info(`POST /api/choose/major 201 ${response.msg}`);
