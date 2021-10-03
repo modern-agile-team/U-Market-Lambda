@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-class Auth {
+class AuthService {
   static async createJWT(user) {
     const payload = {
       nickname: user.nickname,
@@ -26,4 +26,4 @@ class Auth {
   }
 }
 
-module.exports = Auth;
+module.exports = AuthService;

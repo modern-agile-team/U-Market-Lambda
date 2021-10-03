@@ -1,10 +1,10 @@
-const ProductStorage = require("../../models/services/Product/ProductStorage");
+const ProductRepository = require("../../repository/Product/ProductRepository");
 
 const process = {
   home: async (req, res) => {
     try {
-      const hotProducts = await ProductStorage.findHotsByLimit(10);
-      const newProducts = await ProductStorage.findNewsByLimit(12);
+      const hotProducts = await ProductRepository.findHotsByLimit(10);
+      const newProducts = await ProductRepository.findNewsByLimit(12);
 
       const response = {
         success: true,

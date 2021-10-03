@@ -1,10 +1,10 @@
 const logger = require("../../config/logger");
-const User = require("../../models/services/User/User");
+const UserService = require("../../services/User/UserService");
 
 const process = {
   signup: async (req, res) => {
     try {
-      const user = new User(req);
+      const user = new UserService(req);
       const response = await user.signup();
       if (response.success) {
         logger.info(`POST /api/user/signup 201 ${response.msg}`);
@@ -20,7 +20,7 @@ const process = {
 
   login: async (req, res) => {
     try {
-      const user = new User(req);
+      const user = new UserService(req);
       const response = await user.login();
       if (response.success) {
         logger.info(`POST /api/user/login 201 ${response.msg}`);
