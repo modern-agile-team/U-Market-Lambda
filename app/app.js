@@ -2,6 +2,7 @@ const express = require("serverless-express/express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const logger = require("./src/config/logger");
+const errorMiddleware = require("./src/apis/middleware/error.Middleware");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(
     },
   }),
 );
+app.use(errorMiddleware);
 
 const user = require("./src/apis/user");
 const home = require("./src/apis/home");
