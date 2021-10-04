@@ -2,19 +2,15 @@ const logger = require("../../config/logger");
 const MajorService = require("../../services/Major/MajorService");
 
 const process = {
-  findSchoolNumAndName: async (req, res) => {
+  findSchoolNumAndName: async (req, res, next) => {
     try {
       const user = new MajorService(req);
       const response = await user.findSchoolNumAndName();
-      if (response.success) {
-        logger.info(`GET /api/choose/school 200 ${response.msg}`);
-        return res.status(200).json(response.result);
-      }
-      logger.error(`GET /api/choose/school 400 ${response.msg}`);
-      return res.status(400).json(response);
+
+      logger.info(`GET /api/choose/school 200 ${response.msg}`);
+      return res.status(200).json(response.result);
     } catch (err) {
-      logger.error(`GET /api/choose/school 500 err: ${err}`);
-      return res.status(500).json(err);
+      next(err);
     }
   },
 
@@ -22,31 +18,23 @@ const process = {
     try {
       const user = new MajorService(req);
       const response = await user.findDepartmentNumAndName();
-      if (response.success) {
-        logger.info(`GET /api/choose/department 200 ${response.msg}`);
-        return res.status(200).json(response.result);
-      }
-      logger.error(`GET /api/choose/department 400 ${response.msg}`);
-      return res.status(400).json(response);
+
+      logger.info(`GET /api/choose/department 200 ${response.msg}`);
+      return res.status(200).json(response.result);
     } catch (err) {
-      logger.error(`GET /api/choose/department 500 err: ${err}`);
       next(err);
     }
   },
 
-  createMajorByname: async (req, res) => {
+  createMajorByname: async (req, res, next) => {
     try {
       const user = new MajorService(req);
       const response = await user.createMajorByname();
-      if (response.success) {
-        logger.info(`POST /api/choose/major 201 ${response.msg}`);
-        return res.status(201).json(response);
-      }
-      logger.error(`POST /api/choose/major 401 ${response.msg}`);
-      return res.status(401).json(response);
+
+      logger.info(`POST /api/choose/major 201 ${response.msg}`);
+      return res.status(201).json(response);
     } catch (err) {
-      logger.error(`POST /api/choose/major 500 err:${err}`);
-      return res.status(500).json(err);
+      next(err);
     }
   },
 };

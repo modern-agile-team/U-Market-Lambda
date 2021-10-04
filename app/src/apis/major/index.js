@@ -1,7 +1,7 @@
 const express = require("express");
 const ctrl = require("./major.ctrl");
 const joi = require("../../utils/schemas");
-const joiValidator = require("../middleware/validation");
+const joiValidator = require("../../middleware/validation");
 
 const router = express.Router();
 

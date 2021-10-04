@@ -8,22 +8,20 @@ class MajorService {
 
   async findSchoolNumAndName() {
     try {
-      const result = await MajorRepository.findSchoolNumAndName();
+      const schools = await MajorRepository.findSchoolNumAndName();
 
-      return { success: true, msg: "학교 조회 성공", result };
+      return { success: true, msg: "학교 조회 성공", schools };
     } catch (err) {
-      // return { success: false, msg: err.sqlMessage };
       throw err;
     }
   }
 
   async findDepartmentNumAndName() {
     try {
-      const result = await MajorRepository.findDepartmentNumAndName();
+      const departments = await MajorRepository.findDepartmentNumAndName();
 
-      return { success: true, msg: "계열 목록 불러오기 성공", result };
+      return { success: true, msg: "계열 목록 불러오기 성공", departments };
     } catch (err) {
-      // return { success: false, msg: err.sqlMessage };
       throw err;
     }
   }
@@ -35,7 +33,7 @@ class MajorService {
       departmentNum = await this.Create.findDepartment();
 
       majorNum = await this.Create.findOrCreateMajor(departmentNum);
-      if (!majorNum) return { success: false, msg: "전공 조회 실패" };
+      if (!majorNum) throw new Error("Not Exist Major");
       return { success: true, msg: "전공 조회 성공", majorNum };
     } catch (err) {
       return { success: false, msg: err.sqlMessage };
