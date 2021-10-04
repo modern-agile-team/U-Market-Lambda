@@ -70,7 +70,17 @@ functions:
           path: /api/user/login
       - http:
           method: GET
-          path: /api/home
+          path: /api/home/today
+      - http:
+          method: GET
+          path: /api/home/by-price
+      - http:
+          method: GET
+          path: /api/home/users/userno/viewed-products
+          request:
+            parameters:
+              paths:
+                userno: true
       - http:
           method: GET
           path: /api/choose/school
@@ -80,10 +90,7 @@ functions:
       - http:
           method: POST
           path: /api/choose/major
-          # request:
-          #   parameters:
-          #     paths:
-          #       id: true
+          
 
 custom:
   serverless-offline:
