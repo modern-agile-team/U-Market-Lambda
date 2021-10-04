@@ -20,11 +20,13 @@ app.use(
 const user = require("./src/apis/user");
 const home = require("./src/apis/home");
 const products = require("./src/apis/products");
+const communities = require("./src/apis/communities");
 const major = require("./src/apis/major");
 
 app.use("/api/user", user);
 app.use("/api/home", home);
 app.use("/api/products", products);
+app.use("/api/communities", communities);
 app.use("/api/choose", major);
 
 module.exports = app;

@@ -82,6 +82,9 @@ functions:
           path: /api/products
       - http:
           method: GET
+          path: /api/communities
+      - http:
+          method: GET
           path: /api/choose/school
       - http:
           method: GET
