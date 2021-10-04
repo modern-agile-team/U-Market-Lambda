@@ -1,6 +1,6 @@
 const logger = require("../../config/logger");
 
-const Product = require("../../models/services/Product/Product");
+const Community = require("../../models/services/Community/Community");
 
 const communities = {
   home: async (req, res) => {
@@ -22,14 +22,6 @@ const communities = {
         return res.status(400).json(response);
       }
 
-      if (isNaN(query.startPriceRange) || query.startPriceRange < 0) {
-        req.query.startPriceRange = 0;
-      }
-
-      if (isNaN(query.endPriceRange) || query.endPriceRange > 999999999) {
-        req.query.endPriceRange = 999999999;
-      }
-
       req.sql = "";
       if (!isNaN(query.regionNo)) {
         req.sql += `AND region_no = ${query.regionNo} `;
@@ -47,8 +39,8 @@ const communities = {
         req.sql += `AND major_no = ${query.majorNo} `;
       }
 
-      const product = new Product(req);
-      const communities = await product.findAllAboutMarketBasedPrice();
+      const community = new Community(req);
+      const communities = await community.findAllAboutMarketBasedPrice();
 
       response = {
         success: true,
