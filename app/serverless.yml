@@ -82,7 +82,7 @@ functions:
           path: /api/products
       - http:
           method: GET
-          path: /api/communities
+          path: /api/communities/{categoryNo}
       - http:
           method: GET
           path: /api/choose/school

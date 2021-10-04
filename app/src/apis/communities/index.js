@@ -3,6 +3,6 @@ const ctrl = require("./communities.ctrl");
 
 const router = express.Router();
 
-router.get("/", ctrl.communities.home);
+router.get("/:categoryNo", ctrl.communities.home);
 
 module.exports = router;
