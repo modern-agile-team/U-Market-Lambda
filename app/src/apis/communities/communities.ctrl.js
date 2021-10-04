@@ -40,7 +40,7 @@ const communities = {
       }
 
       const community = new Community(req);
-      const communities = await community.findAllAboutMarketBasedPrice();
+      const communities = await community.findAllAboutCategory();
 
       response = {
         success: true,
