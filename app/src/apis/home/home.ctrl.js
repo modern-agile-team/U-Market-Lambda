@@ -24,23 +24,23 @@ const home = {
     try {
       let response = {};
 
-      const params = req.params;
-      if (!["asc", "desc"].includes(params.sort)) {
+      const query = req.query;
+      if (!["asc", "desc"].includes(query.sort)) {
         response = getError400(
           "GET /api/home/by-price/:sort/:startNo/:limit",
-          "잘못된 요청입니다. sort 파라미터는 'asc' 혹은 'desc' 둘 중 하나만 가능합니다.",
+          "잘못된 요청입니다. {sort} 파라미터는 'asc' 혹은 'desc' 둘 중 하나만 가능합니다.",
         );
         return res.status(400).json(response);
-      } else if (isNaN(params.startNo)) {
+      } else if (isNaN(query.startNo)) {
         response = getError400(
           "GET /api/home/by-price/:sort/:startNo/:limit",
-          "잘못된 요청입니다. 'startNo'는 숫자만 가능합니다.",
+          "잘못된 요청입니다. {startNo}는 숫자만 가능합니다.",
         );
         return res.status(400).json(response);
-      } else if (isNaN(params.limit)) {
+      } else if (isNaN(query.limit)) {
         response = getError400(
           "GET /api/home/by-price/:sort/:startNo/:limit",
-          "잘못된 요청입니다. 'limit'는 숫자만 가능합니다.",
+          "잘못된 요청입니다. {limit}는 숫자만 가능합니다.",
         );
         return res.status(400).json(response);
       }
@@ -61,6 +61,52 @@ const home = {
     } catch (err) {
       logger.error(
         `GET /api/home/by-price/:sort/:startNo/:limit 500 err: ${err}`,
+      );
+      return res.status(500).json(err);
+    }
+  },
+  viewedProducts: async (req, res) => {
+    try {
+      let response = {};
+
+      const params = req.params;
+      const query = req.query;
+      if (isNaN(params.userNo)) {
+        response = getError400(
+          "GET /api/home/users/:userNo/viewed-products",
+          "잘못된 요청입니다. {userNo}는 숫자만 가능합니다.",
+        );
+        return res.status(400).json(response);
+      } else if (isNaN(query.startNo)) {
+        response = getError400(
+          "GET /api/home/users/:userNo/viewed-products",
+          "잘못된 요청입니다. {startNo}는 숫자만 가능합니다.",
+        );
+        return res.status(400).json(response);
+      } else if (isNaN(query.limit)) {
+        response = getError400(
+          "GET /api/home/users/:userNo/viewed-products",
+          "잘못된 요청입니다. {limit}는 숫자만 가능합니다.",
+        );
+        return res.status(400).json(response);
+      }
+
+      const product = new Product(req);
+      const products = await product.findAllOfViewed();
+
+      response = {
+        success: true,
+        msg: "내가 본 물품 데이터 조회에 성공하셨습니다.",
+        products,
+      };
+
+      logger.info(
+        `GET /api/home/users/:userNo/viewed-products 200 ${response.msg}`,
+      );
+      return res.status(200).json(response);
+    } catch (err) {
+      logger.error(
+        `GET /api/home/users/:userNo/viewed-products 500 err: ${err}`,
       );
       return res.status(500).json(err);
     }
