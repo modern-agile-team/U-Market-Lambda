@@ -56,14 +56,10 @@ const communities = {
         communities,
       };
 
-      logger.info(
-        `GET /api/communities/by-price/:sort/:startNo/:limit 200 ${response.msg}`,
-      );
+      logger.info(`GET /api/communities 200 ${response.msg}`);
       return res.status(200).json(response);
     } catch (err) {
-      logger.error(
-        `GET /api/communities/by-price/:sort/:startNo/:limit 500 err: ${err}`,
-      );
+      logger.error(`GET /api/communities 500 err: ${err}`);
       return res.status(500).json(err);
     }
   },

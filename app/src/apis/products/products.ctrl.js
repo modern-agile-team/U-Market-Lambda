@@ -56,14 +56,10 @@ const products = {
         products,
       };
 
-      logger.info(
-        `GET /api/products/by-price/:sort/:startNo/:limit 200 ${response.msg}`,
-      );
+      logger.info(`GET /api/products 200 ${response.msg}`);
       return res.status(200).json(response);
     } catch (err) {
-      logger.error(
-        `GET /api/products/by-price/:sort/:startNo/:limit 500 err: ${err}`,
-      );
+      logger.error(`GET /api/products 500 err: ${err}`);
       return res.status(500).json(err);
     }
   },
