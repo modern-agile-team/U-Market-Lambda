@@ -79,6 +79,9 @@ functions:
           path: /api/home/users/{userNo}/viewed-products
       - http:
           method: GET
+          path: /api/products
+      - http:
+          method: GET
           path: /api/choose/school
       - http:
           method: GET
