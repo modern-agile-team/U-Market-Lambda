@@ -17,9 +17,7 @@ class UserRepository {
         user.psword,
         user.salt,
       ]);
-
-      if (result.affectedRows) return true;
-      return false;
+      return result.insertId;
     } catch (err) {
       throw err;
     } finally {
