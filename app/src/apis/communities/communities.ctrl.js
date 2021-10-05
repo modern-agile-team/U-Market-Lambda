@@ -20,6 +20,12 @@ const communities = {
           "잘못된 요청입니다. {limit}는 숫자만 가능합니다.",
         );
         return res.status(400).json(response);
+      } else if (isNaN(req.params.categoryNo)) {
+        response = getError400(
+          "GET /api/communities",
+          "잘못된 요청입니다. {categoryNo}는 숫자만 가능합니다.",
+        );
+        return res.status(400).json(response);
       }
 
       req.sql = "";
