@@ -1,4 +1,4 @@
-function errorMiddleware(err, req, res) {
+function errorMiddleware(err, req, res, next) {
   if (err.message === "Not Exist School")
     return res.status(400).json({ msg: "학교가 존재하지 않습니다." });
   if (err.message === "Not Exist Department")
