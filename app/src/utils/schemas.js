@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-export const signup_POST_schema = Joi.object().keys({
+const signup_POST_schema = Joi.object().keys({
   regionNum: Joi.number().required().messages({
     "number.base": "regionNum 은 숫자 형식입니다.",
     "number.integer": "regionNum 은 정수입니다.",
@@ -52,7 +52,7 @@ export const signup_POST_schema = Joi.object().keys({
   }),
 });
 
-export const login_POST_schema = Joi.object().keys({
+const login_POST_schema = Joi.object().keys({
   email: Joi.string().required().email().messages({
     "string.base": "email 은 문자 형식입니다.",
     "string.empty": "email 값을 입력해주세요.",
@@ -66,14 +66,14 @@ export const login_POST_schema = Joi.object().keys({
   }),
 });
 
-export const user_DELETE_schema = Joi.object().keys({
+const user_DELETE_schema = Joi.object().keys({
   id: Joi.number().integer().required().messages({
     "number.base": "id는 숫자 형식입니다.",
     "number.integer": "id는 정수입니다.",
   }),
 });
 
-export const major_POST_schema = Joi.object().keys({
+const major_POST_schema = Joi.object().keys({
   department: Joi.string().required().min(2).max(30).messages({
     "string.base": "department 은 문자 형식입니다.",
     "string.empty": "department 값을 입력해주세요.",
@@ -90,8 +90,8 @@ export const major_POST_schema = Joi.object().keys({
   }),
 });
 
-export const search_GET_schema = Joi.object().keys({
-  sort: Joi.string().required().valid(["desc", "asc"]).messages({
+const search_GET_schema = Joi.object().keys({
+  sort: Joi.string().required().valid("desc", "asc").messages({
     "string.base": "sort 은 문자 형식입니다.",
     "string.empty": "sort 값을 입력해주세요.",
     "any.invalid":
@@ -109,7 +109,7 @@ export const search_GET_schema = Joi.object().keys({
   }),
 });
 
-export const view_query_GET_schema = Joi.object().keys({
+const view_query_GET_schema = Joi.object().keys({
   startNo: Joi.number().required().messages({
     "number.base": "startNo는 숫자 형식입니다.",
     "number.integer": "startNo는 정수입니다.",
@@ -121,13 +121,23 @@ export const view_query_GET_schema = Joi.object().keys({
   }),
 });
 
-export const view_params_GET_schema = Joi.object().keys({
+const view_params_GET_schema = Joi.object().keys({
   userno: Joi.number().required().messages({
     "number.base": "userNo은 숫자 형식입니다.",
     "number.integer": "userNo은 정수입니다.",
     "any.required": "startNo 필드가 비었습니다.",
   }),
 });
+
+module.exports = {
+  view_params_GET_schema,
+  view_query_GET_schema,
+  search_GET_schema,
+  major_POST_schema,
+  user_DELETE_schema,
+  login_POST_schema,
+  signup_POST_schema,
+};
 
 // export const market_POST_schema = Joi.object().keys({
 //   name: Joi.string().required().max(20).messages({
