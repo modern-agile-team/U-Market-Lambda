@@ -22,6 +22,9 @@ provider:
   runtime: nodejs12.x
   region: ap-northeast-2
   lambdaHashingVersion: 20201221
+  # apiGateway:
+  #   apiKeys:
+  #     - serverless-apikey
 
 # 로컬에서 serverless test
 plugins:
@@ -65,36 +68,48 @@ functions:
       - http:
           method: POST
           path: /api/user/signup
+          cors: true
+          # private: true
       - http:
           method: POST
           path: /api/user/login
+          cors: true
+          # private: true
       - http:
           method: GET
           path: /api/home/today
+          cors: true
+          # private: true
       - http:
           method: GET
           path: /api/home/by-price
+          cors: true
+          # private: true
       - http:
           method: GET
           path: /api/home/users/userno/viewed-products
+          cors: true
+          # private: true
           request:
             parameters:
               paths:
                 userno: true
       - http:
           method: GET
-          path: /api/choose/school
+          path: /api/pick/school
+          cors: true
+  
       - http:
           method: GET
-          path: /api/choose/department
+          path: /api/pick/department
+          cors: true
+          # private: true
       - http:
           method: POST
-          path: /api/choose/major
+          path: /api/pick/major
+          cors: true
+          # private: true
           
-
-custom:
-  serverless-offline:
-    lambdaPort: 4000
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
