@@ -1,6 +1,6 @@
-const Logger = require("../../config/logger");
+const Logger = require("../config/logger");
 
-export const joiValidator = (schema, property) => {
+const joiValidator = (schema, property) => {
   return (req, res, next) => {
     const { error } = schema.validate(req[property]);
     const valid = error == null;
@@ -16,3 +16,5 @@ export const joiValidator = (schema, property) => {
     }
   };
 };
+
+module.exports = joiValidator;

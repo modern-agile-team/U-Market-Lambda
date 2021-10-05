@@ -8,7 +8,7 @@ const process = {
       const response = await user.findSchoolNumAndName();
 
       logger.info(`GET /api/choose/school 200 ${response.msg}`);
-      return res.status(200).json(response.result);
+      return res.status(200).json(response.schools);
     } catch (err) {
       next(err);
     }
@@ -20,7 +20,7 @@ const process = {
       const response = await user.findDepartmentNumAndName();
 
       logger.info(`GET /api/choose/department 200 ${response.msg}`);
-      return res.status(200).json(response.result);
+      return res.status(200).json(response.departments);
     } catch (err) {
       next(err);
     }
