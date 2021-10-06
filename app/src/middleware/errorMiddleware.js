@@ -23,6 +23,8 @@ function errorMiddleware(err, req, res, next) {
     return res.status(400).json({ msg: "비밀번호가 틀립니다." });
   if (err.message === "Not Exist email")
     return res.status(400).json({ msg: "이메일이 존재하지 않습니다." });
+  if (err.message === "Not Exist Nickname")
+    return res.status(400).json({ msg: "닉네임이 존재하지 않습니다." });
 
   return res.status(500).json({ err });
 }

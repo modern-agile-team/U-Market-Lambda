@@ -51,6 +51,15 @@ functions:
           private: true
       - http:
           method: GET
+          path: /api/user/{nickname}
+          cors: true
+          private: true
+          request:
+            parameters:
+              paths:
+                nickname: true
+      - http:
+          method: GET
           path: /api/home/today
           cors: true
           private: true
@@ -61,7 +70,7 @@ functions:
           private: true
       - http:
           method: GET
-          path: /api/home/users/userno/viewed-products
+          path: /api/home/users/{userno}/viewed-products
           cors: true
           private: true
           request:
