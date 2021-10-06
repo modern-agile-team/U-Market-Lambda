@@ -16,12 +16,14 @@ const home = require("./src/apis/home");
 const products = require("./src/apis/products");
 const communities = require("./src/apis/communities");
 const major = require("./src/apis/major");
+const watchlist = require("./src/apis/watchlist");
 
 app.use("/api/user", user);
 app.use("/api/home", home);
 app.use("/api/pick", major);
 app.use("/api/products", products);
 app.use("/api/communities", communities);
+app.use("/api/watchlist", watchlist);
 app.use(errorMiddleware);
 
 module.exports = app;

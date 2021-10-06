@@ -111,7 +111,25 @@ functions:
             parameters:
               paths:
                 communityNo: true
-          
+      - http:
+            method: GET
+            path: /api/watchlist/{userNo}
+            cors: true
+            # private: true
+            request:
+              parameters:
+                paths:
+                  userNo: true
+      - http:
+          method: POST
+          path: /api/watchlist
+          cors: true
+          # private: true
+      - http:
+          method: DELETE
+          path: /api/watchlist
+          cors: true
+          # private: true
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
