@@ -10,7 +10,6 @@ dotenv.config();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(errorMiddleware);
 
 const user = require("./src/apis/user");
 const home = require("./src/apis/home");
@@ -23,5 +22,6 @@ app.use("/api/home", home);
 app.use("/api/pick", major);
 app.use("/api/products", products);
 app.use("/api/communities", communities);
+app.use(errorMiddleware);
 
 module.exports = app;
