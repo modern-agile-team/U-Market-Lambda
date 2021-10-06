@@ -1,4 +1,6 @@
 const CommunityRepository = require("../../repository/Community/CommunityRepository");
+const CommunityCommentRepository = require("../../repository/Community/CommunityCommentRepository");
+const CommunityImageRepository = require("../../repository/Community/CommunityImageRepository");
 
 class CommunityService {
   constructor(req) {
@@ -24,6 +26,7 @@ class CommunityService {
   }
 
   async detailView() {
+    // 커뮤니티 게시판의 상세 데이터 불러오기
     const community = await CommunityRepository.findOneByNo(
       this.params.communityNo,
     );
@@ -34,7 +37,28 @@ class CommunityService {
 
     delete community.nickname;
     delete community.profileImage;
-    console.log(community);
+
+    // 커뮤니티 게시판의 이미지 데이터 모두 불러오기
+    community.images = await CommunityImageRepository.findAllByCommunityNo(
+      this.params.communityNo,
+    );
+    community.images = community.images.map(img => img.url);
+
+    // 커뮤니티 게시판의 댓글 데이터 모두 불러오기
+    community.comments = await CommunityCommentRepository.findAllByCommunityNo(
+      this.params.communityNo,
+    );
+    community.comments = community.comments.map(cmt => {
+      cmt.writer = {
+        nickname: cmt.nickname,
+        profileImage: cmt.profileImage,
+      };
+
+      delete cmt.nickname;
+      delete cmt.profileImage;
+      return cmt;
+    });
+
     return { community };
   }
 }
