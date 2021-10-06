@@ -110,7 +110,6 @@ class ProductRepository {
         LIMIT ?;`;
 
       const products = await mysql.query(query, [userNo, startNo, limit]);
-
       return products;
     } catch (err) {
       throw err;

@@ -53,21 +53,21 @@ functions:
           method: GET
           path: /api/home/today
           cors: true
-          private: true
+          # private: true
       - http:
           method: GET
           path: /api/home/by-price
           cors: true
-          private: true
+          # private: true
       - http:
           method: GET
-          path: /api/home/users/userno/viewed-products
+          path: /api/home/users/{userNo}/viewed-products
           cors: true
-          private: true
+          # private: true
           request:
             parameters:
               paths:
-                userno: true
+                userNo: true
       - http:
           method: GET
           path: /api/pick/school
@@ -83,6 +83,25 @@ functions:
           path: /api/pick/major
           cors: true
           private: true
+      - http:
+          method: GET
+          path: /api/products
+          cors: true
+        #   private: true
+      - http:
+          method: GET
+          path: /api/communities/
+          cors: true
+        #   private: true
+      - http:
+          method: GET
+          path: /api/communities/{communityNo}
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                communityNo: true
           
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
