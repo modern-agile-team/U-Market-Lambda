@@ -104,37 +104,56 @@ const home = {
       "number.integer": "startNo는 정수입니다.",
       "any.required": "startNo 필드가 비었습니다.",
     }),
-    limit: Joi.number().messages({
+    limit: Joi.number().required().messages({
       "number.base": "limit은 숫자 형식입니다.",
       "number.integer": "limit은 정수입니다.",
+      "any.required": "limit 필드가 비었습니다.",
     }),
   }),
-  viewedProducts_query_GET_schema: Joi.object().keys({
+  viewedProducts: {
+    query_GET_schema: Joi.object().keys({
+      startNo: Joi.number().required().messages({
+        "number.base": "startNo는 숫자 형식입니다.",
+        "number.integer": "startNo는 정수입니다.",
+        "any.required": "startNo 필드가 비었습니다.",
+      }),
+      limit: Joi.number().messages({
+        "number.base": "limit은 숫자 형식입니다.",
+        "number.integer": "limit은 정수입니다.",
+      }),
+    }),
+    params_GET_schema: Joi.object().keys({
+      userno: Joi.number().required().messages({
+        "number.base": "userNo은 숫자 형식입니다.",
+        "number.integer": "userNo은 정수입니다.",
+        "any.required": "userNo 필드가 비었습니다.",
+      }),
+    }),
+  },
+};
+
+const products = {
+  root_GET_schema: Joi.object().keys({
     startNo: Joi.number().required().messages({
       "number.base": "startNo는 숫자 형식입니다.",
       "number.integer": "startNo는 정수입니다.",
       "any.required": "startNo 필드가 비었습니다.",
     }),
-    limit: Joi.number().messages({
+    limit: Joi.number().required().messages({
       "number.base": "limit은 숫자 형식입니다.",
       "number.integer": "limit은 정수입니다.",
-    }),
-  }),
-  viewedProducts_params_GET_schema: Joi.object().keys({
-    userno: Joi.number().required().messages({
-      "number.base": "userNo은 숫자 형식입니다.",
-      "number.integer": "userNo은 정수입니다.",
-      "any.required": "startNo 필드가 비었습니다.",
+      "any.required": "limit 필드가 비었습니다.",
     }),
   }),
 };
 
 module.exports = {
-  home,
   major_POST_schema,
   user_DELETE_schema,
   login_POST_schema,
   signup_POST_schema,
+  home,
+  products,
 };
 
 // export const market_POST_schema = Joi.object().keys({

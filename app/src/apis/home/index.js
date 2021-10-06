@@ -13,8 +13,8 @@ router.get(
 );
 router.get(
   "/users/:userno/viewed-products",
-  validation(joi.home.viewedProducts_query_GET_schema, "query"),
-  validation(joi.home.viewedProducts_params_GET_schema, "params"),
+  validation(joi.home.viewedProducts.query_GET_schema, "query"),
+  validation(joi.home.viewedProducts.params_GET_schema, "params"),
   ctrl.home.viewedProducts,
 );
 
