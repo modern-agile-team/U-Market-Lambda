@@ -53,17 +53,17 @@ functions:
           method: GET
           path: /api/home/today
           cors: true
-          private: true
+          # private: true
       - http:
           method: GET
           path: /api/home/by-price
           cors: true
-          private: true
+          # private: true
       - http:
           method: GET
           path: /api/home/users/userNo/viewed-products
           cors: true
-          private: true
+          # private: true
           request:
             parameters:
               paths:
