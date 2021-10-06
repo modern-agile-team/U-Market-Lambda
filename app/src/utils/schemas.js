@@ -38,13 +38,6 @@ const signup_POST_schema = Joi.object().keys({
     "string.max": "nickanme 은 최대 30글자입니다.",
     "any.required": "nickname 필드가 비었습니다.",
   }),
-  name: Joi.string().required().min(2).max(20).messages({
-    "string.base": "name 은 문자 형식입니다.",
-    "string.empty": "name 값을 입력해주세요.",
-    "string.min": "name 은 최소 2글자 입니다.",
-    "string.max": "name 은 최대 20글자입니다.",
-    "any.required": "name 필드가 비었습니다.",
-  }),
   psword: Joi.string().required().messages({
     "string.base": "psword 은 문자 형식입니다.",
     "string.empty": "psword 값을 입력해주세요.",
