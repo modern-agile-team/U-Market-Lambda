@@ -9,29 +9,33 @@ class CommunityService {
   }
 
   async findAllAboutCategory() {
-    const { categoryNo } = this.params;
-    const { startNo, limit } = this.query;
+    const { startNo, categoryNo, limit } = this.query;
     const attr = {
       startNo: Number(startNo),
       limit: Number(limit),
       categoryNo: Number(categoryNo),
     };
-    const products = await CommunityRepository.findAllAboutCategoryBy(
+
+    const categories = await CommunityRepository.findAllAboutCategoryBy(
       attr,
       this.sql,
     );
-    return { products };
+    return { categories };
   }
 
-  async findAllOfViewed() {
-    const { userNo } = this.params;
-    const { startNo, limit } = this.query;
-    const attr = { startNo: Number(startNo), limit: Number(limit) };
-    const products = await CommunityRepository.findAllOfViewedByUserNo(
-      userNo,
-      attr,
+  async detailView() {
+    const community = await CommunityRepository.findOneByNo(
+      this.params.communityNo,
     );
-    return { products };
+    community.writer = {
+      nickname: community.nickname,
+      profileImage: community.profileImage,
+    };
+
+    delete community.nickname;
+    delete community.profileImage;
+    console.log(community);
+    return { community };
   }
 }
 

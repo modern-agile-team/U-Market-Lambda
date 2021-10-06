@@ -90,13 +90,18 @@ functions:
         #   private: true
       - http:
           method: GET
-          path: /api/communities/categoryNo
+          path: /api/communities/
+          cors: true
+        #   private: true
+      - http:
+          method: GET
+          path: /api/communities/{communityNo}
           cors: true
         #   private: true
           request:
             parameters:
               paths:
-                categoryNo: true
+                communityNo: true
           
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
