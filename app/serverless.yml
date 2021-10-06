@@ -61,16 +61,13 @@ functions:
           private: true
       - http:
           method: GET
-          path: /api/home/users/userno/viewed-products
+          path: /api/home/users/userNo/viewed-products
           cors: true
           private: true
           request:
             parameters:
               paths:
-                userno: true
-      - http:
-          method: GET
-          path: /api/communities/{categoryNo}
+                userNo: true
       - http:
           method: GET
           path: /api/pick/school
@@ -86,6 +83,20 @@ functions:
           path: /api/pick/major
           cors: true
           private: true
+      - http:
+          method: GET
+          path: /api/products
+          cors: true
+        #   private: true
+      - http:
+          method: GET
+          path: /api/communities/categoryNo
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                categoryNo: true
           
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
