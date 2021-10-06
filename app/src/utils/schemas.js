@@ -116,7 +116,7 @@ const home = {
       }),
     }),
     params_GET_schema: Joi.object().keys({
-      userno: Joi.number().required().messages({
+      userNo: Joi.number().required().messages({
         "number.base": "userNo은 숫자 형식입니다.",
         "number.integer": "userNo은 정수입니다.",
         "any.required": "userNo 필드가 비었습니다.",

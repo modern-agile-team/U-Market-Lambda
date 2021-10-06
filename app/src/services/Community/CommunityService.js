@@ -20,7 +20,7 @@ class CommunityService {
       attr,
       this.sql,
     );
-    return products;
+    return { products };
   }
 
   async findAllOfViewed() {
@@ -31,7 +31,7 @@ class CommunityService {
       userNo,
       attr,
     );
-    return products;
+    return { products };
   }
 }
 

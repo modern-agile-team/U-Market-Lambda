@@ -12,7 +12,7 @@ router.get(
   ctrl.home.byPrice,
 );
 router.get(
-  "/users/:userno/viewed-products",
+  "/users/:userNo/viewed-products",
   validation(joi.home.viewedProducts.query_GET_schema, "query"),
   validation(joi.home.viewedProducts.params_GET_schema, "params"),
   ctrl.home.viewedProducts,
