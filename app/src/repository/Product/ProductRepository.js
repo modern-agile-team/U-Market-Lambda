@@ -1,6 +1,6 @@
 const mysql = require("../../../config/mysql");
 
-class ProductStorage {
+class ProductRepository {
   static async findHotsByLimit(limit) {
     try {
       await mysql.connect();
@@ -120,4 +120,4 @@ class ProductStorage {
   }
 }
 
-module.exports = ProductStorage;
+module.exports = ProductRepository;

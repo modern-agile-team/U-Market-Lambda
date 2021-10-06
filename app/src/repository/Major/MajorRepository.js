@@ -1,12 +1,12 @@
-const mysql = require("../../../config/mysql");
+const mysql = require("../../config/mysql");
 
-class MajorStorage {
+class MajorRepository {
   static async findRegionNumByName(region) {
     try {
       const query = `SELECT no FROM regions WHERE name = ?;`;
       await mysql.connect();
-      const result = await mysql.query(query, [region]);
-      return result[0].no;
+      const [{ no }] = await mysql.query(query, [region]);
+      return no;
     } catch (err) {
       throw err;
     } finally {
@@ -20,7 +20,7 @@ class MajorStorage {
       await mysql.connect();
       const result = await mysql.query(query, [school]);
       if (result.length > 0) return [result[0].region_no, result[0].no];
-      return [false, false];
+      throw new Error("Not Exist School By region");
     } catch (err) {
       throw err;
     } finally {
@@ -34,7 +34,7 @@ class MajorStorage {
       await mysql.connect();
       const result = await mysql.query(query);
       if (result.length > 0) return result;
-      return false;
+      throw new Error("Not Exist School");
     } catch (err) {
       throw err;
     } finally {
@@ -48,7 +48,7 @@ class MajorStorage {
       await mysql.connect();
       const result = await mysql.query(query);
       if (result.length > 0) return result;
-      return false;
+      throw new Error("Not Exist Department");
     } catch (err) {
       throw err;
     } finally {
@@ -60,9 +60,9 @@ class MajorStorage {
     try {
       const query = `SELECT no FROM departments WHERE name = ?;`;
       await mysql.connect();
-      const result = await mysql.query(query, [department]);
-      if (result.length > 0) return result[0].no;
-      return false;
+      const [{ no }] = await mysql.query(query, [department]);
+      if (no) return no;
+      throw new Error("Not Exist Department");
     } catch (err) {
       throw err;
     } finally {
@@ -74,8 +74,8 @@ class MajorStorage {
     try {
       const query = `SELECT no FROM majors WHERE name = ?;`;
       await mysql.connect();
-      const result = await mysql.query(query, [major]);
-      if (result.length > 0) return result[0].no;
+      const [{ no }] = await mysql.query(query, [major]);
+      if (no) return no;
       return false;
     } catch (err) {
       throw err;
@@ -100,4 +100,4 @@ class MajorStorage {
   }
 }
 
-module.exports = MajorStorage;
+module.exports = MajorRepository;
