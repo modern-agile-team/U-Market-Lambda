@@ -36,7 +36,7 @@ class MajorService {
       if (!majorNum) throw new Error("Not Exist Major");
       return { success: true, msg: "전공 조회 성공", majorNum };
     } catch (err) {
-      return { success: false, msg: err.sqlMessage };
+      throw err;
     }
   }
 }
