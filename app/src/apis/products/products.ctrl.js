@@ -1,6 +1,6 @@
 const logger = require("../../config/logger");
 
-const Product = require("../../models/services/Product/Product");
+const ProductService = require("../../services/Product/ProductService");
 
 const products = {
   home: async (req, res) => {
@@ -47,7 +47,7 @@ const products = {
         req.sql += `AND major_no = ${query.majorNo} `;
       }
 
-      const product = new Product(req);
+      const product = new ProductService(req);
       const products = await product.findAllAboutMarketBasedPrice();
 
       response = {

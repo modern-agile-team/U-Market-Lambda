@@ -1,6 +1,6 @@
 const logger = require("../../config/logger");
 
-const Community = require("../../models/services/Community/Community");
+const CommunityService = require("../../services/Community/CommunityService");
 
 const communities = {
   home: async (req, res) => {
@@ -45,7 +45,7 @@ const communities = {
         req.sql += `AND major_no = ${query.majorNo} `;
       }
 
-      const community = new Community(req);
+      const community = new CommunityService(req);
       const communities = await community.findAllAboutCategory();
 
       response = {

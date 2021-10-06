@@ -1,4 +1,4 @@
-const CommunityStorage = require("./CommunityStorage");
+const CommunityRepository = require("../../repository/Community/CommunityRepository");
 
 class CommunityService {
   constructor(req) {
@@ -16,7 +16,7 @@ class CommunityService {
       limit: Number(limit),
       categoryNo: Number(categoryNo),
     };
-    const products = await CommunityStorage.findAllAboutCategoryBy(
+    const products = await CommunityRepository.findAllAboutCategoryBy(
       attr,
       this.sql,
     );
@@ -27,7 +27,7 @@ class CommunityService {
     const { userNo } = this.params;
     const { startNo, limit } = this.query;
     const attr = { startNo: Number(startNo), limit: Number(limit) };
-    const products = await CommunityStorage.findAllOfViewedByUserNo(
+    const products = await CommunityRepository.findAllOfViewedByUserNo(
       userNo,
       attr,
     );

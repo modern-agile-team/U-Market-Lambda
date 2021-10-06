@@ -1,4 +1,4 @@
-const mysql = require("../../../config/mysql");
+const mysql = require("../../config/mysql");
 
 class CommunityRepository {
   static async findAllAboutCategoryBy(attr, filterSql) {
