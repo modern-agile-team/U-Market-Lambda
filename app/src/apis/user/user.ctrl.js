@@ -25,6 +25,18 @@ const process = {
       next(err);
     }
   },
+
+  profile: async (req, res, next) => {
+    try {
+      const user = new UserService(req);
+      const response = await user.profile();
+
+      logger.info(`GET /api/user/profile 200 조회 성공`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = process;
