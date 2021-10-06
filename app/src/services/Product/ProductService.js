@@ -8,6 +8,22 @@ class ProductService {
     this.sql = req.sql;
   }
 
+  async findHotAndNewByLimit() {
+    try {
+      const hotProducts = await ProductRepository.findHotsByLimit(10);
+      const newProducts = await ProductRepository.findNewsByLimit(12);
+      if (hotProducts && newProducts)
+        return {
+          msg: "TODAY 물품 데이터 조회에 성공하셨습니다.",
+          hotProducts,
+          newProducts,
+        };
+      throw new Error("Not Exist Hot And New");
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async findAllAboutHomeBasedPrice() {
     const { startNo, sort, limit } = this.query;
     const attr = { startNo: Number(startNo), sort, limit: Number(limit) };
