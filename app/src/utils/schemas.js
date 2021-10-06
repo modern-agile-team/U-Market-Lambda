@@ -144,6 +144,22 @@ const products = {
       "number.integer": "limit은 정수입니다.",
       "any.required": "limit 필드가 비었습니다.",
     }),
+    regionNo: Joi.number().messages({
+      "number.base": "regionNo은 숫자 형식입니다.",
+      "number.integer": "regionNo은 정수입니다.",
+    }),
+    schoolNo: Joi.number().messages({
+      "number.base": "schoolNo은 숫자 형식입니다.",
+      "number.integer": "schoolNo은 정수입니다.",
+    }),
+    departmentNo: Joi.number().messages({
+      "number.base": "departmentNo은 숫자 형식입니다.",
+      "number.integer": "departmentNo은 정수입니다.",
+    }),
+    majorNo: Joi.number().messages({
+      "number.base": "majorNo은 숫자 형식입니다.",
+      "number.integer": "majorNo은 정수입니다.",
+    }),
   }),
 };
 
