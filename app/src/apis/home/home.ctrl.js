@@ -5,7 +5,8 @@ const ProductService = require("../../services/Product/ProductService");
 const home = {
   today: async (req, res, next) => {
     try {
-      const response = ProductService.findHotAndNewByLimit();
+      const productService = new ProductService(req);
+      const response = productService.findHotAndNewByLimit();
 
       logger.info("GET /api/home/today");
       return res.status(200).json(response);
