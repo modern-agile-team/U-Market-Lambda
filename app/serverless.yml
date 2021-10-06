@@ -61,7 +61,7 @@ functions:
           # private: true
       - http:
           method: GET
-          path: /api/home/users/userNo/viewed-products
+          path: /api/home/users/{userNo}/viewed-products
           cors: true
           # private: true
           request:
