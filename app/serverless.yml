@@ -1,38 +1,22 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
 
 service: school-barter
 
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
 frameworkVersion: '2'
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   region: ap-northeast-2
   lambdaHashingVersion: 20201221
-  # apiGateway:
-  #   apiKeys:
-  #     - serverless-apikey
+  apiGateway:
+    apiKeys:
+      - serverless-apikey
 
 # 로컬에서 serverless test
 plugins:
   - serverless-offline
   - serverless-express
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
+ 
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -50,17 +34,7 @@ plugins:
 #            - "Ref" : "ServerlessDeploymentBucket"
 #            - "/*"
 
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-useDotenv: true
-# you can add packaging information here
-#package:
-#  patterns:
-#    - '!exclude-me.js'
-#    - '!exclude-me-dir/**'
-#    - include-me.js
-#    - include-me-dir/**
+
 functions:
   app:
     handler: handler.handler
@@ -69,27 +43,27 @@ functions:
           method: POST
           path: /api/user/signup
           cors: true
-          # private: true
+          private: true
       - http:
           method: POST
           path: /api/user/login
           cors: true
-          # private: true
+          private: true
       - http:
           method: GET
           path: /api/home/today
           cors: true
-          # private: true
+          private: true
       - http:
           method: GET
           path: /api/home/by-price
           cors: true
-          # private: true
+          private: true
       - http:
           method: GET
           path: /api/home/users/userno/viewed-products
           cors: true
-          # private: true
+          private: true
           request:
             parameters:
               paths:
@@ -98,17 +72,17 @@ functions:
           method: GET
           path: /api/pick/school
           cors: true
-  
+          private: true
       - http:
           method: GET
           path: /api/pick/department
           cors: true
-          # private: true
+          private: true
       - http:
           method: POST
           path: /api/pick/major
           cors: true
-          # private: true
+          private: true
           
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
