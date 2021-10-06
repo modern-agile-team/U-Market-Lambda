@@ -1,6 +1,6 @@
-const mysql = require("../../../config/mysql");
+const mysql = require("../../config/mysql");
 
-class UserStorage {
+class UserRepository {
   static async signup(user) {
     try {
       await mysql.connect();
@@ -17,9 +17,7 @@ class UserStorage {
         user.psword,
         user.salt,
       ]);
-
-      if (result.affectedRows) return true;
-      return false;
+      return result.insertId;
     } catch (err) {
       throw err;
     } finally {
@@ -44,4 +42,4 @@ class UserStorage {
   }
 }
 
-module.exports = UserStorage;
+module.exports = UserRepository;

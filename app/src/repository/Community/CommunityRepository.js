@@ -1,6 +1,6 @@
 const mysql = require("../../../config/mysql");
 
-class CommunityStorage {
+class CommunityRepository {
   static async findAllAboutCategoryBy(attr, filterSql) {
     const { startNo, limit, categoryNo } = attr;
     try {
@@ -38,4 +38,4 @@ class CommunityStorage {
   }
 }
 
-module.exports = CommunityStorage;
+module.exports = CommunityRepository;

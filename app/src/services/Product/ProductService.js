@@ -1,6 +1,6 @@
-const ProductStorage = require("./ProductStorage");
+const ProductRepository = require("../../repository/Product/ProductRepository");
 
-class Product {
+class ProductService {
   constructor(req) {
     this.query = req.query;
     this.params = req.params;
@@ -11,7 +11,7 @@ class Product {
   async findAllAboutHomeBasedPrice() {
     const { startNo, sort, limit } = this.query;
     const attr = { startNo: Number(startNo), sort, limit: Number(limit) };
-    const products = await ProductStorage.findAllBasedPriceBy(attr);
+    const products = await ProductRepository.findAllBasedPriceBy(attr);
     return products;
   }
 
@@ -23,7 +23,7 @@ class Product {
       endPriceRange: Number(endPriceRange),
       limit: Number(limit),
     };
-    const products = await ProductStorage.findAllAboutMarketBasedPriceBy(
+    const products = await ProductRepository.findAllAboutMarketBasedPriceBy(
       attr,
       this.sql,
     );
@@ -34,9 +34,12 @@ class Product {
     const { userNo } = this.params;
     const { startNo, limit } = this.query;
     const attr = { startNo: Number(startNo), limit: Number(limit) };
-    const products = await ProductStorage.findAllOfViewedByUserNo(userNo, attr);
+    const products = await ProductRepository.findAllOfViewedByUserNo(
+      userNo,
+      attr,
+    );
     return products;
   }
 }
 
-module.exports = Product;
+module.exports = ProductService;
