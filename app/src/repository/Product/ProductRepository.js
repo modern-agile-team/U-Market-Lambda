@@ -1,4 +1,4 @@
-const mysql = require("../../config/mysql");
+const mysql = require("../../../config/mysql");
 
 class ProductRepository {
   static async findHotsByLimit(limit) {
@@ -58,6 +58,34 @@ class ProductRepository {
         LIMIT ?;`;
 
       const products = await mysql.query(query, [startNo, limit]);
+
+      return products;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAllAboutMarketBasedPriceBy(attr, filterSql) {
+    const { startNo, startPriceRange, endPriceRange, limit } = attr;
+    try {
+      await mysql.connect();
+      const query = `
+          SELECT title, price, COUNT(p_cmt.no) AS commentCnt, interest_cnt AS interestCnt, thumbnail FROM products AS pd
+          LEFT JOIN product_comments AS p_cmt
+          ON pd.no = p_cmt.product_no
+          WHERE pd.no >= ? AND price >= ? AND price <= ? ${filterSql}
+          GROUP BY pd.no
+          ORDER BY price ASC
+          LIMIT ?;`;
+
+      const products = await mysql.query(query, [
+        startNo,
+        startPriceRange,
+        endPriceRange,
+        limit,
+      ]);
 
       return products;
     } catch (err) {
