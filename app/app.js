@@ -14,12 +14,14 @@ app.use(express.urlencoded({ extended: false }));
 const user = require("./src/apis/user");
 const home = require("./src/apis/home");
 const products = require("./src/apis/products");
+const communities = require("./src/apis/communities");
 const major = require("./src/apis/major");
 
 app.use("/api/user", user);
 app.use("/api/home", home);
 app.use("/api/pick", major);
 app.use("/api/products", products);
+app.use("/api/communities", communities);
 app.use(errorMiddleware);
 
 module.exports = app;
