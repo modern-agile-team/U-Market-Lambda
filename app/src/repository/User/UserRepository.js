@@ -29,11 +29,30 @@ class UserRepository {
     try {
       await mysql.connect();
 
-      const query = `SELECT region_no AS regionNum, school_no AS schoolNum, major_no AS majorNum,
-      grade, nickname, psword, salt FROM users WHERE email = ?;`;
+      const query = `SELECT no AS userNum,region_no AS regionNum, school_no AS schoolNum, major_no AS majorNum,
+      grade, nickname, psword, salt, profile_img_url AS profileURL, trust_score AS trustScore FROM users WHERE email = ?;`;
 
       const result = await mysql.query(query, [user.email]);
-      return result[0];
+      if (result.length > 0) return result[0];
+      throw new Error("Not Exist Email");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAllByNickname(user) {
+    try {
+      await mysql.connect();
+
+      const query = `SELECT u.no AS userNum, u.nickname, u.email, u.profile_img_url AS profileURL, u.trust_score AS trustScore, count(rv.no) AS tradeCount FROM users AS u
+      JOIN reviews AS rv
+       WHERE nickname = ? AND ((rv.seller_no = u.no AND writer = 1) OR (rv.buyer_no = u.no AND writer = 0));`;
+
+      const result = await mysql.query(query, [user.nickname]);
+      if (result.length > 0) return result[0];
+      throw new Error("Not Exist Nickname");
     } catch (err) {
       throw err;
     } finally {

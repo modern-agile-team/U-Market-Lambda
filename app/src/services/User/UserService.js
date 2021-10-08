@@ -5,6 +5,7 @@ const AuthService = require("../Auth/AuthService");
 class UserService {
   constructor(req) {
     this.body = req.body;
+    this.params = req.params;
   }
 
   async signup() {
@@ -43,15 +44,27 @@ class UserService {
           const jwt = await AuthService.createJWT(user);
           const email = user.email;
           return {
-            success: true,
             msg: `${whoWantsLogin.nickname}님이 로그인을 성공했습니다.`,
             jwt,
             email,
+            userNum: whoWantsLogin.userNum,
           };
         }
         throw new Error("wrong password");
       }
       throw new Error("Not Exist email");
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async profile() {
+    const user = this.params;
+
+    try {
+      const result = await UserRepostory.findAllByNickname(user);
+
+      return { profile: result };
     } catch (err) {
       throw err;
     }

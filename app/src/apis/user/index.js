@@ -5,6 +5,7 @@ const joiValidator = require("../../middleware/validation");
 
 const router = express.Router();
 
+router.get("/:nickname", ctrl.profile);
 router.post(
   "/signup",
   joiValidator(joi.signup_POST_schema, "body"),
