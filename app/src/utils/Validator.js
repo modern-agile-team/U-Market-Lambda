@@ -29,6 +29,17 @@ class Validator {
     }
     return sql;
   }
+
+  static makeHashSqlAboutWhereStatements(hashTags) {
+    let sql = "";
+    if (hashTags.length >= 1) {
+      sql += `hs.name = "${hashTags[0]}"`;
+    }
+    hashTags.slice(1).forEach(hashTag => {
+      sql += ` OR hs.name = "${hashTag}"`;
+    });
+    return sql;
+  }
 }
 
 module.exports = Validator;

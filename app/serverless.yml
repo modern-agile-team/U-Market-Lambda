@@ -99,6 +99,15 @@ functions:
         #   private: true
       - http:
           method: GET
+          path: /api/products/{productNo}
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                productNo: true
+      - http:
+          method: GET
           path: /api/communities/
           cors: true
         #   private: true

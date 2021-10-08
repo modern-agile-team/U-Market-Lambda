@@ -13,7 +13,7 @@ router.get(
 router.get(
   "/:productNo",
   validation(joi.products.productNo_GET_schema, "params"),
-  ctrl.products.home,
+  ctrl.products.detailView,
 );
 
 module.exports = router;

@@ -1,6 +1,30 @@
 const mysql = require("../../config/mysql");
 
 class ProductRepository {
+  static async findOneByNo(productNo) {
+    try {
+      await mysql.connect();
+      const query = `
+        SELECT users.nickname, users.profile_img_url AS profileImage, description, hit, interest_cnt AS interestCnt, bargaining_flag AS isBargaining, ts.name AS tradingStatus, ds.name AS damageStatus, direct_flag AS isDirect, delivery_flag AS isDelivery, DATE_FORMAT(pd.in_date, "%Y.%m.%d %H:%i") AS inDate
+        FROM products AS pd
+        JOIN trading_status AS ts
+        ON pd.trading_status_no = ts.no
+        JOIN damage_status AS ds
+        ON pd.damage_status_no = ds.no
+        JOIN users
+        ON pd.user_no = users.no
+        WHERE pd.no = ?;`;
+
+      const community = await mysql.query(query, [productNo]);
+
+      return community[0];
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async findHotsByLimit(limit) {
     try {
       await mysql.connect();
@@ -37,6 +61,29 @@ class ProductRepository {
       const newProducts = await mysql.query(query, [limit]);
 
       return newProducts;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAllRelatedByNo(hashSql) {
+    try {
+      await mysql.connect();
+      const query = `
+        SELECT title, price, interest_cnt AS interestCnt, thumbnail
+        FROM products AS pd
+        LEFT JOIN product_hash_tags AS p_hs
+        ON pd.no = p_hs.product_no
+        LEFT JOIN hash_tags AS hs
+        ON hs.no = p_hs.hash_tag_no
+        WHERE ${hashSql}
+        GROUP BY pd.no;`;
+
+      const products = await mysql.query(query);
+
+      return products;
     } catch (err) {
       throw err;
     } finally {
