@@ -10,5 +10,10 @@ router.get(
   validation(joi.products.root_GET_schema, "query"),
   ctrl.products.home,
 );
+router.get(
+  "/:productNo",
+  validation(joi.products.productNo_GET_schema, "params"),
+  ctrl.products.home,
+);
 
 module.exports = router;

@@ -155,6 +155,13 @@ const products = {
       "number.integer": "majorNo은 정수입니다.",
     }),
   }),
+  productNo_GET_schema: Joi.object().keys({
+    productNo: Joi.number().required().messages({
+      "number.base": "productNo은 숫자 형식입니다.",
+      "number.integer": "productNo은 정수입니다.",
+      "any.required": "productNo 필드가 비었습니다.",
+    }),
+  }),
 };
 
 const communities = {
