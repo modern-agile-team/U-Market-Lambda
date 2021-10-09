@@ -211,6 +211,11 @@ const products = {
           "string.max": "description은 최대 21844글자 입니다.",
           "any.required": "description 필드가 비었습니다.",
         }),
+        thumbnail: Joi.string().required().max(255).messages({
+          "string.base": "thumbnail은 문자 형식입니다.",
+          "string.max": "thumbnail은 최대 255글자 입니다.",
+          "any.required": "thumbnail 필드가 비었습니다.",
+        }),
         isBargaining: Joi.boolean().required().messages({
           "boolean.base": "isBargaining은 불리언 형식입니다.",
           "any.required": "isBargaining 필드가 비었습니다.",

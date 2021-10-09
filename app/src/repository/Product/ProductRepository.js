@@ -164,6 +164,51 @@ class ProductRepository {
       mysql?.end();
     }
   }
+
+  static async insertOne(product) {
+    const {
+      userNo,
+      regionNo,
+      schoolNo,
+      departmentNo,
+      majorNo,
+      detailCategoryNo,
+      title,
+      price,
+      isBargaining,
+      description,
+      thumbnail,
+    } = product;
+    try {
+      await mysql.connect();
+      const query = `
+      INSERT INTO products 
+      (user_no, region_no, school_no, department_no, major_no, 
+        product_detail_category_no, title, price, bargaining_flag, 
+        description, thumbnail) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+
+      const result = await mysql.query(query, [
+        userNo,
+        regionNo,
+        schoolNo,
+        departmentNo,
+        majorNo,
+        detailCategoryNo,
+        title,
+        price,
+        isBargaining,
+        description,
+        thumbnail,
+      ]);
+
+      return result.insertId;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = ProductRepository;

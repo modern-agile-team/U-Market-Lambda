@@ -101,6 +101,18 @@ class ProductService {
 
     return { product, relatedProducts };
   }
+
+  async register() {
+    const { product } = this.body;
+    try {
+      const productId = await ProductRepository.insertOne(product);
+
+      return { productId };
+    } catch (err) {
+      if (err.errno === 1452) throw new Error("Not Exist Referenced Row");
+      throw err;
+    }
+  }
 }
 
 module.exports = ProductService;

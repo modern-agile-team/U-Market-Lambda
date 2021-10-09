@@ -31,18 +31,16 @@ const products = {
       return res.status(500).json(err);
     }
   },
-  create: async (req, res) => {
-    res.json("아몰랑");
-    // try {
-    //   const product = new ProductService(req);
-    //   const response = await product.detailView();
+  create: async (req, res, next) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.register();
 
-    //   logger.info(`GET /api/products/:productNo 200`);
-    //   return res.status(200).json(response);
-    // } catch (err) {
-    //   logger.error(`GET /api/products/:productNo 500 err: ${err}`);
-    //   return res.status(500).json(err);
-    // }
+      logger.info(`GET /api/products/:productNo 200`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
   },
 };
 
