@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 function errorMiddleware(err, req, res, next) {
-  console.log("에러미들웨어 진입");
   if (err.message === "Not Exist School")
     return res.status(404).json({ error: "학교가 존재하지 않습니다." });
   if (err.message === "Not Exist Department")

@@ -22,6 +22,22 @@ class ProductHashTagRepository {
       mysql?.end();
     }
   }
+
+  static async insertOne(productNo, hashTagNo) {
+    try {
+      await mysql.connect();
+      const query = `
+        INSERT INTO product_hash_tags (product_no, hash_tag_no) VALUES (?, ?);`;
+
+      const result = await mysql.query(query, [productNo, hashTagNo]);
+
+      return result.insertId;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = ProductHashTagRepository;

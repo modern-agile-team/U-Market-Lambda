@@ -24,9 +24,9 @@ class ProductImageRepository {
       const query = `
       INSERT INTO product_images (product_no, url) VALUES (?, ?);`;
 
-      const images = await mysql.query(query, [productNo, imageUrl]);
+      const result = await mysql.query(query, [productNo, imageUrl]);
 
-      return images;
+      return result.insertId;
     } catch (err) {
       throw err;
     } finally {
