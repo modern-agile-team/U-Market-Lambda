@@ -98,6 +98,11 @@ functions:
           cors: true
         #   private: true
       - http:
+          method: POST
+          path: /api/products
+          cors: true
+        #   private: true
+      - http:
           method: GET
           path: /api/products/{productNo}
           cors: true

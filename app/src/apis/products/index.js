@@ -16,4 +16,10 @@ router.get(
   ctrl.products.detailView,
 );
 
+router.post(
+  "/",
+  validation(joi.products.root_POST_schema, "body"),
+  ctrl.products.create,
+);
+
 module.exports = router;
