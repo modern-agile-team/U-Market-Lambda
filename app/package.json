@@ -4,13 +4,26 @@
   "description": "",
   "main": "handler.js",
   "dependencies": {
-    "express": "^4.17.1"
+    "aws-lambda": "^1.0.6",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "joi": "^17.4.2",
+    "jsonwebtoken": "^8.5.1",
+    "mariadb": "^2.5.4",
+    "mysql": "^2.18.1",
+    "serverless-express": "^2.0.12",
+    "serverless-mysql": "^1.5.4",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.4.0"
+    "morgan": "^1.10.0",
+    "prettier": "^2.4.0",
+    "serverless-offline": "^8.2.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
