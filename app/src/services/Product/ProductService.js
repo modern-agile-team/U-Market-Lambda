@@ -105,9 +105,12 @@ class ProductService {
   async register() {
     const { product } = this.body;
     try {
-      const productId = await ProductRepository.insertOne(product);
+      const productNo = await ProductRepository.insertOne(product);
+      product.images.forEach(async imageUrl => {
+        await ProductImageRepository.insertOne(productNo, imageUrl);
+      });
 
-      return { productId };
+      return { productNo };
     } catch (err) {
       if (err.errno === 1452) throw new Error("Not Exist Referenced Row");
       throw err;

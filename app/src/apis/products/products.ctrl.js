@@ -36,7 +36,7 @@ const products = {
       const product = new ProductService(req);
       const response = await product.register();
 
-      logger.info(`GET /api/products/:productNo 200`);
+      logger.info(`GET /api/products/:productNo 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);
