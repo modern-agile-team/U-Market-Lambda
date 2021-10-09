@@ -17,6 +17,8 @@ plugins:
   - serverless-offline
   - serverless-express
  
+# dotenv 사용 여부
+useDotenv: true
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
