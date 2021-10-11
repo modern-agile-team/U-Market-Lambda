@@ -1,0 +1,8 @@
+const express = require("serverless-express/express");
+const ctrl = require("./selllist.ctrl");
+
+const router = express.Router();
+
+router.get("/:userNo", ctrl.selllist);
+
+module.exports = router;
