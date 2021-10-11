@@ -164,6 +164,15 @@ functions:
             parameters:
               paths:
                 userNo: true
+      # BUYLIST
+      - http:
+          method: GET
+          path: /api/buylist/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
