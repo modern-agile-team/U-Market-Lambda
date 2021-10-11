@@ -33,6 +33,8 @@ function errorMiddleware(err, req, res, next) {
     return res.status(401).json({ msg: "데이터가 저장되어 있지 않습니다." });
   if (err.message === "Already Exist Watchlist")
     return res.status(400).json({ msg: "이미 관심목록에 저장되어 있습니다." });
+  if (err.message === "Not Exist Product")
+    return res.status(400).json({ msg: "존재하지 않는 제품입니다." });
 
   return res.status(500).json({ error: err });
 }

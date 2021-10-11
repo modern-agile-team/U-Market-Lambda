@@ -20,15 +20,13 @@ class WatchlistRepository {
   }
 
   static async isExistWatchlist(content) {
+    const { userNo, productNo } = content;
     try {
       await mysql.connect();
 
       const query = `SELECT * FROM interest_products WHERE user_no = ? AND product_no = ?;`;
 
-      const result = await mysql.query(query, [
-        content.userNo,
-        content.productNo,
-      ]);
+      const result = await mysql.query(query, [userNo, productNo]);
       if (result.length > 0) throw new Error("Already Exist Watchlist");
       return true;
     } catch (err) {
@@ -39,15 +37,13 @@ class WatchlistRepository {
   }
 
   static async create(content) {
+    const { userNo, productNo } = content;
     try {
       await mysql.connect();
 
       const query = `INSERT INTO interest_products (user_no, product_no) VALUES (?, ?)`;
 
-      const result = await mysql.query(query, [
-        content.userNo,
-        content.productNo,
-      ]);
+      const result = await mysql.query(query, [userNo, productNo]);
       return result.insertId;
     } catch (err) {
       throw err;
@@ -57,14 +53,12 @@ class WatchlistRepository {
   }
 
   static async delete(content) {
+    const { userNo, productNo } = content;
     try {
       await mysql.connect();
       const query = `DELETE FROM interest_products WHERE user_no = ? AND product_no = ?`;
 
-      const result = await mysql.query(query, [
-        content.userNo,
-        content.productNo,
-      ]);
+      const result = await mysql.query(query, [userNo, productNo]);
 
       if (result.affectedRows) return true;
       throw new Error("no data in the database");
