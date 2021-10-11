@@ -300,6 +300,22 @@ const watchlist = {
   }),
 };
 
+const buylist = {
+  GET_schema: Joi.object().keys({
+    userNo: Joi.string().required().messages({
+      "any.required": "userNo 필드가 비었습니다.",
+    }),
+  }),
+};
+
+const selllist = {
+  GET_schema: Joi.object().keys({
+    userNo: Joi.string().required().messages({
+      "any.required": "userNo 필드가 비었습니다.",
+    }),
+  }),
+};
+
 module.exports = {
   major_POST_schema,
   user_DELETE_schema,
@@ -309,6 +325,8 @@ module.exports = {
   products,
   communities,
   watchlist,
+  buylist,
+  selllist,
 };
 
 // export const market_POST_schema = Joi.object().keys({

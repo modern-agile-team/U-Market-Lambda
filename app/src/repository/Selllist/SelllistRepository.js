@@ -11,6 +11,8 @@ class SelllistRepository {
       return result;
     } catch (err) {
       throw err;
+    } finally {
+      mysql?.end();
     }
   }
 }
