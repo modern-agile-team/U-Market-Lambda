@@ -211,6 +211,23 @@ class ProductRepository {
       mysql?.end();
     }
   }
+
+  static async updateInterestByProductNo(productNo, sign) {
+    try {
+      await mysql.connect();
+      let query = `UPDATE products SET interest_cnt = interest_cnt + 1 WHERE no = ?;`;
+      if (sign === "-")
+        query = `UPDATE products SET interest_cnt = interest_cnt - 1 WHERE no = ?;`;
+
+      const result = await mysql.query(query, [productNo, sign]);
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = ProductRepository;
