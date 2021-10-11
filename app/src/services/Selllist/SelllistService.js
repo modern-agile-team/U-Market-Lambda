@@ -7,10 +7,26 @@ class SelllistService {
 
   async findAllByUserNo() {
     const user = this.params;
+    const statusNo = 1;
     try {
-      const selllist = await SelllistRepository.findAllByUserNo(user);
+      const selllist = await SelllistRepository.findAllByUserNo(user, statusNo);
 
-      return { selllist: selllist };
+      return { selllist };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findEndingTradeByUserNo() {
+    const user = this.params;
+    const statusNo = 2;
+    try {
+      const endSelllist = await SelllistRepository.findAllByUserNoForStatus(
+        user,
+        statusNo,
+      );
+
+      return { endSelllist };
     } catch (err) {
       throw err;
     }

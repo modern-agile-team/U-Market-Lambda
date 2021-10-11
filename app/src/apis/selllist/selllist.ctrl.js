@@ -14,6 +14,18 @@ const process = {
       next(err);
     }
   },
+
+  endSelllist: async (req, res, next) => {
+    try {
+      const selllistService = new SelllistService(req);
+      const response = await selllistService.findEndingTradeByUserNo();
+
+      logger.info(`GET /api/selllist/finish/:userNo 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = process;
