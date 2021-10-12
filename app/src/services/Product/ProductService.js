@@ -81,14 +81,6 @@ class ProductService {
     delete product.isDirect;
     delete product.isDelivery;
 
-    // 물건 상세화면의 해쉬태그 목록 불러오기
-    product.hashTags = await ProductHashTagRepository.findAllByProductNo(
-      this.params.productNo,
-    );
-    product.hashTags = product.hashTags.map(hashTag => hashTag.name);
-
-    this.sql = Validator.makeHashSqlAboutWhereStatements(product.hashTags);
-
     // 물건의 이미지 데이터 모두 불러오기
     product.images = await ProductImageRepository.findAllByProductNo(
       this.params.productNo,
@@ -97,7 +89,7 @@ class ProductService {
 
     // 물건의 관련 물품 데이터 모두 불러오기
     const relatedProducts = await ProductRepository.findAllRelatedByNo(
-      this.sql,
+      product.detailCategoryNo,
     );
 
     return { product, relatedProducts };
@@ -128,7 +120,6 @@ class ProductService {
   }
 
   async updateView() {
-    //
     const { productNo } = this.params;
     const { product } = this.body;
     try {

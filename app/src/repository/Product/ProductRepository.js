@@ -5,7 +5,12 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT users.nickname, users.profile_img_url AS profileImage, description, hit, interest_cnt AS interestCnt, bargaining_flag AS isBargaining, ts.name AS tradingStatus, ds.name AS damageStatus, direct_flag AS isDirect, delivery_flag AS isDelivery, DATE_FORMAT(pd.in_date, "%Y.%m.%d %H:%i") AS inDate
+        SELECT users.nickname, users.profile_img_url AS profileImage, 
+        pd_ctg.name AS categoryName, pd_d_ctg.name AS detailCategoryName,
+        product_detail_category_no AS detailCategoryNo, title, price, description, 
+        hit, interest_cnt AS interestCnt, bargaining_flag AS isBargaining, 
+        ts.name AS tradingStatus, ds.name AS damageStatus, direct_flag AS isDirect, 
+        delivery_flag AS isDelivery, DATE_FORMAT(pd.in_date, "%Y.%m.%d %H:%i") AS inDate
         FROM products AS pd
         JOIN trading_status AS ts
         ON pd.trading_status_no = ts.no
@@ -13,7 +18,12 @@ class ProductRepository {
         ON pd.damage_status_no = ds.no
         JOIN users
         ON pd.user_no = users.no
-        WHERE pd.no = ?;`;
+        JOIN product_detail_categories AS pd_d_ctg
+        ON pd.product_detail_category_no = pd_d_ctg.no
+        JOIN product_categories AS pd_ctg
+        ON pd_d_ctg.product_category_no = pd_ctg.no
+        WHERE pd.no = ?
+        LIMIT 20;`;
 
       const community = await mysql.query(query, [productNo]);
 
@@ -68,20 +78,16 @@ class ProductRepository {
     }
   }
 
-  static async findAllRelatedByNo(hashSql) {
+  static async findAllRelatedByNo(detailCategoryNo) {
     try {
       await mysql.connect();
       const query = `
         SELECT title, price, interest_cnt AS interestCnt, thumbnail
         FROM products AS pd
-        LEFT JOIN product_hash_tags AS p_hs
-        ON pd.no = p_hs.product_no
-        LEFT JOIN hash_tags AS hs
-        ON hs.no = p_hs.hash_tag_no
-        WHERE ${hashSql}
+        WHERE pd.product_detail_category_no = ?
         GROUP BY pd.no;`;
 
-      const products = await mysql.query(query);
+      const products = await mysql.query(query, [detailCategoryNo]);
 
       return products;
     } catch (err) {
