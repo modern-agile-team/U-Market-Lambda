@@ -26,7 +26,7 @@ router.put(
   "/:productNo",
   validation(joi.products.put.params.productNo, "params"),
   validation(joi.products.put.body.productNo, "body"),
-  ctrl.products.detailView,
+  ctrl.products.updateView,
 );
 
 module.exports = router;

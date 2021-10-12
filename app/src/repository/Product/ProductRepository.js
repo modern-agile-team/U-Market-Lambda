@@ -168,19 +168,6 @@ class ProductRepository {
   }
 
   static async insertOne(product) {
-    const {
-      userNo,
-      regionNo,
-      schoolNo,
-      departmentNo,
-      majorNo,
-      detailCategoryNo,
-      title,
-      price,
-      isBargaining,
-      description,
-      thumbnail,
-    } = product;
     try {
       await mysql.connect();
       const query = `
@@ -191,17 +178,17 @@ class ProductRepository {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
 
       const result = await mysql.query(query, [
-        userNo,
-        regionNo,
-        schoolNo,
-        departmentNo,
-        majorNo,
-        detailCategoryNo,
-        title,
-        price,
-        isBargaining,
-        description,
-        thumbnail,
+        product.userNo,
+        product.regionNo,
+        product.schoolNo,
+        product.departmentNo,
+        product.majorNo,
+        product.detailCategoryNo,
+        product.title,
+        product.price,
+        product.isBargaining,
+        product.description,
+        product.thumbnail,
       ]);
 
       return result.insertId;
@@ -220,6 +207,32 @@ class ProductRepository {
         query = `UPDATE products SET interest_cnt = interest_cnt - 1 WHERE no = ?;`;
 
       const result = await mysql.query(query, [productNo, sign]);
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async updateOneByNo(product) {
+    try {
+      await mysql.connect();
+      const query = `UPDATE products SET title = ?, price = ?, description = ?, thumbnail = ?, bargaining_flag = ?, damage_status_no = ?, direct_flag = ?, delivery_flag = ? WHERE no = ?;`;
+
+      const result = await mysql.query(query, [
+        product.title,
+        product.price,
+        product.description,
+        product.thumbnail,
+        product.isBargaining,
+        product.damageStatusNo,
+        product.tradingMethods.isDirect,
+        product.tradingMethods.isDelivery,
+        product.no,
+      ]);
+
       if (result.affectedRows) return true;
       throw new Error("Not Exist Product");
     } catch (err) {

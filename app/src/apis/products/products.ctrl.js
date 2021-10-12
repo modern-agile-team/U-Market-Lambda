@@ -36,10 +36,22 @@ const products = {
       const product = new ProductService(req);
       const response = await product.register();
 
-      logger.info(`GET /api/products/:productNo 201`);
+      logger.info(`POST /api/products/:productNo 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);
+    }
+  },
+  updateView: async (req, res) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.updateView();
+
+      logger.info(`PUT /api/products/:productNo 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      logger.error(`PUT /api/products/:productNo 500 err: ${err}`);
+      return res.status(500).json(err);
     }
   },
 };

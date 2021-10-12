@@ -126,6 +126,25 @@ class ProductService {
       throw err;
     }
   }
+
+  async updateView() {
+    //
+    const { productNo } = this.params;
+    const { product } = this.body;
+    try {
+      product.no = productNo;
+      product.tradingMethods.isDirect = Number(product.tradingMethods.isDirect);
+      product.tradingMethods.isDelivery = Number(
+        product.tradingMethods.isDelivery,
+      );
+      const isUpdateProduct = await ProductRepository.updateOneByNo(product);
+
+      if (isUpdateProduct) return { productNo };
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = ProductService;
