@@ -1,3 +1,4 @@
+const ProductRepository = require("../../repository/Product/ProductRepository");
 const WatchlistRepository = require("../../repository/Watchlist/WatchlistRepository");
 
 class WatchlistService {
@@ -22,6 +23,10 @@ class WatchlistService {
       const isExistData = await WatchlistRepository.isExistWatchlist(content);
       if (isExistData) {
         await WatchlistRepository.create(content);
+        await ProductRepository.updateInterestByProductNo(
+          content.productNo,
+          "+",
+        );
         return { msg: "관심목록 등록 성공" };
       }
     } catch (err) {
@@ -33,6 +38,7 @@ class WatchlistService {
     const content = this.body;
     try {
       const isExistData = await WatchlistRepository.delete(content);
+      await ProductRepository.updateInterestByProductNo(content.productNo, "-");
       if (isExistData) return { msg: "관심목록 삭제 완료" };
       throw new Error("no data in the database");
     } catch (err) {
