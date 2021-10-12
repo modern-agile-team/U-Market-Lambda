@@ -94,6 +94,8 @@ functions:
           path: /api/pick/major
           cors: true
           private: true
+
+      # 거래장터 API
       - http:
           method: GET
           path: /api/products
@@ -113,6 +115,17 @@ functions:
             parameters:
               paths:
                 productNo: true
+      - http:
+          method: PUT
+          path: /api/products/{productNo}
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                productNo: true
+
+      # 커뮤니티 API
       - http:
           method: GET
           path: /api/communities/
