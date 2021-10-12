@@ -96,20 +96,12 @@ class ProductService {
   }
 
   async register() {
-    // 이슈: images 혹은 hashTag, productHashTag 중 하나라도 저장 실패시 기존에 수행된 트랜잭션이 복구 되어야한다. -> 삽입된 데이터 다시 삭제되도록 구현해야함. 어떻게..?
+    // 이슈: images 저장 실패시 기존에 수행된 트랜잭션이 복구 되어야한다. -> 삽입된 데이터 다시 삭제되도록 구현해야함. 어떻게..?
     const { product } = this.body;
     try {
       const productNo = await ProductRepository.insertOne(product);
       product.images.forEach(async imageUrl => {
         await ProductImageRepository.insertOne(productNo, imageUrl);
-      });
-
-      const hashTagService = new HashTagService();
-      const hashTagNos = await hashTagService.findAllOnlyNoByName(
-        product.hashTags,
-      );
-      hashTagNos.forEach(async hashTagNo => {
-        await ProductHashTagRepository.insertOne(productNo, hashTagNo);
       });
 
       return { productNo };
