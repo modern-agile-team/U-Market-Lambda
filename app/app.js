@@ -23,6 +23,7 @@ const buylist = require("./src/apis/buylist");
 app.use("/api/user", user);
 app.use("/api/home", home);
 app.use("/api/pick", major);
+app.use("/api/product", products);
 app.use("/api/products", products);
 app.use("/api/communities", communities);
 app.use("/api/watchlist", watchlist);
