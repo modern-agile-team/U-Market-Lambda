@@ -25,6 +25,7 @@ app.use("/api/home", home);
 app.use("/api/pick", major);
 app.use("/api/product", products);
 app.use("/api/products", products);
+app.use("/api/community", communities);
 app.use("/api/communities", communities);
 app.use("/api/watchlist", watchlist);
 app.use("/api/selllist", selllist);
