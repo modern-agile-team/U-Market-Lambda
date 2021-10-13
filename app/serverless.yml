@@ -112,7 +112,7 @@ functions:
                 productNo: true
       - http:
           method: POST
-          path: /api/products
+          path: /api/product
           cors: true
         #   private: true
       - http:
