@@ -29,10 +29,10 @@ router.put(
   ctrl.communities.updateView,
 );
 
-// router.delete(
-//   "/:communityNo",
-//   validation(joi.communities.put.params.communityNo, "params"),
-//   ctrl.communities.delete,
-// );
+router.delete(
+  "/:communityNo",
+  validation(joi.communities.params.communityNo, "params"),
+  ctrl.communities.delete,
+);
 
 module.exports = router;

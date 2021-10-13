@@ -94,17 +94,18 @@ class CommunityService {
     }
   }
 
-  // async delete() {
-  //   const { communityNo } = this.params;
-  //   try {
-  //     const isDeleteCommunity = await CommunityRepository.deleteOneByNo(communityNo);
+  async delete() {
+    try {
+      const isDeleteCommunity = await CommunityRepository.deleteOneByNo(
+        this.params.communityNo,
+      );
 
-  //     if (isDeleteCommunity) return true;
-  //     throw new Error("Not Exist Community");
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
+      if (isDeleteCommunity) return true;
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = CommunityService;

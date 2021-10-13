@@ -50,20 +50,20 @@ const communities = {
       next(err);
     }
   },
-  // delete: async (req, res, next) => {
-  //   try {
-  //     const community = new CommunityService(req);
-  //     const isDelete = await community.delete();
+  delete: async (req, res, next) => {
+    try {
+      const community = new CommunityService(req);
+      const isDelete = await community.delete();
 
-  //     if (isDelete) {
-  //       logger.info(`DELETE /api/communitys/:communityNo 204`);
-  //       return res.status(204).end();
-  //     }
-  //     throw new Error("Not Exist Community");
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // },
+      if (isDelete) {
+        logger.info(`DELETE /api/communitys/:communityNo 204`);
+        return res.status(204).end();
+      }
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = {

@@ -114,21 +114,21 @@ class CommunityRepository {
     }
   }
 
-  // static async deleteOneByNo(communityNo) {
-  //   try {
-  //     await mysql.connect();
-  //     const query = `DELETE FROM communitys WHERE no = ?;`;
+  static async deleteOneByNo(communityNo) {
+    try {
+      await mysql.connect();
+      const query = `DELETE FROM communities WHERE no = ?;`;
 
-  //     const result = await mysql.query(query, [communityNo]);
+      const result = await mysql.query(query, [communityNo]);
 
-  //     if (result.affectedRows) return true;
-  //     throw new Error("Not Exist Community");
-  //   } catch (err) {
-  //     throw err;
-  //   } finally {
-  //     mysql?.end();
-  //   }
-  // }
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = CommunityRepository;
