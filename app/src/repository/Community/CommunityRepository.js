@@ -65,6 +65,75 @@ class CommunityRepository {
       mysql?.end();
     }
   }
+
+  static async insertOne(community) {
+    try {
+      await mysql.connect();
+      const query = `
+        INSERT INTO communities (user_no, region_no, school_no, department_no, major_no, community_category_no, title, description, thumbnail)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+
+      const result = await mysql.query(query, [
+        community.userNo,
+        community.regionNo,
+        community.schoolNo,
+        community.departmentNo,
+        community.majorNo,
+        community.detailCategoryNo,
+        community.title,
+        community.description,
+        community.thumbnail,
+      ]);
+
+      return result.insertId;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  // static async updateOneByNo(community) {
+  //   try {
+  //     await mysql.connect();
+  //     const query = `UPDATE communitys SET title = ?, price = ?, description = ?, thumbnail = ?, bargaining_flag = ?, damage_status_no = ?, direct_flag = ?, delivery_flag = ? WHERE no = ?;`;
+
+  //     const result = await mysql.query(query, [
+  //       community.title,
+  //       community.price,
+  //       community.description,
+  //       community.thumbnail,
+  //       community.isBargaining,
+  //       community.damageStatusNo,
+  //       community.tradingMethods.isDirect,
+  //       community.tradingMethods.isDelivery,
+  //       community.no,
+  //     ]);
+
+  //     if (result.affectedRows) return true;
+  //     throw new Error("Not Exist Product");
+  //   } catch (err) {
+  //     throw err;
+  //   } finally {
+  //     mysql?.end();
+  //   }
+  // }
+
+  // static async deleteOneByNo(communityNo) {
+  //   try {
+  //     await mysql.connect();
+  //     const query = `DELETE FROM communitys WHERE no = ?;`;
+
+  //     const result = await mysql.query(query, [communityNo]);
+
+  //     if (result.affectedRows) return true;
+  //     throw new Error("Not Exist Product");
+  //   } catch (err) {
+  //     throw err;
+  //   } finally {
+  //     mysql?.end();
+  //   }
+  // }
 }
 
 module.exports = CommunityRepository;

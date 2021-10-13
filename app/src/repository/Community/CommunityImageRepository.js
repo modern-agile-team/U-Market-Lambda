@@ -17,6 +17,22 @@ class CommunityImageRepository {
       mysql?.end();
     }
   }
+
+  static async insertOne(communityNo, imageUrl) {
+    try {
+      await mysql.connect();
+      const query = `
+      INSERT INTO community_images (community_no, url) VALUES (?, ?);`;
+
+      const result = await mysql.query(query, [communityNo, imageUrl]);
+
+      return result.insertId;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = CommunityImageRepository;

@@ -351,6 +351,67 @@ const communities = {
       }),
     }),
   },
+  body: {
+    root: Joi.object().keys({
+      community: Joi.object()
+        .required()
+        .messages({
+          "object.base": "community는 Object 형식입니다.",
+          "any.required": "community 필드가 비었습니다.",
+        })
+        .keys({
+          userNo: Joi.number().required().messages({
+            "number.base": "userNo은 숫자 형식입니다.",
+            "number.integer": "userNo은 정수입니다.",
+            "any.required": "userNo 필드가 비었습니다.",
+          }),
+          regionNo: Joi.number().required().messages({
+            "number.base": "regionNo은 숫자 형식입니다.",
+            "number.integer": "regionNo은 정수입니다.",
+            "any.required": "regionNo 필드가 비었습니다.",
+          }),
+          schoolNo: Joi.number().required().messages({
+            "number.base": "schoolNo은 숫자 형식입니다.",
+            "number.integer": "schoolNo은 정수입니다.",
+            "any.required": "schoolNo 필드가 비었습니다.",
+          }),
+          departmentNo: Joi.number().required().messages({
+            "number.base": "departmentNo은 숫자 형식입니다.",
+            "number.integer": "departmentNo은 정수입니다.",
+            "any.required": "departmentNo 필드가 비었습니다.",
+          }),
+          majorNo: Joi.number().required().messages({
+            "number.base": "majorNo은 숫자 형식입니다.",
+            "number.integer": "majorNo은 정수입니다.",
+            "any.required": "majorNo 필드가 비었습니다.",
+          }),
+          detailCategoryNo: Joi.number().required().messages({
+            "number.base": "detailCategoryNo은 숫자 형식입니다.",
+            "number.integer": "detailCategoryNo은 정수입니다.",
+            "any.required": "detailCategoryNo 필드가 비었습니다.",
+          }),
+          title: Joi.string().required().min(1).max(30).messages({
+            "string.base": "title은 문자 형식입니다.",
+            "string.min": "title은 최소 1글자 입니다..",
+            "string.max": "title은 최대 20글자 입니다.",
+            "any.required": "title 필드가 비었습니다.",
+          }),
+          description: Joi.string().required().max(21844).messages({
+            "string.base": "description은 문자 형식입니다.",
+            "string.max": "description은 최대 21844글자 입니다.",
+            "any.required": "description 필드가 비었습니다.",
+          }),
+          thumbnail: Joi.string().required().max(255).messages({
+            "string.base": "thumbnail은 문자 형식입니다.",
+            "string.max": "thumbnail은 최대 255글자 입니다.",
+            "any.required": "thumbnail 필드가 비었습니다.",
+          }),
+          images: Joi.array().items(Joi.string()).messages({
+            "string.base": "images 배열의 원소는 문자로 구성됩니다.",
+          }),
+        }),
+    }),
+  },
 };
 
 const watchlist = {
