@@ -102,11 +102,6 @@ functions:
           cors: true
         #   private: true
       - http:
-          method: POST
-          path: /api/products
-          cors: true
-        #   private: true
-      - http:
           method: GET
           path: /api/products/{productNo}
           cors: true
@@ -115,6 +110,11 @@ functions:
             parameters:
               paths:
                 productNo: true
+      - http:
+          method: POST
+          path: /api/products
+          cors: true
+        #   private: true
       - http:
           method: PUT
           path: /api/products/{productNo}
@@ -142,6 +142,29 @@ functions:
         #   private: true
       - http:
           method: GET
+          path: /api/communities/{communityNo}
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                communityNo: true
+      - http:
+          method: POST
+          path: /api/community
+          cors: true
+        #   private: true
+      - http:
+          method: PUT
+          path: /api/communities/{communityNo}
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                communityNo: true
+      - http:
+          method: DELETE
           path: /api/communities/{communityNo}
           cors: true
         #   private: true
