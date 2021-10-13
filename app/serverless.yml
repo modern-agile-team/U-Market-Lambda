@@ -124,6 +124,15 @@ functions:
             parameters:
               paths:
                 productNo: true
+      - http:
+          method: DELETE
+          path: /api/products/{productNo}
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                productNo: true
 
       # 커뮤니티 API
       - http:
