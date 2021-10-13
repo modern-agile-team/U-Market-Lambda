@@ -247,6 +247,22 @@ class ProductRepository {
       mysql?.end();
     }
   }
+
+  static async deleteOneByNo(productNo) {
+    try {
+      await mysql.connect();
+      const query = `DELETE FROM products WHERE no = ?;`;
+
+      const result = await mysql.query(query, [productNo]);
+
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = ProductRepository;

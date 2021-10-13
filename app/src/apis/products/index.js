@@ -29,4 +29,10 @@ router.put(
   ctrl.products.updateView,
 );
 
+router.delete(
+  "/:productNo",
+  validation(joi.products.put.params.productNo, "params"),
+  ctrl.products.delete,
+);
+
 module.exports = router;

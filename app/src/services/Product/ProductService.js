@@ -128,6 +128,18 @@ class ProductService {
       throw err;
     }
   }
+
+  async delete() {
+    const { productNo } = this.params;
+    try {
+      const isDeleteProduct = await ProductRepository.deleteOneByNo(productNo);
+
+      if (isDeleteProduct) return true;
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = ProductService;
