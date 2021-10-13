@@ -7,31 +7,31 @@ const router = express.Router();
 
 router.get(
   "/",
-  validation(joi.products.get.query.root, "query"),
+  validation(joi.products.query.root, "query"),
   ctrl.products.home,
 );
 router.get(
   "/:productNo",
-  validation(joi.products.get.params.productNo, "params"),
+  validation(joi.products.params.productNo, "params"),
   ctrl.products.detailView,
 );
 
 router.post(
   "/",
-  validation(joi.products.post.body.root, "body"),
+  validation(joi.products.body.root, "body"),
   ctrl.products.create,
 );
 
 router.put(
   "/:productNo",
-  validation(joi.products.put.params.productNo, "params"),
-  validation(joi.products.put.body.productNo, "body"),
+  validation(joi.products.params.productNo, "params"),
+  validation(joi.products.body.productNo, "body"),
   ctrl.products.updateView,
 );
 
 router.delete(
   "/:productNo",
-  validation(joi.products.put.params.productNo, "params"),
+  validation(joi.products.params.productNo, "params"),
   ctrl.products.delete,
 );
 
