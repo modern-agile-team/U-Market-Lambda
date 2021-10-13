@@ -78,23 +78,21 @@ class CommunityService {
     }
   }
 
-  // async updateView() {
-  //   const { communityNo } = this.params;
-  //   const { community } = this.body;
-  //   try {
-  //     community.no = communityNo;
-  //     community.tradingMethods.isDirect = Number(community.tradingMethods.isDirect);
-  //     community.tradingMethods.isDelivery = Number(
-  //       community.tradingMethods.isDelivery,
-  //     );
-  //     const isUpdateCommunity = await CommunityRepository.updateOneByNo(community);
+  async updateView() {
+    const { communityNo } = this.params;
+    const { community } = this.body;
+    try {
+      community.no = communityNo;
+      const isUpdateCommunity = await CommunityRepository.updateOneByNo(
+        community,
+      );
 
-  //     if (isUpdateCommunity) return { communityNo };
-  //     throw new Error("Not Exist Community");
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
+      if (isUpdateCommunity) return { communityNo };
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    }
+  }
 
   // async delete() {
   //   const { communityNo } = this.params;

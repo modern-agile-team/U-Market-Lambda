@@ -35,6 +35,8 @@ function errorMiddleware(err, req, res, next) {
     return res.status(400).json({ msg: "이미 관심목록에 저장되어 있습니다." });
   if (err.message === "Not Exist Product")
     return res.status(400).json({ msg: "존재하지 않는 제품입니다." });
+  if (err.message === "Not Exist Community")
+    return res.status(400).json({ msg: "존재하지 않는 커뮤니티 글입니다." });
 
   return res.status(500).json({ error: err });
 }

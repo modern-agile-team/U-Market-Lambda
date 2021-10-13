@@ -39,17 +39,17 @@ const communities = {
       next(err);
     }
   },
-  // updateView: async (req, res, next) => {
-  //   try {
-  //     const community = new CommunityService(req);
-  //     const response = await community.updateView();
+  updateView: async (req, res, next) => {
+    try {
+      const community = new CommunityService(req);
+      const response = await community.updateView();
 
-  //     logger.info(`PUT /api/communitys/:communityNo 200`);
-  //     return res.status(200).json(response);
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // },
+      logger.info(`PUT /api/communitys/:communityNo 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
   // delete: async (req, res, next) => {
   //   try {
   //     const community = new CommunityService(req);

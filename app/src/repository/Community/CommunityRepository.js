@@ -93,31 +93,26 @@ class CommunityRepository {
     }
   }
 
-  // static async updateOneByNo(community) {
-  //   try {
-  //     await mysql.connect();
-  //     const query = `UPDATE communitys SET title = ?, price = ?, description = ?, thumbnail = ?, bargaining_flag = ?, damage_status_no = ?, direct_flag = ?, delivery_flag = ? WHERE no = ?;`;
+  static async updateOneByNo(community) {
+    try {
+      await mysql.connect();
+      const query = `UPDATE communities SET title = ?, description = ?, thumbnail = ? WHERE no = ?;`;
 
-  //     const result = await mysql.query(query, [
-  //       community.title,
-  //       community.price,
-  //       community.description,
-  //       community.thumbnail,
-  //       community.isBargaining,
-  //       community.damageStatusNo,
-  //       community.tradingMethods.isDirect,
-  //       community.tradingMethods.isDelivery,
-  //       community.no,
-  //     ]);
+      const result = await mysql.query(query, [
+        community.title,
+        community.description,
+        community.thumbnail,
+        community.no,
+      ]);
 
-  //     if (result.affectedRows) return true;
-  //     throw new Error("Not Exist Product");
-  //   } catch (err) {
-  //     throw err;
-  //   } finally {
-  //     mysql?.end();
-  //   }
-  // }
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 
   // static async deleteOneByNo(communityNo) {
   //   try {
@@ -127,7 +122,7 @@ class CommunityRepository {
   //     const result = await mysql.query(query, [communityNo]);
 
   //     if (result.affectedRows) return true;
-  //     throw new Error("Not Exist Product");
+  //     throw new Error("Not Exist Community");
   //   } catch (err) {
   //     throw err;
   //   } finally {

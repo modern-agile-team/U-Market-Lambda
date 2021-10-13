@@ -22,16 +22,16 @@ router.post(
   ctrl.communities.create,
 );
 
-// router.put(
-//   "/:productNo",
-//   validation(joi.communities.put.params.productNo, "params"),
-//   validation(joi.communities.put.body.productNo, "body"),
-//   ctrl.communities.updateView,
-// );
+router.put(
+  "/:communityNo",
+  validation(joi.communities.params.communityNo, "params"),
+  validation(joi.communities.body.communityNo, "body"),
+  ctrl.communities.updateView,
+);
 
 // router.delete(
-//   "/:productNo",
-//   validation(joi.communities.put.params.productNo, "params"),
+//   "/:communityNo",
+//   validation(joi.communities.put.params.communityNo, "params"),
 //   ctrl.communities.delete,
 // );
 
