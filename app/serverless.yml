@@ -172,6 +172,7 @@ functions:
             parameters:
               paths:
                 communityNo: true
+                
       # WATCHLIST
       - http:
             method: GET
