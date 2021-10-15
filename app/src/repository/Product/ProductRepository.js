@@ -5,7 +5,12 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT users.nickname, users.profile_img_url AS profileImage, description, hit, interest_cnt AS interestCnt, bargaining_flag AS isBargaining, ts.name AS tradingStatus, ds.name AS damageStatus, direct_flag AS isDirect, delivery_flag AS isDelivery, DATE_FORMAT(pd.in_date, "%Y.%m.%d %H:%i") AS inDate
+        SELECT users.nickname, users.profile_img_url AS profileImage, 
+        pd_ctg.name AS categoryName, pd_d_ctg.name AS detailCategoryName,
+        product_detail_category_no AS detailCategoryNo, title, price, description, 
+        hit, interest_cnt AS interestCnt, bargaining_flag AS isBargaining, 
+        ts.name AS tradingStatus, ds.name AS damageStatus, direct_flag AS isDirect, 
+        delivery_flag AS isDelivery, DATE_FORMAT(pd.in_date, "%Y.%m.%d %H:%i") AS inDate
         FROM products AS pd
         JOIN trading_status AS ts
         ON pd.trading_status_no = ts.no
@@ -13,7 +18,12 @@ class ProductRepository {
         ON pd.damage_status_no = ds.no
         JOIN users
         ON pd.user_no = users.no
-        WHERE pd.no = ?;`;
+        JOIN product_detail_categories AS pd_d_ctg
+        ON pd.product_detail_category_no = pd_d_ctg.no
+        JOIN product_categories AS pd_ctg
+        ON pd_d_ctg.product_category_no = pd_ctg.no
+        WHERE pd.no = ?
+        LIMIT 20;`;
 
       const community = await mysql.query(query, [productNo]);
 
@@ -68,20 +78,16 @@ class ProductRepository {
     }
   }
 
-  static async findAllRelatedByNo(hashSql) {
+  static async findAllRelatedByNo(detailCategoryNo) {
     try {
       await mysql.connect();
       const query = `
         SELECT title, price, interest_cnt AS interestCnt, thumbnail
         FROM products AS pd
-        LEFT JOIN product_hash_tags AS p_hs
-        ON pd.no = p_hs.product_no
-        LEFT JOIN hash_tags AS hs
-        ON hs.no = p_hs.hash_tag_no
-        WHERE ${hashSql}
+        WHERE pd.product_detail_category_no = ?
         GROUP BY pd.no;`;
 
-      const products = await mysql.query(query);
+      const products = await mysql.query(query, [detailCategoryNo]);
 
       return products;
     } catch (err) {
@@ -119,12 +125,14 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-          SELECT title, price, COUNT(p_cmt.no) AS commentCnt, interest_cnt AS interestCnt, thumbnail FROM products AS pd
+          SELECT title, price, COUNT(p_cmt.no) AS commentCnt, 
+            interest_cnt AS interestCnt, thumbnail 
+          FROM products AS pd
           LEFT JOIN product_comments AS p_cmt
           ON pd.no = p_cmt.product_no
           WHERE pd.no >= ? AND price >= ? AND price <= ? ${filterSql}
           GROUP BY pd.no
-          ORDER BY price ASC
+          ORDER BY price ASC, pd.no DESC
           LIMIT ?;`;
 
       const products = await mysql.query(query, [
@@ -158,6 +166,97 @@ class ProductRepository {
 
       const products = await mysql.query(query, [userNo, startNo, limit]);
       return products;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async insertOne(product) {
+    try {
+      await mysql.connect();
+      const query = `
+      INSERT INTO products 
+      (user_no, region_no, school_no, department_no, major_no, 
+        product_detail_category_no, title, price, bargaining_flag, 
+        description, thumbnail) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+
+      const result = await mysql.query(query, [
+        product.userNo,
+        product.regionNo,
+        product.schoolNo,
+        product.departmentNo,
+        product.majorNo,
+        product.detailCategoryNo,
+        product.title,
+        product.price,
+        product.isBargaining,
+        product.description,
+        product.thumbnail,
+      ]);
+
+      return result.insertId;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async updateInterestByProductNo(productNo, sign) {
+    try {
+      await mysql.connect();
+      let query = `UPDATE products SET interest_cnt = interest_cnt + 1 WHERE no = ?;`;
+      if (sign === "-")
+        query = `UPDATE products SET interest_cnt = interest_cnt - 1 WHERE no = ?;`;
+
+      const result = await mysql.query(query, [productNo, sign]);
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async updateOneByNo(product) {
+    try {
+      await mysql.connect();
+      const query = `UPDATE products SET title = ?, price = ?, description = ?, thumbnail = ?, bargaining_flag = ?, damage_status_no = ?, direct_flag = ?, delivery_flag = ? WHERE no = ?;`;
+
+      const result = await mysql.query(query, [
+        product.title,
+        product.price,
+        product.description,
+        product.thumbnail,
+        product.isBargaining,
+        product.damageStatusNo,
+        product.tradingMethods.isDirect,
+        product.tradingMethods.isDelivery,
+        product.no,
+      ]);
+
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async deleteOneByNo(productNo) {
+    try {
+      await mysql.connect();
+      const query = `DELETE FROM products WHERE no = ?;`;
+
+      const result = await mysql.query(query, [productNo]);
+
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Product");
     } catch (err) {
       throw err;
     } finally {

@@ -7,13 +7,32 @@ const router = express.Router();
 
 router.get(
   "/",
-  validation(joi.communities.root_GET_schema, "query"),
+  validation(joi.communities.query.root, "query"),
   ctrl.communities.home,
 );
 router.get(
   "/:communityNo",
-  validation(joi.communities.communityNo_GET_schema, "params"),
+  validation(joi.communities.params.communityNo, "params"),
   ctrl.communities.detail,
+);
+
+router.post(
+  "/",
+  validation(joi.communities.body.root, "body"),
+  ctrl.communities.create,
+);
+
+router.put(
+  "/:communityNo",
+  validation(joi.communities.params.communityNo, "params"),
+  validation(joi.communities.body.communityNo, "body"),
+  ctrl.communities.updateView,
+);
+
+router.delete(
+  "/:communityNo",
+  validation(joi.communities.params.communityNo, "params"),
+  ctrl.communities.delete,
 );
 
 module.exports = router;

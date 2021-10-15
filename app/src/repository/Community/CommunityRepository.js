@@ -65,6 +65,70 @@ class CommunityRepository {
       mysql?.end();
     }
   }
+
+  static async insertOne(community) {
+    try {
+      await mysql.connect();
+      const query = `
+        INSERT INTO communities (user_no, region_no, school_no, department_no, major_no, community_category_no, title, description, thumbnail)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+
+      const result = await mysql.query(query, [
+        community.userNo,
+        community.regionNo,
+        community.schoolNo,
+        community.departmentNo,
+        community.majorNo,
+        community.detailCategoryNo,
+        community.title,
+        community.description,
+        community.thumbnail,
+      ]);
+
+      return result.insertId;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async updateOneByNo(community) {
+    try {
+      await mysql.connect();
+      const query = `UPDATE communities SET title = ?, description = ?, thumbnail = ? WHERE no = ?;`;
+
+      const result = await mysql.query(query, [
+        community.title,
+        community.description,
+        community.thumbnail,
+        community.no,
+      ]);
+
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async deleteOneByNo(communityNo) {
+    try {
+      await mysql.connect();
+      const query = `DELETE FROM communities WHERE no = ?;`;
+
+      const result = await mysql.query(query, [communityNo]);
+
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = CommunityRepository;

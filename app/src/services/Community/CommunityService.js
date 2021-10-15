@@ -18,11 +18,11 @@ class CommunityService {
       categoryNo: Number(categoryNo),
     };
 
-    const categories = await CommunityRepository.findAllAboutCategoryBy(
+    const communities = await CommunityRepository.findAllAboutCategoryBy(
       attr,
       this.sql,
     );
-    return { categories };
+    return { communities };
   }
 
   async detailView() {
@@ -60,6 +60,51 @@ class CommunityService {
     });
 
     return { community };
+  }
+
+  async register() {
+    // 이슈: images 저장 실패시 기존에 수행된 트랜잭션이 복구 되어야한다. -> 삽입된 데이터 다시 삭제되도록 구현해야함. 어떻게..?
+    const { community } = this.body;
+    try {
+      const communityNo = await CommunityRepository.insertOne(community);
+      community.images.forEach(async imageUrl => {
+        await CommunityImageRepository.insertOne(communityNo, imageUrl);
+      });
+
+      return { communityNo };
+    } catch (err) {
+      if (err.errno === 1452) throw new Error("Not Exist Referenced Row");
+      throw err;
+    }
+  }
+
+  async updateView() {
+    const { communityNo } = this.params;
+    const { community } = this.body;
+    try {
+      community.no = communityNo;
+      const isUpdateCommunity = await CommunityRepository.updateOneByNo(
+        community,
+      );
+
+      if (isUpdateCommunity) return { communityNo };
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async delete() {
+    try {
+      const isDeleteCommunity = await CommunityRepository.deleteOneByNo(
+        this.params.communityNo,
+      );
+
+      if (isDeleteCommunity) return true;
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    }
   }
 }
 

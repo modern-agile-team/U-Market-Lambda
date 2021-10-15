@@ -1,5 +1,6 @@
-const { boolean } = require("joi");
 const Validator = require("../../utils/Validator");
+const HashTagService = require("../HashTag/HashTagService");
+const HashTagRepository = require("../../repository/HashTag/HashTagRepository");
 const ProductRepository = require("../../repository/Product/ProductRepository");
 const ProductImageRepository = require("../../repository/Product/ProductImageRepository");
 const ProductHashTagRepository = require("../../repository/Product/ProductHashTagRepository");
@@ -80,14 +81,6 @@ class ProductService {
     delete product.isDirect;
     delete product.isDelivery;
 
-    // 물건 상세화면의 해쉬태그 목록 불러오기
-    product.hashTags = await ProductHashTagRepository.findAllByProductNo(
-      this.params.productNo,
-    );
-    product.hashTags = product.hashTags.map(hashTag => hashTag.name);
-
-    this.sql = Validator.makeHashSqlAboutWhereStatements(product.hashTags);
-
     // 물건의 이미지 데이터 모두 불러오기
     product.images = await ProductImageRepository.findAllByProductNo(
       this.params.productNo,
@@ -96,10 +89,56 @@ class ProductService {
 
     // 물건의 관련 물품 데이터 모두 불러오기
     const relatedProducts = await ProductRepository.findAllRelatedByNo(
-      this.sql,
+      product.detailCategoryNo,
     );
 
     return { product, relatedProducts };
+  }
+
+  async register() {
+    // 이슈: images 저장 실패시 기존에 수행된 트랜잭션이 복구 되어야한다. -> 삽입된 데이터 다시 삭제되도록 구현해야함. 어떻게..?
+    const { product } = this.body;
+    try {
+      const productNo = await ProductRepository.insertOne(product);
+      product.images.forEach(async imageUrl => {
+        await ProductImageRepository.insertOne(productNo, imageUrl);
+      });
+
+      return { productNo };
+    } catch (err) {
+      if (err.errno === 1452) throw new Error("Not Exist Referenced Row");
+      throw err;
+    }
+  }
+
+  async updateView() {
+    const { productNo } = this.params;
+    const { product } = this.body;
+    try {
+      product.no = productNo;
+      product.tradingMethods.isDirect = Number(product.tradingMethods.isDirect);
+      product.tradingMethods.isDelivery = Number(
+        product.tradingMethods.isDelivery,
+      );
+      const isUpdateProduct = await ProductRepository.updateOneByNo(product);
+
+      if (isUpdateProduct) return { productNo };
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async delete() {
+    const { productNo } = this.params;
+    try {
+      const isDeleteProduct = await ProductRepository.deleteOneByNo(productNo);
+
+      if (isDeleteProduct) return true;
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    }
   }
 }
 

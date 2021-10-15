@@ -4,7 +4,7 @@ const CommunityService = require("../../services/Community/CommunityService");
 const Validator = require("../../utils/Validator");
 
 const communities = {
-  home: async (req, res) => {
+  home: async (req, res, next) => {
     try {
       req.sql = Validator.makeSqlAboutWhereStatements(req.query);
 
@@ -14,11 +14,10 @@ const communities = {
       logger.info(`GET /api/communities 200`);
       return res.status(200).json(response);
     } catch (err) {
-      logger.error(`GET /api/communities 500 err: ${err}`);
-      return res.status(500).json(err);
+      next(err);
     }
   },
-  detail: async (req, res) => {
+  detail: async (req, res, next) => {
     try {
       const community = new CommunityService(req);
       const response = await community.detailView();
@@ -26,8 +25,43 @@ const communities = {
       logger.info(`GET /api/communities/:communityNo 200`);
       return res.status(200).json(response);
     } catch (err) {
-      logger.error(`GET /api/communities/:communityNo 500 err: ${err}`);
-      return res.status(500).json(err);
+      next(err);
+    }
+  },
+  create: async (req, res, next) => {
+    try {
+      const community = new CommunityService(req);
+      const response = await community.register();
+
+      logger.info(`POST /api/communitys/:communityNo 201`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+  updateView: async (req, res, next) => {
+    try {
+      const community = new CommunityService(req);
+      const response = await community.updateView();
+
+      logger.info(`PUT /api/communitys/:communityNo 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+  delete: async (req, res, next) => {
+    try {
+      const community = new CommunityService(req);
+      const isDelete = await community.delete();
+
+      if (isDelete) {
+        logger.info(`DELETE /api/communitys/:communityNo 204`);
+        return res.status(204).end();
+      }
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      next(err);
     }
   },
 };

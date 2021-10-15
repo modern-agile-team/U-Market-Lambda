@@ -17,6 +17,8 @@ plugins:
   - serverless-offline
   - serverless-express
  
+# dotenv 사용 여부
+useDotenv: true
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -92,6 +94,8 @@ functions:
           path: /api/pick/major
           cors: true
           private: true
+
+      # 거래장터 API
       - http:
           method: GET
           path: /api/products
@@ -107,6 +111,31 @@ functions:
               paths:
                 productNo: true
       - http:
+          method: POST
+          path: /api/product
+          cors: true
+        #   private: true
+      - http:
+          method: PUT
+          path: /api/products/{productNo}
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                productNo: true
+      - http:
+          method: DELETE
+          path: /api/products/{productNo}
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                productNo: true
+
+      # 커뮤니티 API
+      - http:
           method: GET
           path: /api/communities/
           cors: true
@@ -120,7 +149,75 @@ functions:
             parameters:
               paths:
                 communityNo: true
-          
+      - http:
+          method: POST
+          path: /api/community
+          cors: true
+        #   private: true
+      - http:
+          method: PUT
+          path: /api/communities/{communityNo}
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                communityNo: true
+      - http:
+          method: DELETE
+          path: /api/communities/{communityNo}
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                communityNo: true
+      # WATCHLIST
+      - http:
+            method: GET
+            path: /api/watchlist/{userNo}
+            cors: true
+            # private: true
+            request:
+              parameters:
+                paths:
+                  userNo: true
+      - http:
+          method: POST
+          path: /api/watchlist
+          cors: true
+          # private: true
+      - http:
+          method: DELETE
+          path: /api/watchlist
+          cors: true
+          # private: true
+      # SELLLIST
+      - http:
+          method: GET
+          path: /api/selllist/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+      - http:
+          method: GET
+          path: /api/selllist/finish/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+      # BUYLIST
+      - http:
+          method: GET
+          path: /api/buylist/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
