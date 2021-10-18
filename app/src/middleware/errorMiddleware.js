@@ -38,7 +38,7 @@ function errorMiddleware(err, req, res, next) {
   if (err.message === "Not Exist Community")
     return res.status(400).json({ msg: "존재하지 않는 커뮤니티 글입니다." });
 
-  return res.status(500).json({ error: err });
+  return res.status(500).json({ error: err.message });
 }
 
 module.exports = errorMiddleware;
