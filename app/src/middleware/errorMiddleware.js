@@ -37,6 +37,10 @@ function errorMiddleware(err, req, res, next) {
     return res.status(400).json({ msg: "존재하지 않는 제품입니다." });
   if (err.message === "Not Exist Community")
     return res.status(400).json({ msg: "존재하지 않는 커뮤니티 글입니다." });
+  if (err.message === "Do not match name and email")
+    return res.status(400).json({ msg: "이름과 이메일이 맞지 않습니다." });
+  if (err.message === "Not Exist User")
+    return res.status(400).json({ msg: "사용자가 존재하지 않습니다." });
 
   return res.status(500).json({ error: err.message });
 }
