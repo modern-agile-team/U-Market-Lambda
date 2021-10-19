@@ -81,7 +81,6 @@ class UserRepository {
 
       const query = `UPDATE users SET psword = ?, salt = ? WHERE no = ?;`;
       const result = await mysql.query(query, [user.psword, user.salt, no]);
-      console.log(result);
       if (result.affectedRows) return true;
       throw new Error("Not Exist User");
     } catch (err) {
