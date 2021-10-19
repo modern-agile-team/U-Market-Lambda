@@ -17,5 +17,10 @@ router.post(
   joiValidator(joi.findPassword.POST_schema, "body"),
   ctrl.sendNewPsword,
 );
+router.post(
+  "/changepassword",
+  joiValidator(joi.changePassword.POST_schema, "body"),
+  ctrl.changePassword,
+);
 
 module.exports = router;
