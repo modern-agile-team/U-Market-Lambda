@@ -218,6 +218,11 @@ functions:
             parameters:
               paths:
                 userNo: true
+      # PASSWORD
+      - http:
+          method: POST
+          path: /api/user/findpassword
+          cors: true
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)

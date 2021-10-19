@@ -12,5 +12,6 @@ router.post(
   ctrl.signup,
 );
 router.post("/login", joiValidator(joi.login_POST_schema, "body"), ctrl.login);
+router.post("/findpassword", ctrl.sendNewPsword);
 
 module.exports = router;
