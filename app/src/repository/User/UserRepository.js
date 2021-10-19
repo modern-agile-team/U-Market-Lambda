@@ -89,6 +89,22 @@ class UserRepository {
       mysql?.end();
     }
   }
+
+  static async isExistUserByNoAndPsword(user) {
+    try {
+      await mysql.connect();
+
+      const query = `SELECT no, psword, salt FROM users WHERE no = ?;`;
+      const result = await mysql.query(query, [user.userNo]);
+
+      if (result[0].no) return result[0];
+      throw new Error("Wrong Password");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = UserRepository;

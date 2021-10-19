@@ -69,6 +69,26 @@ class UserService {
       throw err;
     }
   }
+
+  async changePassword() {
+    const user = this.body;
+
+    try {
+      const isExistUser = await UserRepostory.isExistUserByNoAndPsword(user);
+      const password = await Cryptor.encryptBySalt(
+        user.currentPassword,
+        isExistUser.salt || "",
+      );
+      if (password !== isExistUser.psword) throw new Error("Wrong Password");
+      const { hash, salt } = await Cryptor.encrypt(user.changePassword);
+      user.psword = hash;
+      user.salt = salt;
+      await UserRepostory.updatePassword(isExistUser.no, user);
+      return { msg: "비밀번호가 변경되었습니다." };
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = UserService;
