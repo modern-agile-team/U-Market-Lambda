@@ -489,6 +489,24 @@ const findPassword = {
   }),
 };
 
+const changePassword = {
+  POST_schema: Joi.object().keys({
+    currentPassword: Joi.string().required().messages({
+      "string.base": "currentPassword 은 문자 형식입니다.",
+      "any.required": "currentPassword 필드가 비었습니다.",
+    }),
+    changePassword: Joi.string().required().messages({
+      "string.base": "changePassword 은 문자 형식입니다.",
+      "any.required": "changePassword 필드가 비었습니다.",
+    }),
+    userNo: Joi.number().required().messages({
+      "number.base": "userNo 는 숫자 형식입니다.",
+      "number.integer": "userNo 는 정수입니다.",
+      "any.required": "userNo 필드가 비었습니다.",
+    }),
+  }),
+};
+
 module.exports = {
   major_POST_schema,
   user_DELETE_schema,
@@ -501,6 +519,7 @@ module.exports = {
   buylist,
   selllist,
   findPassword,
+  changePassword,
 };
 
 // export const market_POST_schema = Joi.object().keys({

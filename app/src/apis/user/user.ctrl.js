@@ -50,6 +50,18 @@ const process = {
       next(err);
     }
   },
+
+  changePassword: async (req, res, next) => {
+    try {
+      const user = new UserService(req);
+      const response = await user.changePassword();
+
+      logger.info(`POST /api/user/changepassword 201 비밀번호 변경 성공`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = process;
