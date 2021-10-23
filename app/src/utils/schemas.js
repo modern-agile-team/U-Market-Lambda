@@ -409,13 +409,8 @@ const communities = {
             "string.max": "description은 최대 21844글자 입니다.",
             "any.required": "description 필드가 비었습니다.",
           }),
-          thumbnail: Joi.string().required().max(255).messages({
+          thumbnail: Joi.string().messages({
             "string.base": "thumbnail은 문자 형식입니다.",
-            "string.max": "thumbnail은 최대 255글자 입니다.",
-            "any.required": "thumbnail 필드가 비었습니다.",
-          }),
-          images: Joi.array().items(Joi.string()).messages({
-            "string.base": "images 배열의 원소는 문자로 구성됩니다.",
           }),
         }),
     }),
@@ -438,9 +433,8 @@ const communities = {
             "string.max": "description은 최대 21844글자 입니다.",
             "any.required": "description 필드가 비었습니다.",
           }),
-          thumbnail: Joi.string().required().max(255).messages({
+          thumbnail: Joi.string().required().messages({
             "string.base": "thumbnail은 문자 형식입니다.",
-            "string.max": "thumbnail은 최대 255글자 입니다.",
             "any.required": "thumbnail 필드가 비었습니다.",
           }),
           images: Joi.array().items(Joi.string()).messages({
@@ -515,6 +509,25 @@ const changePassword = {
   }),
 };
 
+const image = {
+  POST_schema: Joi.object().keys({
+    imageUrl: Joi.array().items(Joi.string()).required().messages({
+      "any.required": "imageUrl 필드가 비었습니다.",
+      "string.base": "images 배열의 원소는 문자로 구성됩니다.",
+    }),
+    no: Joi.number().required().messages({
+      "number.base": "no 는 숫자 형식입니다.",
+      "number.integer": "no 는 정수입니다.",
+      "any.required": "no 필드가 비었습니다.",
+    }),
+    flag: Joi.number().required().messages({
+      "number.base": "flag 는 숫자 형식입니다.",
+      "number.integer": "flag 는 정수입니다.",
+      "any.required": "flag 필드가 비었습니다.",
+    }),
+  }),
+};
+
 module.exports = {
   major_POST_schema,
   user_DELETE_schema,
@@ -528,6 +541,7 @@ module.exports = {
   selllist,
   findPassword,
   changePassword,
+  image,
 };
 
 // export const market_POST_schema = Joi.object().keys({
