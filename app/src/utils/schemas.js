@@ -507,6 +507,24 @@ const changePassword = {
   }),
 };
 
+const image = {
+  POST_schema: Joi.object().keys({
+    imageUrl: Joi.array().required().messages({
+      "any.required": "imageUrl 필드가 비었습니다.",
+    }),
+    no: Joi.number().required().messages({
+      "number.base": "no 는 숫자 형식입니다.",
+      "number.integer": "no 는 정수입니다.",
+      "any.required": "no 필드가 비었습니다.",
+    }),
+    flag: Joi.number().required().messages({
+      "number.base": "flag 는 숫자 형식입니다.",
+      "number.integer": "flag 는 정수입니다.",
+      "any.required": "flag 필드가 비었습니다.",
+    }),
+  }),
+};
+
 module.exports = {
   major_POST_schema,
   user_DELETE_schema,
@@ -520,6 +538,7 @@ module.exports = {
   selllist,
   findPassword,
   changePassword,
+  image,
 };
 
 // export const market_POST_schema = Joi.object().keys({

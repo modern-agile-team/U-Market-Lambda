@@ -1,5 +1,6 @@
 const { deleteImage } = require("../../middleware/image");
 const logger = require("../../config/logger");
+const ImageService = require("../../services/Image/ImageService");
 
 const process = {
   upload: async (req, res, next) => {
@@ -10,9 +11,6 @@ const process = {
     try {
       const path = images.map(img => {
         let imagePath = img.location;
-        let imageKey = imagePath.split("/")[imagePath.split("/").length - 1];
-        let folder = imagePath.split("/")[imagePath.split("/").length - 2];
-        imagePath = `https://d31w371p5vvb99.cloudfront.net/${folder}/${imageKey}`;
         return imagePath;
       });
       //?w=200
@@ -40,15 +38,26 @@ const process = {
       const response = await deleteImage(keys);
       if (response) {
         logger.info(`DELETE /api/image 200 삭제 성공`);
-        return res
-          .status(200)
-          .json({ success: true, msg: "삭제 완료되었습니다." });
+        return res.status(204).end();
       }
       logger.error(`DELETE /api/image 400 s3 접근 오류`);
       return res.status(400).json({ success: false, msg: "s3 접근 오류" });
     }
     logger.error(`DELETE /api/image 400 이미지가 없습니다.`);
     return res.status(400).json({ success: false, msg: "사진이 없습니다." });
+  },
+
+  saveImage: async (req, res, next) => {
+    try {
+      const imageService = new ImageService(req);
+      const response = await imageService.saveImage();
+      if (response) {
+        logger.info(`POST /api/image/save 200 DB 저장 성공`);
+        return res.status(200).json(response);
+      }
+    } catch (err) {
+      next(err);
+    }
   },
 };
 

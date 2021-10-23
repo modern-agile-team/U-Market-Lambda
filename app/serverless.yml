@@ -17,12 +17,16 @@ plugins:
   - serverless-offline
   - serverless-express
   - serverless-apigw-binary
+  - serverless-prune-plugin
 
 custom:
   apigwBinary:
     types:         
        - '*/*'
        - 'multipart/form-data'
+  prune:
+    automatic: true
+    number: 5
  
 # dotenv 사용 여부
 useDotenv: true
@@ -244,9 +248,8 @@ functions:
             method: DELETE
             path: /api/image
             cors: true
-
-
-custom:
-  prune:
-    automatic: true
-    number: 5
+      - http:
+            method: POST
+            path: /api/image/store
+            cors: true
+  
