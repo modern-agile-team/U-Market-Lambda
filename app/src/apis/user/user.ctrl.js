@@ -1,4 +1,5 @@
 const logger = require("../../config/logger");
+const EmailService = require("../../services/Email/EmailService");
 const UserService = require("../../services/User/UserService");
 
 const process = {
@@ -33,6 +34,30 @@ const process = {
 
       logger.info(`GET /api/user/profile 200 조회 성공`);
       return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  sendNewPsword: async (req, res, next) => {
+    try {
+      const email = new EmailService(req);
+      const response = await email.sendNewPassword();
+
+      logger.info(`POST /api/user/lostpassword 201 전송 성공`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  changePassword: async (req, res, next) => {
+    try {
+      const user = new UserService(req);
+      const response = await user.changePassword();
+
+      logger.info(`POST /api/user/changepassword 201 비밀번호 변경 성공`);
+      return res.status(201).json(response);
     } catch (err) {
       next(err);
     }
