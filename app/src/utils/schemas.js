@@ -155,6 +155,14 @@ const products = {
         "number.base": "majorNo은 숫자 형식입니다.",
         "number.integer": "majorNo은 정수입니다.",
       }),
+      startPriceRange: Joi.number().messages({
+        "number.base": "startPriceRange은 숫자 형식입니다.",
+        "number.integer": "startPriceRange은 정수입니다.",
+      }),
+      endPriceRange: Joi.number().messages({
+        "number.base": "endPriceRange은 숫자 형식입니다.",
+        "number.integer": "endPriceRange은 정수입니다.",
+      }),
     }),
   },
   params: {
