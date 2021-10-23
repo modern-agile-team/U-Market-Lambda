@@ -5,7 +5,7 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT users.nickname, users.profile_img_url AS profileImage, 
+        SELECT pd.no, users.nickname, users.profile_img_url AS profileImage, 
         pd_ctg.name AS categoryName, pd_d_ctg.name AS detailCategoryName,
         product_detail_category_no AS detailCategoryNo, title, price, description, 
         hit, interest_cnt AS interestCnt, bargaining_flag AS isBargaining, 
@@ -39,7 +39,8 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT title, price, COUNT(p_cmt.no) AS commentCnt, interest_cnt AS interestCnt, thumbnail FROM products AS pd
+        SELECT pd.no, title, price, COUNT(p_cmt.no) AS commentCnt, interest_cnt AS interestCnt, thumbnail 
+        FROM products AS pd
         LEFT JOIN product_comments AS p_cmt
         ON pd.no = p_cmt.product_no
         WHERE pd.in_date > (CURRENT_TIMESTAMP() - INTERVAL 7 DAY)
@@ -61,7 +62,7 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT title, price, COUNT(p_cmt.no) AS commentCnt, interest_cnt AS interestCnt, thumbnail FROM products AS pd
+        SELECT pd.no, title, price, COUNT(p_cmt.no) AS commentCnt, interest_cnt AS interestCnt, thumbnail FROM products AS pd
         LEFT JOIN product_comments AS p_cmt
         ON pd.no = p_cmt.product_no
         GROUP BY pd.no
@@ -82,7 +83,7 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT title, price, interest_cnt AS interestCnt, thumbnail
+        SELECT no, title, price, interest_cnt AS interestCnt, thumbnail
         FROM products AS pd
         WHERE pd.product_detail_category_no = ?
         GROUP BY pd.no;`;
@@ -102,7 +103,8 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT title, price, ifnull(i_pd.user_no, 0) AS interestedUserNo, interest_cnt AS interestCnt, thumbnail FROM products AS pd
+        SELECT pd.no, title, price, ifnull(i_pd.user_no, 0) AS interestedUserNo, interest_cnt AS interestCnt, thumbnail 
+        FROM products AS pd
         LEFT JOIN interest_products AS i_pd
         ON i_pd.product_no = pd.no
         WHERE pd.no >= ?
@@ -125,7 +127,7 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-          SELECT title, price, COUNT(p_cmt.no) AS commentCnt, 
+          SELECT pd.no, title, price, COUNT(p_cmt.no) AS commentCnt, 
             interest_cnt AS interestCnt, thumbnail 
           FROM products AS pd
           LEFT JOIN product_comments AS p_cmt
@@ -155,7 +157,7 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT title, price, t_status.name AS tradingStatus ,interest_cnt AS interestCnt, thumbnail, DATE_FORMAT(in_date, "%Y.%m.%d") AS inDate FROM products AS pd
+        SELECT pd.no, title, price, t_status.name AS tradingStatus ,interest_cnt AS interestCnt, thumbnail, DATE_FORMAT(in_date, "%Y.%m.%d") AS inDate FROM products AS pd
         JOIN viewed_products AS v_pd
         ON pd.no = v_pd.product_no
         JOIN trading_status AS t_status

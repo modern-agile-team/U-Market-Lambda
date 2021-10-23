@@ -59,6 +59,52 @@ class UserRepository {
       mysql?.end();
     }
   }
+
+  static async isExistUserByNameAndEmail(user) {
+    try {
+      await mysql.connect();
+
+      const query = `SELECT no FROM users WHERE name = ? AND email = ?;`;
+      const result = await mysql.query(query, [user.name, user.email]);
+      if (result[0].no) return result[0].no;
+      throw new Error("Do not match name and email");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async updatePassword(no, user) {
+    try {
+      await mysql.connect();
+
+      const query = `UPDATE users SET psword = ?, salt = ? WHERE no = ?;`;
+      const result = await mysql.query(query, [user.psword, user.salt, no]);
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist User");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async isExistUserByNoAndPsword(user) {
+    try {
+      await mysql.connect();
+
+      const query = `SELECT no, psword, salt FROM users WHERE no = ?;`;
+      const result = await mysql.query(query, [user.userNo]);
+
+      if (result[0].no) return result[0];
+      throw new Error("Wrong Password");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = UserRepository;
