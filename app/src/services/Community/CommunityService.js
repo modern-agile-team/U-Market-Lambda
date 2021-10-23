@@ -67,9 +67,6 @@ class CommunityService {
     const { community } = this.body;
     try {
       const communityNo = await CommunityRepository.insertOne(community);
-      community.images.forEach(async imageUrl => {
-        await CommunityImageRepository.insertOne(communityNo, imageUrl);
-      });
 
       return { communityNo };
     } catch (err) {
