@@ -71,9 +71,28 @@ class CommunityRepository {
   static async insertOne(community) {
     try {
       await mysql.connect();
+      if (community.thumbnail) {
+        const query = `
+          INSERT INTO communities (user_no, region_no, school_no, department_no, major_no, community_category_no, title, description, thumbnail)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+
+        const result = await mysql.query(query, [
+          community.userNo,
+          community.regionNo,
+          community.schoolNo,
+          community.departmentNo,
+          community.majorNo,
+          community.detailCategoryNo,
+          community.title,
+          community.description,
+          community.thumbnail,
+        ]);
+
+        return result.insertId;
+      }
       const query = `
-        INSERT INTO communities (user_no, region_no, school_no, department_no, major_no, community_category_no, title, description, thumbnail)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+          INSERT INTO communities (user_no, region_no, school_no, department_no, major_no, community_category_no, title, description)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
 
       const result = await mysql.query(query, [
         community.userNo,
@@ -84,7 +103,6 @@ class CommunityRepository {
         community.detailCategoryNo,
         community.title,
         community.description,
-        community.thumbnail,
       ]);
 
       return result.insertId;
