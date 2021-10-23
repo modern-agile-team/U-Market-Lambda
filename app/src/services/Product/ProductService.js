@@ -101,7 +101,7 @@ class ProductService {
     try {
       const productNo = await ProductRepository.insertOne(product);
       product.images.forEach(async imageUrl => {
-        await ProductImageRepository.insertOne(productNo, imageUrl);
+        const a = await ProductImageRepository.insertOne(productNo, imageUrl);
       });
 
       return { productNo };
