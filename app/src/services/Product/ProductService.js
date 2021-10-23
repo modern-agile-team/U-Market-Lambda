@@ -1,9 +1,9 @@
-const Validator = require("../../utils/Validator");
-const HashTagService = require("../HashTag/HashTagService");
-const HashTagRepository = require("../../repository/HashTag/HashTagRepository");
+// const Validator = require("../../utils/Validator");
+// const HashTagService = require("../HashTag/HashTagService");
+// const HashTagRepository = require("../../repository/HashTag/HashTagRepository");
 const ProductRepository = require("../../repository/Product/ProductRepository");
 const ProductImageRepository = require("../../repository/Product/ProductImageRepository");
-const ProductHashTagRepository = require("../../repository/Product/ProductHashTagRepository");
+// const ProductHashTagRepository = require("../../repository/Product/ProductHashTagRepository");
 
 class ProductService {
   constructor(req) {
@@ -101,7 +101,7 @@ class ProductService {
     try {
       const productNo = await ProductRepository.insertOne(product);
       product.images.forEach(async imageUrl => {
-        await ProductImageRepository.insertOne(productNo, imageUrl);
+        const a = await ProductImageRepository.insertOne(productNo, imageUrl);
       });
 
       return { productNo };
