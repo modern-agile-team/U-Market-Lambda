@@ -56,17 +56,17 @@ functions:
           method: POST
           path: /api/user/signup
           cors: true
-          private: true
+          # private: true
       - http:
           method: POST
           path: /api/user/login
           cors: true
-          private: true
+          # private: true
       - http:
           method: GET
           path: /api/user/{nickname}
           cors: true
-          private: true
+          # private: true
           request:
             parameters:
               paths:
@@ -94,17 +94,17 @@ functions:
           method: GET
           path: /api/pick/school
           cors: true
-          private: true
+          # private: true
       - http:
           method: GET
           path: /api/pick/department
           cors: true
-          private: true
+          # private: true
       - http:
           method: POST
           path: /api/pick/major
           cors: true
-          private: true
+          # private: true
 
       # 거래장터 API
       - http:
@@ -183,6 +183,7 @@ functions:
             parameters:
               paths:
                 communityNo: true
+                
       # WATCHLIST
       - http:
             method: GET
