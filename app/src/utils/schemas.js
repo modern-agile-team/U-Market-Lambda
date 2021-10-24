@@ -511,16 +511,15 @@ const changePassword = {
 
 const image = {
   POST_schema: Joi.object().keys({
-    no: Joi.number().required().messages({
+    no: Joi.number().messages({
       "number.base": "no 는 숫자 형식입니다.",
       "number.integer": "no 는 정수입니다.",
-      "any.required": "no 필드가 비었습니다.",
     }),
-    flag: Joi.number().required().messages({
+    flag: Joi.number().messages({
       "number.base": "flag 는 숫자 형식입니다.",
       "number.integer": "flag 는 정수입니다.",
-      "any.required": "flag 필드가 비었습니다.",
     }),
+    imageUrl: Joi.array().messages({}),
   }),
 };
 
