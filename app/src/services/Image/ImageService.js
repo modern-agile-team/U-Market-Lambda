@@ -7,10 +7,13 @@ class ImageService {
 
   async saveImage() {
     const user = this.body;
-    const originalImageUrl = this.body.imageUrl;
+    const originalImageUrl = this.body.images;
 
     try {
-      const path = originalImageUrl.map(img => {
+      if (originalImageUrl === undefined || originalImageUrl.length === 0)
+        throw new Error("Not Exist ImageUrl");
+
+      const path = await originalImageUrl.map(img => {
         let imageKey = img.split("/")[img.split("/").length - 1];
         let folder = img.split("/")[img.split("/").length - 2];
         img = `https://d31w371p5vvb99.cloudfront.net/${folder}/${imageKey}`;

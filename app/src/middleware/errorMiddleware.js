@@ -43,6 +43,8 @@ function errorMiddleware(err, req, res, next) {
     return res.status(400).json({ msg: "사용자가 존재하지 않습니다." });
   if (err.message === "Wrong Password")
     return res.status(400).json({ msg: "현재 비밀번호와 맞지 않습니다." });
+  if (err.message === "Not Exist ImageUrl")
+    return res.status(400).json({ msg: "image의 주소가 넘어오지 않았습니다." });
 
   return res.status(500).json({ error: err.message });
 }
