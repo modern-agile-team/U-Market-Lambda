@@ -12,6 +12,7 @@ router.post(
   validation(joi.image.POST_schema, "body"),
   ctrl.saveImage,
 );
+
 router.delete("/", ctrl.delete);
 
 module.exports = router;
