@@ -56,6 +56,20 @@ class MajorRepository {
     }
   }
 
+  static async findMajorNumAndName() {
+    try {
+      const query = `SELECT no AS value, name AS item FROM majors ORDER BY no`;
+      await mysql.connect();
+      const result = await mysql.query(query);
+      if (result.length > 0) return result;
+      throw new Error("Not Exist Major");
+    } catch (err) {
+      throw err;
+    } finally {
+      await mysql?.end();
+    }
+  }
+
   static async findDepartmentNumByName(department) {
     try {
       const query = `SELECT no FROM departments WHERE name = ?;`;

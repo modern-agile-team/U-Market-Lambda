@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get("/school", ctrl.findSchoolNumAndName);
 router.get("/department", ctrl.findDepartmentNumAndName);
+router.get("/major", ctrl.findMajorNumAndName);
 router.post(
   "/major",
   joiValidator(joi.major_POST_schema, "body"),

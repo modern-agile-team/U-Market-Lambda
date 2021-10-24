@@ -101,6 +101,11 @@ functions:
           cors: true
           # private: true
       - http:
+          method: GET
+          path: /api/pick/major
+          cors: true
+          # private: true
+      - http:
           method: POST
           path: /api/pick/major
           cors: true
