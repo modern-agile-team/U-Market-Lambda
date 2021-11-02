@@ -23,6 +23,28 @@ class CommunityCommentRepository {
       mysql?.end();
     }
   }
+
+  static async Create(content) {
+    const { userNo, communityNo, description, reply_flag } = content;
+    try {
+      await mysql.connect();
+      const query = `INSERT INTO community_comments(user_no, community_no, description, like_cnt, reply_flag, delete_flag) VALUES (?, ?, ?, 0, ?, 0);`;
+
+      const comments = await mysql.query(query, [
+        userNo,
+        communityNo,
+        description,
+        reply_flag,
+      ]);
+
+      if (comments.affectedRows) {
+        return true;
+      }
+      throw new Error("Create Fail Comment");
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = CommunityCommentRepository;
