@@ -47,6 +47,12 @@ function errorMiddleware(err, req, res, next) {
     return res.status(400).json({ msg: "image의 주소가 넘어오지 않았습니다." });
   if (err.message === "Create Fail Comment")
     return res.status(400).json({ msg: "댓글이 생성되지 않았습니다." });
+  if (err.message === "Not Update LikeCount")
+    return res.status(400).json({ msg: "댓글이 생성되지 않았습니다." });
+  if (err.message === "Not Delete Comment")
+    return res.status(400).json({ msg: "댓글이 삭제되지 않았습니다." });
+  if (err.message === "Not Update Comment")
+    return res.status(400).json({ msg: "댓글이 업데이트되지 않았습니다." });
 
   return res.status(500).json({ error: err.message });
 }

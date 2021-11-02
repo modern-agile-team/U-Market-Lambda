@@ -523,6 +523,29 @@ const image = {
   }),
 };
 
+const comments = {
+  POST_schema: {
+    body: Joi.object().keys({
+      userNo: Joi.number().required().messages({
+        "number.base": "userNo 는 숫자 형식입니다.",
+        "number.integer": "userNo 는 정수입니다.",
+        "any.required": "userNo 필드가 비었습니다.",
+      }),
+      description: Joi.string().required().messages({
+        "string.base": "description 은 문자 형식입니다.",
+        "any.required": "description 필드가 비었습니다.",
+      }),
+    }),
+    params: Joi.object().keys({
+      communityNo: Joi.number().required().messages({
+        "number.base": "communityNo 는 숫자 형식입니다.",
+        "number.integer": "communityNo 는 정수입니다.",
+        "any.required": "communityNo 필드가 비었습니다.",
+      }),
+    }),
+  },
+};
+
 module.exports = {
   major_POST_schema,
   user_DELETE_schema,
@@ -537,6 +560,7 @@ module.exports = {
   findPassword,
   changePassword,
   image,
+  comments,
 };
 
 // export const market_POST_schema = Joi.object().keys({
