@@ -247,15 +247,25 @@ functions:
 
       #S3
       - http:
-            method: POST
-            path: /api/image
-            cors: true
+          method: POST
+          path: /api/image
+          cors: true
       - http:
-            method: DELETE
-            path: /api/image
-            cors: true
+          method: DELETE
+          path: /api/image
+          cors: true
       - http:
-            method: POST
-            path: /api/image/store
-            cors: true
+          method: POST
+          path: /api/image/store
+          cors: true
   
+
+      #comments
+      - http:
+          method: POST
+          path: /api/comments/{communityNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                communityNo: true
