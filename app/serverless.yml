@@ -271,8 +271,8 @@ functions:
                 communityNo: true
       
       - http:
-          method: PATCH
-          path: /api/comments/{commentNo}
+          method: PUT
+          path: /api/comments/count/{commentNo}
           cors: true
           request:
             parameters:
@@ -280,8 +280,8 @@ functions:
                 commentNo: true
 
       - http:
-          method: PATCH
-          path: /api/comments/{replyCommentNo}/reply
+          method: PUT
+          path: /api/comments/count/reply/{replyCommentNo}
           cors: true
           request:
             parameters:

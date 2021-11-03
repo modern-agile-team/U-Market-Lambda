@@ -12,15 +12,15 @@ router.post(
   commentCtrl.create,
 );
 
-router.patch(
-  "/:commentNo",
+router.put(
+  "/count/:commentNo",
   validation(joi.comments.updateLikeCnt.params, "params"),
   validation(joi.comments.updateLikeCnt.body, "body"),
   commentCtrl.updateLikeCnt,
 );
 
-router.patch(
-  "/:replyCommentNo/reply",
+router.put(
+  "/count/reply/:replyCommentNo",
   validation(joi.comments.updateReplyLikeCnt.params, "params"),
   validation(joi.comments.updateReplyLikeCnt.body, "body"),
   commentCtrl.updateReplyLikeCnt,
