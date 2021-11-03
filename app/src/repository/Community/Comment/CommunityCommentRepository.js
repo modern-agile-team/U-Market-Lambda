@@ -48,14 +48,17 @@ class CommunityCommentRepository {
     }
   }
 
-  static async updateLikeCnt(commentNo) {
+  static async updateLikeCnt(commentNo, flag) {
     try {
       await mysql.connect();
-      const query = `UPDATE community_comments SET like_cnt = like_cnt + 1 WHERE no = ?;`;
+
+      let query = `UPDATE community_comments SET like_cnt = like_cnt - 1 WHERE no = ?;`;
+      if (flag === 1)
+        query = `UPDATE community_comments SET like_cnt = like_cnt + 1 WHERE no = ?;`;
 
       const result = await mysql.query(query, [commentNo]);
       if (result.affectedRows) {
-        return true;
+        return flag === 1 ? "+" : "-";
       }
       throw new Error("Not Update LikeCount");
     } catch (err) {
