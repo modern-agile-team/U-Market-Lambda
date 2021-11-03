@@ -5,10 +5,10 @@ class CommunityReplyCommentRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT users.nickname, users.profile_img_url AS profileImage, rp.description, rp.like_cnt AS likeCnt, DATE_FORMAT(rp.in_date, "%Y.%m.%d") AS inDate 
+        SELECT users.nickname, users.profile_img_url AS profileImage, rp.community_comment_no AS commentNo, rp.description, rp.like_cnt AS likeCnt, DATE_FORMAT(rp.in_date, "%Y.%m.%d") AS inDate 
         FROM community_reply_comments AS rp
         LEFT JOIN users
-        ON users.no = cmt.user_no
+        ON users.no = rp.user_no
         WHERE rp.community_no = ?
         GROUP BY rp.no;`;
 

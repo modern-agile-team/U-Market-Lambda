@@ -5,12 +5,12 @@ class CommunityCommentRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT users.nickname, users.profile_img_url AS profileImage, cmt.description, cmt.like_cnt AS likeCnt, COUNT(rp.no) AS replyCnt, , DATE_FORMAT(cmt.in_date, "%Y.%m.%d") AS inDate 
+        SELECT users.nickname, users.profile_img_url AS profileImage, cmt.description, cmt.like_cnt AS likeCnt, COUNT(rp.no) AS replyCnt, DATE_FORMAT(cmt.in_date, "%Y.%m.%d") AS inDate 
         FROM community_comments AS cmt
         LEFT JOIN community_reply_comments AS rp
         ON rp.community_comment_no = cmt.no
         LEFT JOIN users
-        ON users.no = cmt.user_no
+        ON cmt.user_no = users.no
         WHERE cmt.community_no = ?
         GROUP BY cmt.no;`;
 
