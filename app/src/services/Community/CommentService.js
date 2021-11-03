@@ -19,6 +19,42 @@ class CommentService {
       throw err;
     }
   }
+
+  async updateCommentLikeCnt() {
+    const commentNo = this.params.commentNo;
+    const flag = this.body.flag;
+
+    try {
+      const response = await CommunityCommentRepository.updateLikeCnt(
+        commentNo,
+        flag,
+      );
+
+      if (response === "+") return { msg: "좋아요 등록 완료" };
+
+      return { msg: "좋아요 취소 완료" };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateReplyCommentLikeCnt() {
+    const replyCommentNo = this.params.replyCommentNo;
+    const flag = this.body.flag;
+
+    try {
+      const response = await CommunityReplyCommentRepository.updateLikeCnt(
+        replyCommentNo,
+        flag,
+      );
+
+      if (response === "+") return { msg: "좋아요 등록 완료" };
+
+      return { msg: "좋아요 취소 완료" };
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = CommentService;
