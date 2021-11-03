@@ -269,3 +269,21 @@ functions:
             parameters:
               paths:
                 communityNo: true
+      
+      - http:
+          method: PATCH
+          path: /api/comments/{commentNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                commentNo: true
+
+      - http:
+          method: PATCH
+          path: /api/comments/{replyCommentNo}/reply
+          cors: true
+          request:
+            parameters:
+              paths:
+                replyCommentNo: true

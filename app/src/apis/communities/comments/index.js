@@ -12,4 +12,18 @@ router.post(
   commentCtrl.create,
 );
 
+router.patch(
+  "/:commentNo",
+  validation(joi.comments.updateLikeCnt.params, "params"),
+  validation(joi.comments.updateLikeCnt.body, "body"),
+  commentCtrl.updateLikeCnt,
+);
+
+router.patch(
+  "/:replyCommentNo/reply",
+  validation(joi.comments.updateReplyLikeCnt.params, "params"),
+  validation(joi.comments.updateReplyLikeCnt.body, "body"),
+  commentCtrl.updateReplyLikeCnt,
+);
+
 module.exports = router;
