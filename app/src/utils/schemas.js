@@ -544,6 +544,44 @@ const comments = {
       }),
     }),
   },
+
+  updateLikeCnt: {
+    params: Joi.object().keys({
+      replyCommentNo: Joi.number().required().messages({
+        "number.base": "commentNo 는 숫자 형식입니다.",
+        "number.integer": "commentNo 는 정수입니다.",
+        "any.required": "commentNo 필드가 비었습니다.",
+      }),
+    }),
+    body: Joi.object().keys({
+      flag: Joi.number().min(0).max(1).required().messages({
+        "number.base": "flag 는 숫자 형식입니다.",
+        "number.integer": "flag 는 정수입니다.",
+        "number.min": "flag 는 0 혹은 1이여야합니다.",
+        "number.max": "flag 는 0 혹은 1이여야합니다.",
+        "any.required": "flag 필드가 비었습니다.",
+      }),
+    }),
+  },
+
+  updateReplyLikeCnt: {
+    params: Joi.object().keys({
+      replyCommentNo: Joi.number().required().messages({
+        "number.base": "replyCommentNo 는 숫자 형식입니다.",
+        "number.integer": "replyCommentNo 는 정수입니다.",
+        "any.required": "replyCommentNo 필드가 비었습니다.",
+      }),
+    }),
+    body: Joi.object().keys({
+      flag: Joi.number().min(0).max(1).required().messages({
+        "number.base": "flag 는 숫자 형식입니다.",
+        "number.integer": "flag 는 정수입니다.",
+        "number.min": "flag 는 0 혹은 1이여야합니다.",
+        "number.max": "flag 는 0 혹은 1이여야합니다.",
+        "any.required": "flag 필드가 비었습니다.",
+      }),
+    }),
+  },
 };
 
 module.exports = {

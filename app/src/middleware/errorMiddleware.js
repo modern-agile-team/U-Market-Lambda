@@ -48,7 +48,7 @@ function errorMiddleware(err, req, res, next) {
   if (err.message === "Create Fail Comment")
     return res.status(400).json({ msg: "댓글이 생성되지 않았습니다." });
   if (err.message === "Not Update LikeCount")
-    return res.status(400).json({ msg: "댓글이 생성되지 않았습니다." });
+    return res.status(400).json({ msg: "좋아요가 업데이트되지 않았습니다." });
   if (err.message === "Not Delete Comment")
     return res.status(400).json({ msg: "댓글이 삭제되지 않았습니다." });
   if (err.message === "Not Update Comment")
