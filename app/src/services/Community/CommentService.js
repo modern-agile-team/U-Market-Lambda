@@ -47,6 +47,7 @@ class CommentService {
 
       return { msg: "좋아요 취소 완료" };
     } catch (err) {
+      if (err.errno === 1690) throw new Error("LikeCount is not minus");
       throw err;
     }
   }
@@ -65,6 +66,7 @@ class CommentService {
 
       return { msg: "좋아요 취소 완료" };
     } catch (err) {
+      if (err.errno === 1690) throw new Error("LikeCount is not minus");
       throw err;
     }
   }
@@ -88,6 +90,33 @@ class CommentService {
       await CommunityReplyCommentRepository.updateReplyComment(content);
 
       return { msg: "답글 수정 완료" };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async deleteReplyComment() {
+    const replyCommentNo = this.params.replyCommentNo;
+    try {
+      await CommunityReplyCommentRepository.deleteReplyComment(replyCommentNo);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async deleteComment() {
+    const commentNo = this.params.commentNo;
+    try {
+      const reply =
+        await CommunityReplyCommentRepository.findReplyCountByCommunityNo(
+          commentNo,
+        );
+
+      if (reply.commentCount) {
+        await CommunityCommentRepository.hiddenComment(commentNo);
+        return { msg: "댓글 숨김 처리 완료" };
+      }
+      await CommunityCommentRepository.delete(commentNo);
     } catch (err) {
       throw err;
     }
