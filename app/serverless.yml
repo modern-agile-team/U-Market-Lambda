@@ -293,4 +293,9 @@ functions:
           path: /api/comments
           cors: true
 
+      - http:
+          method: PUT
+          path: /api/comments/reply
+          cors: true
+
       

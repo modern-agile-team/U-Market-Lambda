@@ -49,6 +49,18 @@ const comments = {
       next(err);
     }
   },
+
+  updateReplyComment: async (req, res, next) => {
+    try {
+      const comment = new CommentService(req);
+      const response = await comment.updateReplyComment();
+
+      logger.info(`PUT /api/comments/reply 201`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = comments;
