@@ -60,7 +60,7 @@ class CommunityCommentRepository {
       if (result.affectedRows) {
         return flag === 1 ? "+" : "-";
       }
-      throw new Error("Not Update LikeCount");
+      throw new Error("Not Exist Comment");
     } catch (err) {
       throw err;
     } finally {
@@ -80,7 +80,7 @@ class CommunityCommentRepository {
       if (result.affectedRows) {
         return true;
       }
-      throw new Error("Not Update Comment");
+      throw new Error("Not Exist Comment");
     } catch (err) {
       throw err;
     } finally {
@@ -98,7 +98,7 @@ class CommunityCommentRepository {
       if (result.affectedRows) {
         return true;
       }
-      throw new Error("Not Delete Comment");
+      throw new Error("Not Exist Comment");
     } catch (err) {
       throw err;
     } finally {
@@ -115,7 +115,7 @@ class CommunityCommentRepository {
       if (result.affectedRows) {
         return true;
       }
-      throw new Error("Not Update Comment");
+      throw new Error("Not Exist Comment");
     } catch (err) {
       throw err;
     } finally {

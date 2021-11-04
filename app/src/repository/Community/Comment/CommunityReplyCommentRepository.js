@@ -22,6 +22,19 @@ class CommunityReplyCommentRepository {
     }
   }
 
+  static async findReplyCountByCommunityNo(communityNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT COUNT(no) AS commentCount FROM community_reply_comments WHERE community_no = ?;`;
+
+      const result = await mysql.query(query, [communityNo]);
+
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   static async create(content, numbers) {
     const { communityNo, commentNo } = numbers;
     const { userNo, description } = content;
@@ -58,7 +71,7 @@ class CommunityReplyCommentRepository {
       if (result.affectedRows) {
         return flag === 1 ? "+" : "-";
       }
-      throw new Error("Not Update LikeCount");
+      throw new Error("Not Exist Comment");
     } catch (err) {
       throw err;
     } finally {
@@ -78,11 +91,27 @@ class CommunityReplyCommentRepository {
       if (result.affectedRows) {
         return true;
       }
-      throw new Error("Not Update Comment");
+      throw new Error("Not Exist Comment");
     } catch (err) {
       throw err;
     } finally {
       mysql?.end();
+    }
+  }
+
+  static async deleteReplyComment(replyCommentNo) {
+    try {
+      await mysql.connect();
+      const query = `DELETE FROM community_reply_comments WHERE no = ?;`;
+
+      const result = await mysql.query(query, [replyCommentNo]);
+
+      if (result.affectedRows) {
+        return true;
+      }
+      throw new Error("Not Exist Comment");
+    } catch (err) {
+      throw err;
     }
   }
 }
