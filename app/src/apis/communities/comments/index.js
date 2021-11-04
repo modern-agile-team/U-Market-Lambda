@@ -1,41 +1,48 @@
 const express = require("serverless-express/express");
 const joi = require("../../../utils/schemas");
 const validation = require("../../../middleware/validation");
-const commentCtrl = require("./comments.ctrl");
+const ctrl = require("./comments.ctrl");
 
 const router = express.Router();
 
 router.post(
   "/:communityNo",
-  validation(joi.comments.POST_schema.params, "params"),
-  validation(joi.comments.POST_schema.body, "body"),
-  commentCtrl.create,
+  validation(joi.comment.create.params, "params"),
+  validation(joi.comment.create.body, "body"),
+  ctrl.comments.create,
 );
 
-router.put(
+router.post(
+  "/reply/:communityNo/:commentNo",
+  validation(joi.replyComment.create.body, "body"),
+  validation(joi.replyComment.create.params, "params"),
+  ctrl.replyComment.create,
+);
+
+router.patch(
   "/count/:commentNo",
-  validation(joi.comments.updateLikeCnt.params, "params"),
-  validation(joi.comments.updateLikeCnt.body, "body"),
-  commentCtrl.updateLikeCnt,
+  validation(joi.comment.updateLikeCnt.params, "params"),
+  validation(joi.comment.updateLikeCnt.body, "body"),
+  ctrl.comments.updateLikeCnt,
 );
 
-router.put(
+router.patch(
   "/count/reply/:replyCommentNo",
-  validation(joi.comments.updateReplyLikeCnt.params, "params"),
-  validation(joi.comments.updateReplyLikeCnt.body, "body"),
-  commentCtrl.updateReplyLikeCnt,
+  validation(joi.replyComment.updateLikeCnt.params, "params"),
+  validation(joi.replyComment.updateLikeCnt.body, "body"),
+  ctrl.replyComment.updateLikeCnt,
 );
 
-router.put(
+router.patch(
   "/",
-  validation(joi.comments.updateComment, "body"),
-  commentCtrl.updateComment,
+  validation(joi.comment.updateContent, "body"),
+  ctrl.comments.updateComment,
 );
 
-router.put(
+router.patch(
   "/reply",
-  validation(joi.comments.updateReplyComment, "body"),
-  commentCtrl.updateReplyComment,
+  validation(joi.replyComment.updateContent, "body"),
+  ctrl.replyComment.updateContent,
 );
 
 module.exports = router;

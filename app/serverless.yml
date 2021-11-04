@@ -263,16 +263,26 @@ functions:
       #comments
       - http:
           method: POST
-          path: /api/comments/{communityNo}
+          path: /api/comment/{communityNo}
           cors: true
           request:
             parameters:
               paths:
                 communityNo: true
+
+      - http:
+          method: POST
+          path: /api/comment/reply/{communityNo}/{commentNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                communityNo: true
+                commentNo: true
       
       - http:
-          method: PUT
-          path: /api/comments/count/{commentNo}
+          method: PATCH
+          path: /api/comment/count/{commentNo}
           cors: true
           request:
             parameters:
@@ -280,8 +290,8 @@ functions:
                 commentNo: true
 
       - http:
-          method: PUT
-          path: /api/comments/count/reply/{replyCommentNo}
+          method: PATCH
+          path: /api/comment/count/reply/{replyCommentNo}
           cors: true
           request:
             parameters:
@@ -289,13 +299,13 @@ functions:
                 replyCommentNo: true
       
       - http:
-          method: PUT
-          path: /api/comments
+          method: PATCH
+          path: /api/comment
           cors: true
 
       - http:
-          method: PUT
-          path: /api/comments/reply
+          method: PATCH
+          path: /api/comment/reply
           cors: true
 
       
