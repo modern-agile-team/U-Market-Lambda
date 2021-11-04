@@ -547,7 +547,7 @@ const comment = {
 
   updateLikeCnt: {
     params: Joi.object().keys({
-      replyCommentNo: Joi.number().required().messages({
+      commentNo: Joi.number().required().messages({
         "number.base": "commentNo 는 숫자 형식입니다.",
         "number.integer": "commentNo 는 정수입니다.",
         "any.required": "commentNo 필드가 비었습니다.",
@@ -575,6 +575,16 @@ const comment = {
       "any.required": "description 필드가 비었습니다.",
     }),
   }),
+
+  delete: {
+    params: Joi.object().keys({
+      commentNo: Joi.number().required().messages({
+        "number.base": "commentNo 는 숫자 형식입니다.",
+        "number.integer": "commentNo 는 정수입니다.",
+        "any.required": "commentNo 필드가 비었습니다.",
+      }),
+    }),
+  },
 };
 
 const replyComment = {
@@ -635,6 +645,16 @@ const replyComment = {
       "any.required": "description 필드가 비었습니다.",
     }),
   }),
+
+  delete: {
+    params: Joi.object().keys({
+      replyCommentNo: Joi.number().required().messages({
+        "number.base": "replyCommentNo 는 숫자 형식입니다.",
+        "number.integer": "replyCommentNo 는 정수입니다.",
+        "any.required": "replyCommentNo 필드가 비었습니다.",
+      }),
+    }),
+  },
 };
 
 module.exports = {
