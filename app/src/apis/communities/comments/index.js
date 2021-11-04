@@ -46,14 +46,14 @@ router.patch(
 );
 
 router.delete(
-  "/:commentNo",
-  validation(joi.comment.delete.params, "params"),
+  "/",
+  validation(joi.comment.delete.body, "body"),
   ctrl.comment.delete,
 );
 
 router.delete(
-  "/reply/:replyCommentNo",
-  validation(joi.replyComment.delete.params, "params"),
+  "/reply/",
+  validation(joi.replyComment.delete.body, "body"),
   ctrl.replyComment.delete,
 );
 
