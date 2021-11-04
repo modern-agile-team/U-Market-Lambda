@@ -308,4 +308,22 @@ functions:
           path: /api/comment/reply
           cors: true
 
+
+      - http:
+          method: DELETE
+          path: /api/comment/{commentNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                commentNo: true
+              
+      - http:
+          method: DELETE
+          path: /api/comment/reply/{replyCommentNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                replyCommentNo: true
       

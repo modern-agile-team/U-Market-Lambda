@@ -9,7 +9,7 @@ router.post(
   "/:communityNo",
   validation(joi.comment.create.params, "params"),
   validation(joi.comment.create.body, "body"),
-  ctrl.comments.create,
+  ctrl.comment.create,
 );
 
 router.post(
@@ -23,7 +23,7 @@ router.patch(
   "/count/:commentNo",
   validation(joi.comment.updateLikeCnt.params, "params"),
   validation(joi.comment.updateLikeCnt.body, "body"),
-  ctrl.comments.updateLikeCnt,
+  ctrl.comment.updateLikeCnt,
 );
 
 router.patch(
@@ -36,13 +36,25 @@ router.patch(
 router.patch(
   "/",
   validation(joi.comment.updateContent, "body"),
-  ctrl.comments.updateComment,
+  ctrl.comment.updateComment,
 );
 
 router.patch(
   "/reply",
   validation(joi.replyComment.updateContent, "body"),
   ctrl.replyComment.updateContent,
+);
+
+router.delete(
+  "/:commentNo",
+  validation(joi.comment.delete.params, "params"),
+  ctrl.comment.delete,
+);
+
+router.delete(
+  "/reply/:replyCommentNo",
+  validation(joi.replyComment.delete.params, "params"),
+  ctrl.replyComment.delete,
 );
 
 module.exports = router;

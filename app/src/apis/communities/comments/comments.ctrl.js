@@ -1,7 +1,7 @@
 const logger = require("../../../config/logger");
 const CommentService = require("../../../services/Community/CommentService");
 
-const comments = {
+const comment = {
   create: async (req, res, next) => {
     try {
       const comment = new CommentService(req);
@@ -33,6 +33,18 @@ const comments = {
 
       logger.info(`PATCH /api/comment 201`);
       return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  delete: async (req, res, next) => {
+    try {
+      const comment = new CommentService(req);
+      const response = await comment.deleteComment();
+
+      logger.info(`DELETE /api/comment/${req.params.commentNo} 201`);
+      return response ? res.status(201).json(response) : res.status(204).end();
     } catch (err) {
       next(err);
     }
@@ -77,6 +89,18 @@ const replyComment = {
       next(err);
     }
   },
+
+  delete: async (req, res, next) => {
+    try {
+      const replyComment = new CommentService(req);
+      await replyComment.deleteReplyComment();
+
+      logger.info(`DELETE /api/comment/reply/${req.params.replyCommentNo} 201`);
+      return res.status(204).end();
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
-module.exports = { comments, replyComment };
+module.exports = { comment, replyComment };
