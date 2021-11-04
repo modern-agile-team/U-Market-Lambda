@@ -32,4 +32,10 @@ router.put(
   commentCtrl.updateComment,
 );
 
+router.put(
+  "/reply",
+  validation(joi.comments.updateReplyComment, "body"),
+  commentCtrl.updateReplyComment,
+);
+
 module.exports = router;

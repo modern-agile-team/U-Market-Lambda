@@ -594,6 +594,18 @@ const comments = {
       "any.required": "description 필드가 비었습니다.",
     }),
   }),
+
+  updateReplyComment: Joi.object().keys({
+    replyCommentNo: Joi.number().required().messages({
+      "number.base": "replyCommentNo 는 숫자 형식입니다.",
+      "number.integer": "replyCommentNo 는 정수입니다.",
+      "any.required": "replyCommentNo 필드가 비었습니다.",
+    }),
+    description: Joi.string().required().messages({
+      "string.base": "description 은 문자 형식입니다.",
+      "any.required": "description 필드가 비었습니다.",
+    }),
+  }),
 };
 
 module.exports = {

@@ -64,6 +64,26 @@ class CommunityReplyCommentRepository {
       mysql?.end();
     }
   }
+
+  static async updateReplyComment(content) {
+    try {
+      await mysql.connect();
+      const query = `UPDATE community_reply_comments SET description = ? WHERE no = ?`;
+
+      const result = await mysql.query(query, [
+        content.description,
+        content.replyCommentNo,
+      ]);
+      if (result.affectedRows) {
+        return true;
+      }
+      throw new Error("Not Update Comment");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = CommunityReplyCommentRepository;
