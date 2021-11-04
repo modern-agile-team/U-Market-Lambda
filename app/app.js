@@ -33,7 +33,7 @@ app.use("/api/watchlist", watchlist);
 app.use("/api/selllist", selllist);
 app.use("/api/buylist", buylist);
 app.use("/api/image", image);
-app.use("/api/comments", comment);
+app.use("/api/comment", comment);
 app.use(errorMiddleware);
 
 module.exports = app;
