@@ -7,7 +7,7 @@ const comments = {
       const comment = new CommentService(req);
       const response = await comment.createComment();
 
-      logger.info(`POST /api/comments/${req.params.communityNo} 201`);
+      logger.info(`POST /api/comment/${req.params.communityNo} 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);
@@ -19,19 +19,7 @@ const comments = {
       const comment = new CommentService(req);
       const response = await comment.updateCommentLikeCnt();
 
-      logger.info(`PUT /api/comments/${req.params.commentNo} 201`);
-      return res.status(201).json(response);
-    } catch (err) {
-      next(err);
-    }
-  },
-
-  updateReplyLikeCnt: async (req, res, next) => {
-    try {
-      const replyComment = new CommentService(req);
-      const response = await replyComment.updateReplyCommentLikeCnt();
-
-      logger.info(`PUT /api/comments/reply/${req.params.replyCommentNo} 201`);
+      logger.info(`PATCH /api/comment/${req.params.commentNo} 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);
@@ -43,19 +31,7 @@ const comments = {
       const comment = new CommentService(req);
       const response = await comment.updateComment();
 
-      logger.info(`PUT /api/comments 201`);
-      return res.status(201).json(response);
-    } catch (err) {
-      next(err);
-    }
-  },
-
-  updateReplyComment: async (req, res, next) => {
-    try {
-      const comment = new CommentService(req);
-      const response = await comment.updateReplyComment();
-
-      logger.info(`PUT /api/comments/reply 201`);
+      logger.info(`PATCH /api/comment 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);
@@ -63,4 +39,44 @@ const comments = {
   },
 };
 
-module.exports = comments;
+const replyComment = {
+  create: async (req, res, next) => {
+    try {
+      const comment = new CommentService(req);
+      const response = await comment.createReplyComment();
+
+      logger.info(
+        `POST /api/comment/reply/${req.params.communityNo}/${req.params.commentNo}  201`,
+      );
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  updateContent: async (req, res, next) => {
+    try {
+      const comment = new CommentService(req);
+      const response = await comment.updateReplyComment();
+
+      logger.info(`PATCH /api/comment/reply 201`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  updateLikeCnt: async (req, res, next) => {
+    try {
+      const replyComment = new CommentService(req);
+      const response = await replyComment.updateReplyCommentLikeCnt();
+
+      logger.info(`PATCH /api/comment/reply/${req.params.replyCommentNo} 201`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+};
+
+module.exports = { comments, replyComment };
