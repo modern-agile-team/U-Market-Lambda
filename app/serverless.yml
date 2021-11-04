@@ -311,19 +311,12 @@ functions:
 
       - http:
           method: DELETE
-          path: /api/comment/{commentNo}
+          path: /api/comment
           cors: true
-          request:
-            parameters:
-              paths:
-                commentNo: true
+          
               
       - http:
           method: DELETE
-          path: /api/comment/reply/{replyCommentNo}
+          path: /api/comment/reply
           cors: true
-          request:
-            parameters:
-              paths:
-                replyCommentNo: true
       

@@ -96,7 +96,7 @@ class CommentService {
   }
 
   async deleteReplyComment() {
-    const replyCommentNo = this.params.replyCommentNo;
+    const replyCommentNo = this.body.replyCommentNo;
     try {
       await CommunityReplyCommentRepository.deleteReplyComment(replyCommentNo);
     } catch (err) {
@@ -105,7 +105,7 @@ class CommentService {
   }
 
   async deleteComment() {
-    const commentNo = this.params.commentNo;
+    const commentNo = this.body.commentNo;
     try {
       const reply =
         await CommunityReplyCommentRepository.findReplyCountByCommunityNo(

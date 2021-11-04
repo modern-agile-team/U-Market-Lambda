@@ -577,7 +577,7 @@ const comment = {
   }),
 
   delete: {
-    params: Joi.object().keys({
+    body: Joi.object().keys({
       commentNo: Joi.number().required().messages({
         "number.base": "commentNo 는 숫자 형식입니다.",
         "number.integer": "commentNo 는 정수입니다.",
@@ -647,7 +647,7 @@ const replyComment = {
   }),
 
   delete: {
-    params: Joi.object().keys({
+    body: Joi.object().keys({
       replyCommentNo: Joi.number().required().messages({
         "number.base": "replyCommentNo 는 숫자 형식입니다.",
         "number.integer": "replyCommentNo 는 정수입니다.",
