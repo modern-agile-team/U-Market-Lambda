@@ -19,7 +19,7 @@ const comments = {
       const comment = new CommentService(req);
       const response = await comment.updateCommentLikeCnt();
 
-      logger.info(`PATCH /api/comments/${req.params.commentNo} 201`);
+      logger.info(`PUT /api/comments/${req.params.commentNo} 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);
@@ -31,7 +31,19 @@ const comments = {
       const replyComment = new CommentService(req);
       const response = await replyComment.updateReplyCommentLikeCnt();
 
-      logger.info(`PATCH /api/comments/reply/${req.params.replyCommentNo} 201`);
+      logger.info(`PUT /api/comments/reply/${req.params.replyCommentNo} 201`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  updateComment: async (req, res, next) => {
+    try {
+      const comment = new CommentService(req);
+      const response = await comment.updateComment();
+
+      logger.info(`PUT /api/comments 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);

@@ -287,3 +287,10 @@ functions:
             parameters:
               paths:
                 replyCommentNo: true
+      
+      - http:
+          method: PUT
+          path: /api/comments
+          cors: true
+
+      

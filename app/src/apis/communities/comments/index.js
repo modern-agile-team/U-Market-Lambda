@@ -26,4 +26,10 @@ router.put(
   commentCtrl.updateReplyLikeCnt,
 );
 
+router.put(
+  "/",
+  validation(joi.comments.updateComment, "body"),
+  commentCtrl.updateComment,
+);
+
 module.exports = router;

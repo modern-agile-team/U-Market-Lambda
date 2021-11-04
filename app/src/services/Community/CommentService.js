@@ -55,6 +55,18 @@ class CommentService {
       throw err;
     }
   }
+
+  async updateComment() {
+    const content = this.body;
+
+    try {
+      await CommunityCommentRepository.updateComment(content);
+
+      return { msg: "댓글 수정 완료" };
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = CommentService;
