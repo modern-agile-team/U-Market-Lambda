@@ -20,6 +20,19 @@ class CommentService {
     }
   }
 
+  async createReplyComment() {
+    const content = this.body;
+    const numbers = this.params;
+    console.log(numbers);
+    try {
+      await CommunityReplyCommentRepository.create(content, numbers);
+
+      return { msg: "답글 생성 완료되었습니다." };
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async updateCommentLikeCnt() {
     const commentNo = this.params.commentNo;
     const flag = this.body.flag;

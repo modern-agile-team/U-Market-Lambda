@@ -22,17 +22,18 @@ class CommunityReplyCommentRepository {
     }
   }
 
-  static async create(content) {
-    const { userNo, communityNo, description, reply_flag } = content;
+  static async create(content, numbers) {
+    const { communityNo, commentNo } = numbers;
+    const { userNo, description } = content;
     try {
       await mysql.connect();
-      const query = `INSERT INTO community_comments(user_no, community_no, description, like_cnt, reply_flag, delete_flag) VALUES (?, ?, ?, 0, ?, 0);`;
+      const query = `INSERT INTO community_reply_comments(user_no, community_no, description, community_comment_no, like_cnt) VALUES (?, ?, ?, ?, 0);`;
 
       const comments = await mysql.query(query, [
         userNo,
         communityNo,
         description,
-        reply_flag,
+        commentNo,
       ]);
 
       if (comments.affectedRows) {
