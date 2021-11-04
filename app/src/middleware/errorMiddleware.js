@@ -45,6 +45,16 @@ function errorMiddleware(err, req, res, next) {
     return res.status(400).json({ msg: "현재 비밀번호와 맞지 않습니다." });
   if (err.message === "Not Exist ImageUrl")
     return res.status(400).json({ msg: "image의 주소가 넘어오지 않았습니다." });
+  if (err.message === "Create Fail Comment")
+    return res.status(400).json({ msg: "댓글이 생성되지 않았습니다." });
+  if (err.message === "Not Exist Comment")
+    return res.status(400).json({ msg: "댓글이 존재하지 않습니다." });
+  if (err.message === "Not Delete Comment")
+    return res.status(400).json({ msg: "댓글이 삭제되지 않았습니다." });
+  if (err.message === "Not Update Comment")
+    return res.status(400).json({ msg: "댓글이 업데이트되지 않았습니다." });
+  if (err.message === "LikeCount is not minus")
+    return res.status(400).json({ msg: "좋아요 수가 이미 0입니다." });
 
   return res.status(500).json({ error: err.message });
 }

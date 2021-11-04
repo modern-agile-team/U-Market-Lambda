@@ -523,6 +523,140 @@ const image = {
   }),
 };
 
+const comment = {
+  create: {
+    body: Joi.object().keys({
+      userNo: Joi.number().required().messages({
+        "number.base": "userNo 는 숫자 형식입니다.",
+        "number.integer": "userNo 는 정수입니다.",
+        "any.required": "userNo 필드가 비었습니다.",
+      }),
+      description: Joi.string().required().messages({
+        "string.base": "description 은 문자 형식입니다.",
+        "any.required": "description 필드가 비었습니다.",
+      }),
+    }),
+    params: Joi.object().keys({
+      communityNo: Joi.number().required().messages({
+        "number.base": "communityNo 는 숫자 형식입니다.",
+        "number.integer": "communityNo 는 정수입니다.",
+        "any.required": "communityNo 필드가 비었습니다.",
+      }),
+    }),
+  },
+
+  updateLikeCnt: {
+    params: Joi.object().keys({
+      commentNo: Joi.number().required().messages({
+        "number.base": "commentNo 는 숫자 형식입니다.",
+        "number.integer": "commentNo 는 정수입니다.",
+        "any.required": "commentNo 필드가 비었습니다.",
+      }),
+    }),
+    body: Joi.object().keys({
+      flag: Joi.number().min(0).max(1).required().messages({
+        "number.base": "flag 는 숫자 형식입니다.",
+        "number.integer": "flag 는 정수입니다.",
+        "number.min": "flag 는 0 혹은 1이여야합니다.",
+        "number.max": "flag 는 0 혹은 1이여야합니다.",
+        "any.required": "flag 필드가 비었습니다.",
+      }),
+    }),
+  },
+
+  updateContent: Joi.object().keys({
+    commentNo: Joi.number().required().messages({
+      "number.base": "commentNo 는 숫자 형식입니다.",
+      "number.integer": "commentNo 는 정수입니다.",
+      "any.required": "commentNo 필드가 비었습니다.",
+    }),
+    description: Joi.string().required().messages({
+      "string.base": "description 은 문자 형식입니다.",
+      "any.required": "description 필드가 비었습니다.",
+    }),
+  }),
+
+  delete: {
+    params: Joi.object().keys({
+      commentNo: Joi.number().required().messages({
+        "number.base": "commentNo 는 숫자 형식입니다.",
+        "number.integer": "commentNo 는 정수입니다.",
+        "any.required": "commentNo 필드가 비었습니다.",
+      }),
+    }),
+  },
+};
+
+const replyComment = {
+  create: {
+    body: Joi.object().keys({
+      userNo: Joi.number().required().messages({
+        "number.base": "userNo 는 숫자 형식입니다.",
+        "number.integer": "userNo 는 정수입니다.",
+        "any.required": "userNo 필드가 비었습니다.",
+      }),
+      description: Joi.string().required().messages({
+        "string.base": "description 은 문자 형식입니다.",
+        "string.empty": "description 값을 입력해주세요.",
+        "any.required": "description 필드가 비었습니다.",
+      }),
+    }),
+    params: Joi.object().keys({
+      communityNo: Joi.number().required().messages({
+        "number.base": "communityNo 는 숫자 형식입니다.",
+        "number.integer": "communityNo 는 정수입니다.",
+        "any.required": "communityNo 필드가 비었습니다.",
+      }),
+      commentNo: Joi.number().required().messages({
+        "number.base": "commmentNo 는 숫자 형식입니다.",
+        "number.integer": "commmentNo 는 정수입니다.",
+        "any.required": "commmentNo 필드가 비었습니다.",
+      }),
+    }),
+  },
+
+  updateLikeCnt: {
+    params: Joi.object().keys({
+      replyCommentNo: Joi.number().required().messages({
+        "number.base": "replyCommentNo 는 숫자 형식입니다.",
+        "number.integer": "replyCommentNo 는 정수입니다.",
+        "any.required": "replyCommentNo 필드가 비었습니다.",
+      }),
+    }),
+    body: Joi.object().keys({
+      flag: Joi.number().min(0).max(1).required().messages({
+        "number.base": "flag 는 숫자 형식입니다.",
+        "number.integer": "flag 는 정수입니다.",
+        "number.min": "flag 는 0 혹은 1이여야합니다.",
+        "number.max": "flag 는 0 혹은 1이여야합니다.",
+        "any.required": "flag 필드가 비었습니다.",
+      }),
+    }),
+  },
+
+  updateContent: Joi.object().keys({
+    replyCommentNo: Joi.number().required().messages({
+      "number.base": "replyCommentNo 는 숫자 형식입니다.",
+      "number.integer": "replyCommentNo 는 정수입니다.",
+      "any.required": "replyCommentNo 필드가 비었습니다.",
+    }),
+    description: Joi.string().required().messages({
+      "string.base": "description 은 문자 형식입니다.",
+      "any.required": "description 필드가 비었습니다.",
+    }),
+  }),
+
+  delete: {
+    params: Joi.object().keys({
+      replyCommentNo: Joi.number().required().messages({
+        "number.base": "replyCommentNo 는 숫자 형식입니다.",
+        "number.integer": "replyCommentNo 는 정수입니다.",
+        "any.required": "replyCommentNo 필드가 비었습니다.",
+      }),
+    }),
+  },
+};
+
 module.exports = {
   major_POST_schema,
   user_DELETE_schema,
@@ -537,6 +671,8 @@ module.exports = {
   findPassword,
   changePassword,
   image,
+  comment,
+  replyComment,
 };
 
 // export const market_POST_schema = Joi.object().keys({

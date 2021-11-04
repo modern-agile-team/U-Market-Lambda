@@ -1,6 +1,7 @@
 const CommunityRepository = require("../../repository/Community/CommunityRepository");
-const CommunityCommentRepository = require("../../repository/Community/CommunityCommentRepository");
+const CommunityCommentRepository = require("../../repository/Community/Comment/CommunityCommentRepository");
 const CommunityImageRepository = require("../../repository/Community/CommunityImageRepository");
+const CommunityReplyCommentRepository = require("../../repository/Community/Comment/CommunityReplyCommentRepository");
 
 class CommunityService {
   constructor(req) {
@@ -49,6 +50,22 @@ class CommunityService {
       this.params.communityNo,
     );
     community.comments = community.comments.map(cmt => {
+      cmt.writer = {
+        nickname: cmt.nickname,
+        profileImage: cmt.profileImage,
+      };
+
+      delete cmt.nickname;
+      delete cmt.profileImage;
+      return cmt;
+    });
+
+    community.replyComments =
+      await CommunityReplyCommentRepository.findAllByCommunityNo(
+        this.params.communityNo,
+      );
+
+    community.replyComments = community.replyComments.map(cmt => {
       cmt.writer = {
         nickname: cmt.nickname,
         profileImage: cmt.profileImage,
