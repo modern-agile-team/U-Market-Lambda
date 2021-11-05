@@ -31,13 +31,6 @@ class CommunityService {
     const community = await CommunityRepository.findOneByNo(
       this.params.communityNo,
     );
-    community.writer = {
-      nickname: community.nickname,
-      profileImage: community.profileImage,
-    };
-
-    delete community.nickname;
-    delete community.profileImage;
 
     // 커뮤니티 게시판의 이미지 데이터 모두 불러오기
     community.images = await CommunityImageRepository.findAllByCommunityNo(
@@ -49,32 +42,11 @@ class CommunityService {
     community.comments = await CommunityCommentRepository.findAllByCommunityNo(
       this.params.communityNo,
     );
-    community.comments = community.comments.map(cmt => {
-      cmt.writer = {
-        nickname: cmt.nickname,
-        profileImage: cmt.profileImage,
-      };
-
-      delete cmt.nickname;
-      delete cmt.profileImage;
-      return cmt;
-    });
 
     community.replyComments =
       await CommunityReplyCommentRepository.findAllByCommunityNo(
         this.params.communityNo,
       );
-
-    community.replyComments = community.replyComments.map(cmt => {
-      cmt.writer = {
-        nickname: cmt.nickname,
-        profileImage: cmt.profileImage,
-      };
-
-      delete cmt.nickname;
-      delete cmt.profileImage;
-      return cmt;
-    });
 
     return { community };
   }
