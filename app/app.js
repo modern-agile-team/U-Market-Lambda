@@ -34,7 +34,9 @@ app.use("/api/watchlist", watchlist);
 app.use("/api/selllist", selllist);
 app.use("/api/buylist", buylist);
 app.use("/api/image", image);
+app.use("/api/comment", comments);
 app.use("/api/comments", comments);
+app.use("/api/reply", replies);
 app.use("/api/replies", replies);
 app.use(errorMiddleware);
 
