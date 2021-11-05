@@ -24,6 +24,24 @@ class CommunityCommentRepository {
     }
   }
 
+  static async findCountReplyByCommentNo(commentNo) {
+    try {
+      await mysql.connect();
+      const query = `
+      SELECT (case cc.delete_flag  when '1' then COUNT(rp.no) when '0' then 1 end) AS count FROM community_comments AS cc 
+      LEFT JOIN community_replies AS rp
+      ON cc.no = rp.community_comment_no
+      where cc.no = ?;`;
+
+      const result = await mysql.query(query, [commentNo]);
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async create(content) {
     const { userNo, description, communityNo } = content;
     try {
@@ -67,15 +85,12 @@ class CommunityCommentRepository {
     }
   }
 
-  static async updateComment(content) {
+  static async updateComment(content, commentNo) {
     try {
       await mysql.connect();
       const query = `UPDATE community_comments SET description = ? WHERE no = ?`;
 
-      const result = await mysql.query(query, [
-        content.description,
-        content.commentNo,
-      ]);
+      const result = await mysql.query(query, [content.description, commentNo]);
       if (result.affectedRows) {
         return true;
       }

@@ -1,6 +1,7 @@
 const CommunityRepository = require("../../repository/Community/CommunityRepository");
 const CommunityCommentRepository = require("../../repository/Community/Comment/CommunityCommentRepository");
 const CommunityImageRepository = require("../../repository/Community/CommunityImageRepository");
+const CommunityReplyRepository = require("../../repository/Community/Comment/CommunityReplyRepository");
 
 class CommunityService {
   constructor(req) {
@@ -39,6 +40,10 @@ class CommunityService {
 
     // 커뮤니티 게시판의 댓글 데이터 모두 불러오기
     community.comments = await CommunityCommentRepository.findAllByCommunityNo(
+      this.params.communityNo,
+    );
+
+    community.replies = await CommunityReplyRepository.findAllByCommunityNo(
       this.params.communityNo,
     );
 

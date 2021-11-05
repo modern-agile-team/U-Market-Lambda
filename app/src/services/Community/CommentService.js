@@ -70,9 +70,10 @@ class CommentService {
 
   async updateComment() {
     const content = this.body;
+    const commentNo = this.params.commentNo;
 
     try {
-      await CommunityCommentRepository.updateComment(content);
+      await CommunityCommentRepository.updateComment(content, commentNo);
 
       return { msg: "댓글 수정 완료" };
     } catch (err) {
@@ -95,16 +96,26 @@ class CommentService {
 
   async deleteReply() {
     const replyNo = this.params.replyNo;
+    const commentNo = this.body.commentNo;
     try {
       await CommunityReplyRepository.deleteReply(replyNo);
-      return { msg: "답글이 삭제되었습니다." };
+
+      const isDeleteComment =
+        await CommunityCommentRepository.findCountReplyByCommentNo(commentNo);
+
+      if (!isDeleteComment[0].count) {
+        await CommunityCommentRepository.delete(commentNo);
+        return { msg: "답글과 댓글 삭제 완료" };
+      }
+
+      return { msg: "답글 삭제완료" };
     } catch (err) {
       throw err;
     }
   }
 
   async deleteComment() {
-    const commentNo = this.body.commentNo;
+    const commentNo = this.params.commentNo;
     try {
       const reply = await CommunityReplyRepository.findReplyCountByCommentNo(
         commentNo,
