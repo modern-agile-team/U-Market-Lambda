@@ -44,7 +44,7 @@ const reply = {
       const response = await replyComment.deleteReply();
 
       logger.info(`DELETE /api/comment/reply/${req.params.replyNo} 201`);
-      return res.status(204).json(response);
+      return res.status(201).json(response);
     } catch (err) {
       next(err);
     }

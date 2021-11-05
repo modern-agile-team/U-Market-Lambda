@@ -667,6 +667,13 @@ const reply = {
         "any.required": "replyNo 필드가 비었습니다.",
       }),
     }),
+    body: Joi.object().keys({
+      commentNo: Joi.number().required().messages({
+        "number.base": "commentNo 는 숫자 형식입니다.",
+        "number.integer": "commentNo 는 정수입니다.",
+        "any.required": "commentNo 필드가 비었습니다.",
+      }),
+    }),
   },
 };
 
