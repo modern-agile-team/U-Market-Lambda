@@ -108,6 +108,34 @@ class CommunityService {
     }
   }
 
+  async updateLikeCnt() {
+    try {
+      const result = await CommunityRepository.updateLikeCnt(
+        this.params.communityNo,
+      );
+
+      if (result === "+") return { msg: "좋아요 등록 완료" };
+
+      return { msg: "좋아요 취소 완료" };
+    } catch (err) {
+      if (err.errno === 1690) throw new Error("LikeCount is not minus");
+      throw err;
+    }
+  }
+
+  async updateHit() {
+    const communityNo = this.params.communityNo;
+    let result;
+    try {
+      const updateResult = await CommunityRepository.updateHit(communityNo);
+      if (updateResult)
+        result = await CommunityRepository.findHitByNo(communityNo);
+      return { hit: result.hit };
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async delete() {
     try {
       const isDeleteCommunity = await CommunityRepository.deleteOneByNo(
