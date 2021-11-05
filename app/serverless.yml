@@ -179,6 +179,16 @@ functions:
             parameters:
               paths:
                 communityNo: true
+
+      - http:
+          method: PATCH
+          path: /api/communities/count/{communityNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                communityNo: true
+
       - http:
           method: DELETE
           path: /api/communities/{communityNo}

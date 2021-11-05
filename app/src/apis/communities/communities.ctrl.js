@@ -50,6 +50,31 @@ const communities = {
       next(err);
     }
   },
+
+  updateLikeCnt: async (req, res, next) => {
+    try {
+      const community = new CommunityService(req);
+      const response = await community.updateLikeCnt();
+
+      logger.info(`PATCH /api/communities/count/:communityNo 201`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  updateHit: async (req, res, next) => {
+    try {
+      const community = new CommunityService(req);
+      const response = await community.updateHit();
+
+      logger.info(`PATCH /api/communities/:communityNo 201`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   delete: async (req, res, next) => {
     try {
       const community = new CommunityService(req);
