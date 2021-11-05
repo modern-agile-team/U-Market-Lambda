@@ -5,6 +5,14 @@ const validation = require("../../middleware/validation");
 
 const router = express.Router();
 
+// comunity
+router.post(
+  "/",
+  validation(joi.communities.body.root, "body"),
+  ctrl.communities.create,
+);
+
+// communities
 router.get(
   "/",
   validation(joi.communities.query.root, "query"),
@@ -16,17 +24,18 @@ router.get(
   ctrl.communities.detail,
 );
 
-router.post(
-  "/",
-  validation(joi.communities.body.root, "body"),
-  ctrl.communities.create,
-);
-
 router.put(
   "/:communityNo",
   validation(joi.communities.params.communityNo, "params"),
   validation(joi.communities.body.communityNo, "body"),
   ctrl.communities.updateView,
+);
+
+router.patch(
+  "/count/:communityNo",
+  validation(joi.communities.params.communityNo, "params"),
+  validation(joi.communities.body.likeCnt, "body"),
+  ctrl.communities.updateLikeCnt,
 );
 
 router.delete(

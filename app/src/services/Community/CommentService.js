@@ -1,4 +1,4 @@
-const CommunityReplyCommentRepository = require("../../repository/Community/Comment/CommunityReplyCommentRepository");
+const CommunityReplyRepository = require("../../repository/Community/Comment/CommunityReplyRepository");
 const CommunityCommentRepository = require("../../repository/Community/Comment/CommunityCommentRepository");
 
 class CommentService {
@@ -10,9 +10,8 @@ class CommentService {
 
   async createComment() {
     const content = this.body;
-    const communityNo = this.params.communityNo;
     try {
-      await CommunityCommentRepository.create(content, communityNo);
+      await CommunityCommentRepository.create(content);
 
       return { msg: "댓글 생성 완료되었습니다." };
     } catch (err) {
@@ -20,12 +19,10 @@ class CommentService {
     }
   }
 
-  async createReplyComment() {
+  async createReply() {
     const content = this.body;
-    const numbers = this.params;
-    console.log(numbers);
     try {
-      await CommunityReplyCommentRepository.create(content, numbers);
+      await CommunityReplyRepository.create(content);
 
       return { msg: "답글 생성 완료되었습니다." };
     } catch (err) {
@@ -52,13 +49,13 @@ class CommentService {
     }
   }
 
-  async updateReplyCommentLikeCnt() {
-    const replyCommentNo = this.params.replyCommentNo;
+  async updateReplyLikeCnt() {
+    const replyNo = this.params.replyNo;
     const flag = this.body.flag;
 
     try {
-      const response = await CommunityReplyCommentRepository.updateLikeCnt(
-        replyCommentNo,
+      const response = await CommunityReplyRepository.updateLikeCnt(
+        replyNo,
         flag,
       );
 
@@ -73,9 +70,10 @@ class CommentService {
 
   async updateComment() {
     const content = this.body;
+    const commentNo = this.params.commentNo;
 
     try {
-      await CommunityCommentRepository.updateComment(content);
+      await CommunityCommentRepository.updateComment(content, commentNo);
 
       return { msg: "댓글 수정 완료" };
     } catch (err) {
@@ -83,11 +81,12 @@ class CommentService {
     }
   }
 
-  async updateReplyComment() {
+  async updateReply() {
     const content = this.body;
+    const replyNo = this.params.replyNo;
 
     try {
-      await CommunityReplyCommentRepository.updateReplyComment(content);
+      await CommunityReplyRepository.updateReply(content, replyNo);
 
       return { msg: "답글 수정 완료" };
     } catch (err) {
@@ -95,28 +94,39 @@ class CommentService {
     }
   }
 
-  async deleteReplyComment() {
-    const replyCommentNo = this.body.replyCommentNo;
+  async deleteReply() {
+    const replyNo = this.params.replyNo;
+    const commentNo = this.body.commentNo;
     try {
-      await CommunityReplyCommentRepository.deleteReplyComment(replyCommentNo);
+      await CommunityReplyRepository.deleteReply(replyNo);
+
+      const isDeleteComment =
+        await CommunityCommentRepository.findCountReplyByCommentNo(commentNo);
+
+      if (!isDeleteComment[0].count) {
+        await CommunityCommentRepository.delete(commentNo);
+        return { msg: "답글과 댓글 삭제 완료" };
+      }
+
+      return { msg: "답글 삭제완료" };
     } catch (err) {
       throw err;
     }
   }
 
   async deleteComment() {
-    const commentNo = this.body.commentNo;
+    const commentNo = this.params.commentNo;
     try {
-      const reply =
-        await CommunityReplyCommentRepository.findReplyCountByCommunityNo(
-          commentNo,
-        );
+      const reply = await CommunityReplyRepository.findReplyCountByCommentNo(
+        commentNo,
+      );
 
-      if (reply.commentCount) {
+      if (reply[0].commentCount) {
         await CommunityCommentRepository.hiddenComment(commentNo);
-        return { msg: "댓글 숨김 처리 완료" };
+        return { msg: "댓글 숨김 처리 완료", flag: 1 };
       }
       await CommunityCommentRepository.delete(commentNo);
+      return { msg: "댓글 삭제 완료" };
     } catch (err) {
       throw err;
     }

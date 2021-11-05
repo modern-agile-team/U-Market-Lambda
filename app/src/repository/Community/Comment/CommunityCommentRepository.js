@@ -24,11 +24,29 @@ class CommunityCommentRepository {
     }
   }
 
-  static async create(content, communityNo) {
-    const { userNo, description } = content;
+  static async findCountReplyByCommentNo(commentNo) {
     try {
       await mysql.connect();
-      const query = `INSERT INTO community_comments(user_no, community_no, description, like_cnt, reply_flag, delete_flag) VALUES (?, ?, ?, 0, 0, 0);`;
+      const query = `
+      SELECT (case cc.delete_flag  when '1' then COUNT(rp.no) when '0' then 1 end) AS count FROM community_comments AS cc 
+      LEFT JOIN community_replies AS rp
+      ON cc.no = rp.community_comment_no
+      where cc.no = ?;`;
+
+      const result = await mysql.query(query, [commentNo]);
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async create(content) {
+    const { userNo, description, communityNo } = content;
+    try {
+      await mysql.connect();
+      const query = `INSERT INTO community_comments(user_no, community_no, description, like_cnt, delete_flag) VALUES (?, ?, ?, 0, 0);`;
 
       const comments = await mysql.query(query, [
         userNo,
@@ -67,15 +85,12 @@ class CommunityCommentRepository {
     }
   }
 
-  static async updateComment(content) {
+  static async updateComment(content, commentNo) {
     try {
       await mysql.connect();
       const query = `UPDATE community_comments SET description = ? WHERE no = ?`;
 
-      const result = await mysql.query(query, [
-        content.description,
-        content.commentNo,
-      ]);
+      const result = await mysql.query(query, [content.description, commentNo]);
       if (result.affectedRows) {
         return true;
       }
@@ -108,7 +123,7 @@ class CommunityCommentRepository {
   static async hiddenComment(commentNo) {
     try {
       await mysql.connect();
-      const query = `UPDATE community_comments SET description = "댓글이 삭제되었습니다." WHERE no = ?`;
+      const query = `UPDATE community_comments SET description = "댓글이 삭제되었습니다.", delete_flag = 1 WHERE no = ?`;
 
       const result = await mysql.query(query, [commentNo]);
       if (result.affectedRows) {
