@@ -20,7 +20,8 @@ const watchlist = require("./src/apis/watchlist");
 const selllist = require("./src/apis/selllist");
 const buylist = require("./src/apis/buylist");
 const image = require("./src/apis/image");
-const comment = require("./src/apis/communities/comments");
+const comments = require("./src/apis/communities/comments");
+const replies = require("./src/apis/communities/replies");
 
 app.use("/api/user", user);
 app.use("/api/home", home);
@@ -33,7 +34,8 @@ app.use("/api/watchlist", watchlist);
 app.use("/api/selllist", selllist);
 app.use("/api/buylist", buylist);
 app.use("/api/image", image);
-app.use("/api/comment", comment);
+app.use("/api/comments", comments);
+app.use("/api/replies", replies);
 app.use(errorMiddleware);
 
 module.exports = app;

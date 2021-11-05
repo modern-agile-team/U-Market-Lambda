@@ -1,7 +1,6 @@
 const CommunityRepository = require("../../repository/Community/CommunityRepository");
 const CommunityCommentRepository = require("../../repository/Community/Comment/CommunityCommentRepository");
 const CommunityImageRepository = require("../../repository/Community/CommunityImageRepository");
-const CommunityReplyCommentRepository = require("../../repository/Community/Comment/CommunityReplyCommentRepository");
 
 class CommunityService {
   constructor(req) {
@@ -42,11 +41,6 @@ class CommunityService {
     community.comments = await CommunityCommentRepository.findAllByCommunityNo(
       this.params.communityNo,
     );
-
-    community.replyComments =
-      await CommunityReplyCommentRepository.findAllByCommunityNo(
-        this.params.communityNo,
-      );
 
     return { community };
   }

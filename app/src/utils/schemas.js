@@ -544,8 +544,6 @@ const comment = {
         "string.base": "description 은 문자 형식입니다.",
         "any.required": "description 필드가 비었습니다.",
       }),
-    }),
-    params: Joi.object().keys({
       communityNo: Joi.number().required().messages({
         "number.base": "communityNo 는 숫자 형식입니다.",
         "number.integer": "communityNo 는 정수입니다.",
@@ -573,20 +571,24 @@ const comment = {
     }),
   },
 
-  updateContent: Joi.object().keys({
-    commentNo: Joi.number().required().messages({
-      "number.base": "commentNo 는 숫자 형식입니다.",
-      "number.integer": "commentNo 는 정수입니다.",
-      "any.required": "commentNo 필드가 비었습니다.",
+  updateContent: {
+    params: Joi.object().keys({
+      commentNo: Joi.number().required().messages({
+        "number.base": "commentNo 는 숫자 형식입니다.",
+        "number.integer": "commentNo 는 정수입니다.",
+        "any.required": "commentNo 필드가 비었습니다.",
+      }),
     }),
-    description: Joi.string().required().messages({
-      "string.base": "description 은 문자 형식입니다.",
-      "any.required": "description 필드가 비었습니다.",
+    body: Joi.object().keys({
+      description: Joi.string().required().messages({
+        "string.base": "description 은 문자 형식입니다.",
+        "any.required": "description 필드가 비었습니다.",
+      }),
     }),
-  }),
+  },
 
   delete: {
-    body: Joi.object().keys({
+    params: Joi.object().keys({
       commentNo: Joi.number().required().messages({
         "number.base": "commentNo 는 숫자 형식입니다.",
         "number.integer": "commentNo 는 정수입니다.",
@@ -596,7 +598,7 @@ const comment = {
   },
 };
 
-const replyComment = {
+const reply = {
   create: {
     body: Joi.object().keys({
       userNo: Joi.number().required().messages({
@@ -609,8 +611,6 @@ const replyComment = {
         "string.empty": "description 값을 입력해주세요.",
         "any.required": "description 필드가 비었습니다.",
       }),
-    }),
-    params: Joi.object().keys({
       communityNo: Joi.number().required().messages({
         "number.base": "communityNo 는 숫자 형식입니다.",
         "number.integer": "communityNo 는 정수입니다.",
@@ -626,10 +626,10 @@ const replyComment = {
 
   updateLikeCnt: {
     params: Joi.object().keys({
-      replyCommentNo: Joi.number().required().messages({
-        "number.base": "replyCommentNo 는 숫자 형식입니다.",
-        "number.integer": "replyCommentNo 는 정수입니다.",
-        "any.required": "replyCommentNo 필드가 비었습니다.",
+      replyNo: Joi.number().required().messages({
+        "number.base": "replyNo 는 숫자 형식입니다.",
+        "number.integer": "replyNo 는 정수입니다.",
+        "any.required": "replyNo 필드가 비었습니다.",
       }),
     }),
     body: Joi.object().keys({
@@ -643,24 +643,28 @@ const replyComment = {
     }),
   },
 
-  updateContent: Joi.object().keys({
-    replyCommentNo: Joi.number().required().messages({
-      "number.base": "replyCommentNo 는 숫자 형식입니다.",
-      "number.integer": "replyCommentNo 는 정수입니다.",
-      "any.required": "replyCommentNo 필드가 비었습니다.",
+  updateContent: {
+    params: Joi.object().keys({
+      replyNo: Joi.number().required().messages({
+        "number.base": "replyNo 는 숫자 형식입니다.",
+        "number.integer": "replyNo 는 정수입니다.",
+        "any.required": "replyNo 필드가 비었습니다.",
+      }),
     }),
-    description: Joi.string().required().messages({
-      "string.base": "description 은 문자 형식입니다.",
-      "any.required": "description 필드가 비었습니다.",
+    body: Joi.object().keys({
+      description: Joi.string().required().messages({
+        "string.base": "description 은 문자 형식입니다.",
+        "any.required": "description 필드가 비었습니다.",
+      }),
     }),
-  }),
+  },
 
   delete: {
-    body: Joi.object().keys({
-      replyCommentNo: Joi.number().required().messages({
-        "number.base": "replyCommentNo 는 숫자 형식입니다.",
-        "number.integer": "replyCommentNo 는 정수입니다.",
-        "any.required": "replyCommentNo 필드가 비었습니다.",
+    params: Joi.object().keys({
+      replyNo: Joi.number().required().messages({
+        "number.base": "replyNo 는 숫자 형식입니다.",
+        "number.integer": "replyNo 는 정수입니다.",
+        "any.required": "replyNo 필드가 비었습니다.",
       }),
     }),
   },
@@ -681,7 +685,7 @@ module.exports = {
   changePassword,
   image,
   comment,
-  replyComment,
+  reply,
 };
 
 // export const market_POST_schema = Joi.object().keys({

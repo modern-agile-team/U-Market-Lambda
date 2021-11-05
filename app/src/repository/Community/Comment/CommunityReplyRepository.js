@@ -1,20 +1,20 @@
 const mysql = require("../../../config/mysql");
 
-class CommunityReplyCommentRepository {
+class CommunityReplyRepository {
   static async findAllByCommunityNo(communityNo) {
     try {
       await mysql.connect();
       const query = `
         SELECT users.nickname, users.profile_img_url AS profileImage, rp.no AS replyNo, rp.community_comment_no AS commentNo, rp.description, rp.like_cnt AS likeCnt, DATE_FORMAT(rp.in_date, "%Y.%m.%d") AS inDate 
-        FROM community_reply_comments AS rp
+        FROM community_replies AS rp
         LEFT JOIN users
         ON users.no = rp.user_no
         WHERE rp.community_no = ?
         GROUP BY rp.no;`;
 
-      const replyComments = await mysql.query(query, [communityNo]);
+      const replies = await mysql.query(query, [communityNo]);
 
-      return replyComments;
+      return replies;
     } catch (err) {
       throw err;
     } finally {
@@ -25,7 +25,7 @@ class CommunityReplyCommentRepository {
   static async findReplyCountByCommentNo(commentNo) {
     try {
       await mysql.connect();
-      const query = `SELECT COUNT(no) AS commentCount FROM community_reply_comments WHERE community_comment_no = ?;`;
+      const query = `SELECT COUNT(no) AS commentCount FROM community_replies WHERE community_comment_no = ?;`;
 
       const result = await mysql.query(query, [commentNo]);
 
@@ -37,12 +37,11 @@ class CommunityReplyCommentRepository {
     }
   }
 
-  static async create(content, numbers) {
-    const { communityNo, commentNo } = numbers;
-    const { userNo, description } = content;
+  static async create(content) {
+    const { communityNo, commentNo, userNo, description } = content;
     try {
       await mysql.connect();
-      const query = `INSERT INTO community_reply_comments(user_no, community_no, description, community_comment_no, like_cnt) VALUES (?, ?, ?, ?, 0);`;
+      const query = `INSERT INTO community_replies(user_no, community_no, description, community_comment_no, like_cnt) VALUES (?, ?, ?, ?, 0);`;
 
       const comments = await mysql.query(query, [
         userNo,
@@ -62,14 +61,14 @@ class CommunityReplyCommentRepository {
     }
   }
 
-  static async updateLikeCnt(replyCommentNo, flag) {
+  static async updateLikeCnt(replyNo, flag) {
     try {
       await mysql.connect();
-      let query = `UPDATE community_reply_comments SET like_cnt = like_cnt - 1 WHERE no = ?;`;
+      let query = `UPDATE community_replies SET like_cnt = like_cnt - 1 WHERE no = ?;`;
       if (flag === 1)
-        query = `UPDATE community_reply_comments SET like_cnt = like_cnt + 1 WHERE no = ?;`;
+        query = `UPDATE community_replies SET like_cnt = like_cnt + 1 WHERE no = ?;`;
 
-      const result = await mysql.query(query, [replyCommentNo]);
+      const result = await mysql.query(query, [replyNo]);
       if (result.affectedRows) {
         return flag === 1 ? "+" : "-";
       }
@@ -81,15 +80,13 @@ class CommunityReplyCommentRepository {
     }
   }
 
-  static async updateReplyComment(content) {
+  static async updateReply(content, replyNo) {
+    const { description } = content;
     try {
       await mysql.connect();
-      const query = `UPDATE community_reply_comments SET description = ? WHERE no = ?`;
+      const query = `UPDATE community_replies SET description = ? WHERE no = ?`;
 
-      const result = await mysql.query(query, [
-        content.description,
-        content.replyCommentNo,
-      ]);
+      const result = await mysql.query(query, [description, replyNo]);
       if (result.affectedRows) {
         return true;
       }
@@ -101,12 +98,12 @@ class CommunityReplyCommentRepository {
     }
   }
 
-  static async deleteReplyComment(replyCommentNo) {
+  static async deleteReply(replyNo) {
     try {
       await mysql.connect();
-      const query = `DELETE FROM community_reply_comments WHERE no = ?;`;
+      const query = `DELETE FROM community_replies WHERE no = ?;`;
 
-      const result = await mysql.query(query, [replyCommentNo]);
+      const result = await mysql.query(query, [replyNo]);
 
       if (result.affectedRows) {
         return true;
@@ -120,4 +117,4 @@ class CommunityReplyCommentRepository {
   }
 }
 
-module.exports = CommunityReplyCommentRepository;
+module.exports = CommunityReplyRepository;

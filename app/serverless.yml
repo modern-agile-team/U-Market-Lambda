@@ -273,60 +273,64 @@ functions:
       #comments
       - http:
           method: POST
-          path: /api/comment/{communityNo}
-          cors: true
-          request:
-            parameters:
-              paths:
-                communityNo: true
-
-      - http:
-          method: POST
-          path: /api/comment/reply/{communityNo}/{commentNo}
-          cors: true
-          request:
-            parameters:
-              paths:
-                communityNo: true
-                commentNo: true
-      
-      - http:
-          method: PATCH
-          path: /api/comment/count/{commentNo}
-          cors: true
-          request:
-            parameters:
-              paths:
-                commentNo: true
-
-      - http:
-          method: PATCH
-          path: /api/comment/count/reply/{replyCommentNo}
-          cors: true
-          request:
-            parameters:
-              paths:
-                replyCommentNo: true
-      
-      - http:
-          method: PATCH
-          path: /api/comment
-          cors: true
-
-      - http:
-          method: PATCH
-          path: /api/comment/reply
-          cors: true
-
-
-      - http:
-          method: DELETE
-          path: /api/comment
+          path: /api/comments
           cors: true
           
+      - http:
+          method: PATCH
+          path: /api/comments/{commentNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                commentNo: true
+      - http:
+          method: PUT
+          path: /api/comments/{commentNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                commentNo: true
+      - http:
+          method: DELETE
+          path: /api/comments/{commentNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                commentNo: true
+
+
+    # reply
+      - http:
+          method: POST
+          path: /api/replies
+          cors: true
+      
+      - http:
+          method: PATCH
+          path: /api/replies/{replyNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                replyNo: true
+      
+      - http:
+          method: PUT
+          path: /api/replies/{replyNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                replyNo: true
               
       - http:
           method: DELETE
-          path: /api/comment/reply
+          path: /api/replies/{replyNo}
           cors: true
-      
+          request:
+            parameters:
+              paths:
+                replyNo: true
