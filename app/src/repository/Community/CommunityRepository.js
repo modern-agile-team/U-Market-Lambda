@@ -68,6 +68,22 @@ class CommunityRepository {
     }
   }
 
+  static async findHitByNo(communityNo) {
+    try {
+      await mysql.connect();
+
+      const query = `SELECT hit FROM communities WHERE no = ?;`;
+
+      const result = await mysql.query(query, [communityNo]);
+
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async insertOne(community) {
     try {
       await mysql.connect();
@@ -124,6 +140,43 @@ class CommunityRepository {
         community.thumbnail,
         community.no,
       ]);
+
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async updateLikeCnt(communityNo, flag) {
+    try {
+      await mysql.connect();
+
+      let query = `UPDATE communities SET like_cnt = like_cnt - 1 WHERE no = ?;`;
+      if (flag === 1)
+        query = `UPDATE communities SET like_cnt = like_cnt + 1 WHERE no = ?;`;
+
+      const result = await mysql.query(query, [communityNo]);
+      if (result.affectedRows) {
+        return flag === 1 ? "+" : "-";
+      }
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async updateHit(communityNo) {
+    try {
+      await mysql.connect();
+
+      const query = `UPDATE communities SET hit = hit + 1 WHERE no = ?;`;
+
+      const result = await mysql.query(query, [communityNo]);
 
       if (result.affectedRows) return true;
       throw new Error("Not Exist Community");
