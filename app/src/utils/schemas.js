@@ -360,6 +360,15 @@ const communities = {
     }),
   },
   body: {
+    likeCnt: Joi.object().keys({
+      flag: Joi.number().min(0).max(1).required().messages({
+        "number.base": "flag 은 숫자 형식입니다.",
+        "number.min": "flag 는 0 이상 1이하입니다.",
+        "number.max": "flag 는 0 이상 1이하입니다.",
+        "number.integer": "flag 은 정수입니다.",
+        "any.required": "flag 필드가 비었습니다.",
+      }),
+    }),
     root: Joi.object().keys({
       community: Joi.object()
         .required()

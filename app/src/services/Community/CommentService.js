@@ -99,6 +99,7 @@ class CommentService {
     const replyCommentNo = this.body.replyCommentNo;
     try {
       await CommunityReplyCommentRepository.deleteReplyComment(replyCommentNo);
+      return { msg: "답글이 삭제되었습니다." };
     } catch (err) {
       throw err;
     }
@@ -108,15 +109,16 @@ class CommentService {
     const commentNo = this.body.commentNo;
     try {
       const reply =
-        await CommunityReplyCommentRepository.findReplyCountByCommunityNo(
+        await CommunityReplyCommentRepository.findReplyCountByCommentNo(
           commentNo,
         );
 
-      if (reply.commentCount) {
+      if (reply[0].commentCount) {
         await CommunityCommentRepository.hiddenComment(commentNo);
         return { msg: "댓글 숨김 처리 완료" };
       }
       await CommunityCommentRepository.delete(commentNo);
+      return { msg: "댓글 삭제 완료" };
     } catch (err) {
       throw err;
     }

@@ -44,7 +44,9 @@ const comment = {
       const response = await comment.deleteComment();
 
       logger.info(`DELETE /api/comment/${req.params.commentNo} 201`);
-      return response ? res.status(201).json(response) : res.status(204).end();
+      return response
+        ? res.status(201).json(response)
+        : res.status(204).json(response);
     } catch (err) {
       next(err);
     }
@@ -93,10 +95,10 @@ const replyComment = {
   delete: async (req, res, next) => {
     try {
       const replyComment = new CommentService(req);
-      await replyComment.deleteReplyComment();
+      const response = await replyComment.deleteReplyComment();
 
       logger.info(`DELETE /api/comment/reply/${req.params.replyCommentNo} 201`);
-      return res.status(204).end();
+      return res.status(204).json(response);
     } catch (err) {
       next(err);
     }

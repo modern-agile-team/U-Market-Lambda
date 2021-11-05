@@ -5,7 +5,7 @@ class CommunityReplyCommentRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT users.nickname, users.profile_img_url AS profileImage, rp.community_comment_no AS commentNo, rp.description, rp.like_cnt AS likeCnt, DATE_FORMAT(rp.in_date, "%Y.%m.%d") AS inDate 
+        SELECT users.nickname, users.profile_img_url AS profileImage, rp.no AS replyNo, rp.community_comment_no AS commentNo, rp.description, rp.like_cnt AS likeCnt, DATE_FORMAT(rp.in_date, "%Y.%m.%d") AS inDate 
         FROM community_reply_comments AS rp
         LEFT JOIN users
         ON users.no = rp.user_no
@@ -22,16 +22,18 @@ class CommunityReplyCommentRepository {
     }
   }
 
-  static async findReplyCountByCommunityNo(communityNo) {
+  static async findReplyCountByCommentNo(commentNo) {
     try {
       await mysql.connect();
-      const query = `SELECT COUNT(no) AS commentCount FROM community_reply_comments WHERE community_no = ?;`;
+      const query = `SELECT COUNT(no) AS commentCount FROM community_reply_comments WHERE community_comment_no = ?;`;
 
-      const result = await mysql.query(query, [communityNo]);
+      const result = await mysql.query(query, [commentNo]);
 
       return result;
     } catch (err) {
       throw err;
+    } finally {
+      mysql?.end();
     }
   }
 
@@ -112,6 +114,8 @@ class CommunityReplyCommentRepository {
       throw new Error("Not Exist Comment");
     } catch (err) {
       throw err;
+    } finally {
+      mysql?.end();
     }
   }
 }
