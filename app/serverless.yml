@@ -273,7 +273,7 @@ functions:
       #comments
       - http:
           method: POST
-          path: /api/comments
+          path: /api/comment
           cors: true
           
       - http:
@@ -305,7 +305,7 @@ functions:
     # reply
       - http:
           method: POST
-          path: /api/replies
+          path: /api/reply
           cors: true
       
       - http:
