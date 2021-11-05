@@ -24,6 +24,7 @@ router.put(
 router.delete(
   "/:replyNo",
   validation(joi.reply.delete.params, "params"),
+  validation(joi.reply.delete.body, "body"),
   ctrl.delete,
 );
 

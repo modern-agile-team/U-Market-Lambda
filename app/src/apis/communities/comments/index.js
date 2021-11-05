@@ -17,7 +17,7 @@ router.patch(
 router.put(
   "/:commentNo",
   validation(joi.comment.updateContent.body, "body"),
-  validation(joi.comment.updateContent.params, "body"),
+  validation(joi.comment.updateContent.params, "params"),
   ctrl.updateComment,
 );
 
