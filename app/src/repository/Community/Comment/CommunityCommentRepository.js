@@ -85,6 +85,27 @@ class CommunityCommentRepository {
     }
   }
 
+  static async registerUserByNo(commentNo, infomation) {
+    const { userNo, flag } = infomation;
+    try {
+      await mysql.connect();
+
+      let query = `DELETE FROM number_of_likes_community_comments WHERE user_no = ? AND comment_no = ?;`;
+      if (flag === 1)
+        query = `INSERT INTO number_of_likes_community_comments(user_no, comment_no) VALUES(?, ?);`;
+
+      const result = await mysql.query(query, [userNo, commentNo]);
+      if (result.affectedRows) {
+        return flag === 1 ? "+" : "-";
+      }
+      throw new Error("Not Exist Comment");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async updateComment(content, commentNo) {
     try {
       await mysql.connect();

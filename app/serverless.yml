@@ -290,7 +290,7 @@ functions:
           cors: true
           
       - http:
-          method: PATCH
+          method: POST
           path: /api/comments/{commentNo}
           cors: true
           request:
