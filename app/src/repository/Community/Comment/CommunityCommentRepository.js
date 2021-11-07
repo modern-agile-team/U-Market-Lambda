@@ -85,8 +85,8 @@ class CommunityCommentRepository {
     }
   }
 
-  static async registerUserByNo(commentNo, infomation) {
-    const { userNo, flag } = infomation;
+  static async registerUserByNo(commentNo, information) {
+    const { userNo, flag } = information;
     try {
       await mysql.connect();
 
