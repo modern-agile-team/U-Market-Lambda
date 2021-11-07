@@ -25,7 +25,7 @@ function errorMiddleware(err, req, res, next) {
     return res.status(401).json({ error: "닉네임이 중복되었습니다." });
   if (err.message === "wrong password")
     return res.status(400).json({ error: "비밀번호가 틀립니다." });
-  if (err.message === "Not Exist email")
+  if (err.message === "Not Exist Email")
     return res.status(404).json({ error: "이메일이 존재하지 않습니다." });
   if (err.message === "Not Exist Nickname")
     return res.status(404).json({ error: "닉네임이 존재하지 않습니다." });
