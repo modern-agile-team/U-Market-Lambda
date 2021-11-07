@@ -1,7 +1,7 @@
 const mysql = require("../../../config/mysql");
 
 class CommunityReplyRepository {
-  static async findAllByCommunityNo(communityNo) {
+  static async findAllByCommunityNo(commentNo) {
     try {
       await mysql.connect();
       const query = `
@@ -9,10 +9,10 @@ class CommunityReplyRepository {
         FROM community_replies AS rp
         LEFT JOIN users
         ON users.no = rp.user_no
-        WHERE rp.community_no = ?
+        WHERE rp.community_comment_no = ?
         GROUP BY rp.no;`;
 
-      const replies = await mysql.query(query, [communityNo]);
+      const replies = await mysql.query(query, [commentNo]);
 
       return replies;
     } catch (err) {
@@ -38,14 +38,13 @@ class CommunityReplyRepository {
   }
 
   static async create(content) {
-    const { communityNo, commentNo, userNo, description } = content;
+    const { commentNo, userNo, description } = content;
     try {
       await mysql.connect();
-      const query = `INSERT INTO community_replies(user_no, community_no, description, community_comment_no, like_cnt) VALUES (?, ?, ?, ?, 0);`;
+      const query = `INSERT INTO community_replies(user_no, description, community_comment_no, like_cnt) VALUES (?, ?, ?, 0);`;
 
       const comments = await mysql.query(query, [
         userNo,
-        communityNo,
         description,
         commentNo,
       ]);

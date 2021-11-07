@@ -2,6 +2,18 @@ const logger = require("../../../config/logger");
 const CommentService = require("../../../services/Community/CommentService");
 
 const reply = {
+  findReplyByCommentNo: async (req, res, next) => {
+    try {
+      const replies = new CommentService(req);
+      const response = await replies.findReplyByCommentNo();
+
+      logger.info(`GET /api/replies/${req.params.commentNo}  200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   create: async (req, res, next) => {
     try {
       const comment = new CommentService(req);
