@@ -5,6 +5,12 @@ const ctrl = require("./reply.ctrl");
 
 const router = express.Router();
 
+router.get(
+  "/comment/:commentNo",
+  validation(joi.reply.find.params, "params"),
+  ctrl.findReplyByCommentNo,
+);
+
 router.post("/", validation(joi.reply.create.body, "body"), ctrl.create);
 
 router.patch(

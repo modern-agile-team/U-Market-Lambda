@@ -307,6 +307,15 @@ functions:
           method: POST
           path: /api/reply
           cors: true
+
+      - http:
+          method: GET
+          path: /api/replies/comment/{commentNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                commentNo: true
       
       - http:
           method: PATCH

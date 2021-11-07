@@ -599,6 +599,16 @@ const comment = {
 };
 
 const reply = {
+  find: {
+    params: Joi.object().keys({
+      commentNo: Joi.number().required().messages({
+        "number.base": "commmentNo 는 숫자 형식입니다.",
+        "number.integer": "commmentNo 는 정수입니다.",
+        "any.required": "commmentNo 필드가 비었습니다.",
+      }),
+    }),
+  },
+
   create: {
     body: Joi.object().keys({
       userNo: Joi.number().required().messages({
@@ -610,11 +620,6 @@ const reply = {
         "string.base": "description 은 문자 형식입니다.",
         "string.empty": "description 값을 입력해주세요.",
         "any.required": "description 필드가 비었습니다.",
-      }),
-      communityNo: Joi.number().required().messages({
-        "number.base": "communityNo 는 숫자 형식입니다.",
-        "number.integer": "communityNo 는 정수입니다.",
-        "any.required": "communityNo 필드가 비었습니다.",
       }),
       commentNo: Joi.number().required().messages({
         "number.base": "commmentNo 는 숫자 형식입니다.",

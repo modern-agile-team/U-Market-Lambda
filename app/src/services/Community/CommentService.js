@@ -30,6 +30,22 @@ class CommentService {
     }
   }
 
+  async findReplyByCommentNo() {
+    const commentNo = this.params.commentNo;
+    try {
+      // const comment = await CommunityCommentRepository.findAllByCommunityNo(
+      //   commentNo,
+      // );
+      const replies = await CommunityReplyRepository.findAllByCommunityNo(
+        commentNo,
+      );
+
+      return { replies: replies };
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async updateCommentLikeCnt() {
     const commentNo = this.params.commentNo;
     const flag = this.body.flag;
