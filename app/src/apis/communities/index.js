@@ -32,10 +32,16 @@ router.put(
 );
 
 router.patch(
-  "/count/:communityNo",
+  "/:communityNo",
   validation(joi.communities.params.communityNo, "params"),
   validation(joi.communities.body.likeCnt, "body"),
   ctrl.communities.updateLikeCnt,
+);
+
+router.patch(
+  "/:communityNo/hit",
+  validation(joi.communities.params.communityNo, "params"),
+  ctrl.communities.updateHit,
 );
 
 router.delete(
