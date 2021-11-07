@@ -22,6 +22,7 @@ const buylist = require("./src/apis/buylist");
 const image = require("./src/apis/image");
 const comments = require("./src/apis/communities/comments");
 const replies = require("./src/apis/communities/replies");
+const bookmark = require("./src/apis/bookmark");
 
 app.use("/api/user", user);
 app.use("/api/home", home);
@@ -38,6 +39,7 @@ app.use("/api/comment", comments);
 app.use("/api/comments", comments);
 app.use("/api/reply", replies);
 app.use("/api/replies", replies);
+app.use("/api/bookmarks", bookmark);
 app.use(errorMiddleware);
 
 module.exports = app;

@@ -356,3 +356,12 @@ functions:
             parameters:
               paths:
                 replyNo: true
+
+      - http:
+          method: GET
+          path: /api/bookmarks/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
