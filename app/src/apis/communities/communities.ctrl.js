@@ -33,7 +33,7 @@ const communities = {
       const community = new CommunityService(req);
       const response = await community.register();
 
-      logger.info(`POST /api/communitys/:communityNo 201`);
+      logger.info(`POST /api/communities/:communityNo 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);
@@ -44,7 +44,7 @@ const communities = {
       const community = new CommunityService(req);
       const response = await community.updateView();
 
-      logger.info(`PUT /api/communitys/:communityNo 200`);
+      logger.info(`PUT /api/communities/:communityNo 200`);
       return res.status(200).json(response);
     } catch (err) {
       next(err);
@@ -56,7 +56,7 @@ const communities = {
       const community = new CommunityService(req);
       const response = await community.updateLikeCnt();
 
-      logger.info(`PATCH /api/communities/count/:communityNo 201`);
+      logger.info(`PATCH /api/communities/:communityNo 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);
@@ -68,7 +68,7 @@ const communities = {
       const community = new CommunityService(req);
       const response = await community.updateHit();
 
-      logger.info(`PATCH /api/communities/:communityNo 201`);
+      logger.info(`PATCH /api/communities/:communityNo/hit 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);
@@ -81,7 +81,7 @@ const communities = {
       const isDelete = await community.delete();
 
       if (isDelete) {
-        logger.info(`DELETE /api/communitys/:communityNo 204`);
+        logger.info(`DELETE /api/communities/:communityNo 204`);
         return res.status(204).end();
       }
       throw new Error("Not Exist Community");

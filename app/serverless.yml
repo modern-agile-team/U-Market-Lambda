@@ -52,6 +52,7 @@ functions:
   app:
     handler: handler.handler
     events:
+    # login & signup
       - http:
           method: POST
           path: /api/user/signup
@@ -71,6 +72,8 @@ functions:
             parameters:
               paths:
                 nickname: true
+
+      # filter
       - http:
           method: GET
           path: /api/home/today
@@ -153,7 +156,7 @@ functions:
       # 커뮤니티 API
       - http:
           method: GET
-          path: /api/communities/
+          path: /api/communities
           cors: true
         #   private: true
       - http:
@@ -182,7 +185,16 @@ functions:
 
       - http:
           method: PATCH
-          path: /api/communities/count/{communityNo}
+          path: /api/communities/{communityNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                communityNo: true
+      
+      - http:
+          method: PATCH
+          path: /api/communities/{communityNo}/hit
           cors: true
           request:
             parameters:
@@ -219,6 +231,7 @@ functions:
           path: /api/watchlist
           cors: true
           # private: true
+      
       # SELLLIST
       - http:
           method: GET
@@ -343,3 +356,12 @@ functions:
             parameters:
               paths:
                 replyNo: true
+
+      - http:
+          method: GET
+          path: /api/bookmarks/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true

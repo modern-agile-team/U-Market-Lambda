@@ -75,10 +75,10 @@ class CommunityService {
   }
 
   async updateLikeCnt() {
+    const communityNo = this.params.communityNo;
+    const flag = this.body.flag;
     try {
-      const result = await CommunityRepository.updateLikeCnt(
-        this.params.communityNo,
-      );
+      const result = await CommunityRepository.updateLikeCnt(communityNo, flag);
 
       if (result === "+") return { msg: "좋아요 등록 완료" };
 
@@ -94,9 +94,11 @@ class CommunityService {
     let result;
     try {
       const updateResult = await CommunityRepository.updateHit(communityNo);
-      if (updateResult)
+      if (updateResult) {
         result = await CommunityRepository.findHitByNo(communityNo);
-      return { hit: result.hit };
+        return { hit: result[0].hit };
+      }
+      throw new Error("Not Exist Community");
     } catch (err) {
       throw err;
     }
