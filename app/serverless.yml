@@ -331,7 +331,7 @@ functions:
                 commentNo: true
       
       - http:
-          method: PATCH
+          method: POST
           path: /api/replies/{replyNo}
           cors: true
           request:

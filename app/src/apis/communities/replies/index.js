@@ -13,7 +13,7 @@ router.get(
 
 router.post("/", validation(joi.reply.create.body, "body"), ctrl.create);
 
-router.patch(
+router.post(
   "/:replyNo",
   validation(joi.reply.updateLikeCnt.params, "params"),
   validation(joi.reply.updateLikeCnt.body, "body"),
