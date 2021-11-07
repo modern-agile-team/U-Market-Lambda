@@ -78,13 +78,23 @@ class CommunityService {
     const communityNo = this.params.communityNo;
     const flag = this.body.flag;
     try {
-      const result = await CommunityRepository.updateLikeCnt(communityNo, flag);
+      const registerUser = await CommunityRepository.registerUserByNo(
+        communityNo,
+        this.body,
+      );
 
-      if (result === "+") return { msg: "좋아요 등록 완료" };
+      const response = await CommunityRepository.updateLikeCnt(
+        communityNo,
+        flag,
+      );
+
+      if (response === "+" && registerUser === "+")
+        return { msg: "좋아요 등록 완료" };
 
       return { msg: "좋아요 취소 완료" };
     } catch (err) {
       if (err.errno === 1690) throw new Error("LikeCount is not minus");
+      if (err.errno === 1452) throw new Error("Not Exist Referenced Row");
       throw err;
     }
   }

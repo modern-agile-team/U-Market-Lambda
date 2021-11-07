@@ -184,7 +184,7 @@ functions:
                 communityNo: true
 
       - http:
-          method: PATCH
+          method: POST
           path: /api/communities/{communityNo}
           cors: true
           request:

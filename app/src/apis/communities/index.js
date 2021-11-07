@@ -31,7 +31,7 @@ router.put(
   ctrl.communities.updateView,
 );
 
-router.patch(
+router.post(
   "/:communityNo",
   validation(joi.communities.params.communityNo, "params"),
   validation(joi.communities.body.likeCnt, "body"),

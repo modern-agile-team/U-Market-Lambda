@@ -368,6 +368,11 @@ const communities = {
         "number.integer": "flag 은 정수입니다.",
         "any.required": "flag 필드가 비었습니다.",
       }),
+      userNo: Joi.number().required().messages({
+        "number.base": "flag 은 숫자 형식입니다.",
+        "number.integer": "flag 은 정수입니다.",
+        "any.required": "flag 필드가 비었습니다.",
+      }),
     }),
     root: Joi.object().keys({
       community: Joi.object()
