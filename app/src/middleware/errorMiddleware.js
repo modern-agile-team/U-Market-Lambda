@@ -55,6 +55,8 @@ function errorMiddleware(err, req, res, next) {
     return res.status(400).json({ msg: "댓글이 업데이트되지 않았습니다." });
   if (err.message === "LikeCount is not minus")
     return res.status(400).json({ msg: "좋아요 수가 이미 0입니다." });
+  if (err.message === "Already Exist Bookmark")
+    return res.status(400).json({ msg: "북마크에 이미 저장되었습니다." });
 
   return res.status(500).json({ error: err.message });
 }

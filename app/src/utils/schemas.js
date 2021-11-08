@@ -714,6 +714,31 @@ const reply = {
   },
 };
 
+const bookmark = {
+  find: Joi.object().keys({
+    userNo: Joi.number().required().messages({
+      "number.base": "userNo 는 숫자 형식입니다.",
+      "number.integer": "userNo 는 정수입니다.",
+      "any.required": "userNo 필드가 비었습니다.",
+    }),
+  }),
+
+  params: Joi.object().keys({
+    userNo: Joi.number().required().messages({
+      "number.base": "userNo 는 숫자 형식입니다.",
+      "number.integer": "userNo 는 정수입니다.",
+      "any.required": "userNo 필드가 비었습니다.",
+    }),
+  }),
+  body: Joi.object().keys({
+    communityNo: Joi.number().required().messages({
+      "number.base": "communityNo 는 숫자 형식입니다.",
+      "number.integer": "communityNo 는 정수입니다.",
+      "any.required": "communityNo 필드가 비었습니다.",
+    }),
+  }),
+};
+
 module.exports = {
   major_POST_schema,
   user_DELETE_schema,
@@ -730,6 +755,7 @@ module.exports = {
   image,
   comment,
   reply,
+  bookmark,
 };
 
 // export const market_POST_schema = Joi.object().keys({
