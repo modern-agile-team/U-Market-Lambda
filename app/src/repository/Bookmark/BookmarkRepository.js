@@ -18,6 +18,36 @@ class BookmarkRepository {
       mysql?.end();
     }
   }
+
+  static async create(userNo, communityNo) {
+    try {
+      await mysql.connect();
+      const query = `INSERT INTO bookmark_communities(user_no, community_no) VALUES(?, ?);`;
+      const result = await mysql.query(query, [userNo, communityNo]);
+
+      if (result.affectedRows) {
+        return true;
+      }
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  static async delete(userNo, communityNo) {
+    try {
+      await mysql.connect();
+      const query = `DELETE FROM bookmark_communities WHERE user_no = ? AND community_no = ?;`;
+      const result = await mysql.query(query, [userNo, communityNo]);
+
+      if (result.affectedRows) {
+        return true;
+      }
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = BookmarkRepository;

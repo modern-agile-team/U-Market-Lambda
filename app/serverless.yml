@@ -359,8 +359,27 @@ functions:
               paths:
                 replyNo: true
 
+    # bookmark
       - http:
           method: GET
+          path: /api/bookmarks/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: POST
+          path: /api/bookmarks/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: DELETE
           path: /api/bookmarks/{userNo}
           cors: true
           request:
