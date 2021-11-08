@@ -45,11 +45,11 @@ class MajorService {
 
   async createMajorByname() {
     let majorNum, departmentNum;
-
     try {
       departmentNum = await this.Create.findDepartment();
 
       majorNum = await this.Create.findOrCreateMajor(departmentNum);
+
       if (!majorNum) throw new Error("Not Exist Major");
       return { majorNum };
     } catch (err) {

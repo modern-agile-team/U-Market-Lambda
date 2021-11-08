@@ -43,7 +43,7 @@ const process = {
     try {
       const email = new EmailService(req);
       const response = await email.sendNewUserToAdmin();
-      console.log(response);
+
       logger.info(
         `POST /api/user/signup/email 201 관리자에게 회원인증 요청 이메일 전송 성공`,
       );

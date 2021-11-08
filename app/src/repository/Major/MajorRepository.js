@@ -97,8 +97,9 @@ class MajorRepository {
     try {
       const query = `SELECT no FROM majors WHERE name = ?;`;
       await mysql.connect();
-      const result = await mysql.query(query, [major]);
-      if (result.no) return result.no;
+      const results = await mysql.query(query, [major]);
+
+      if (results[0].no) return results[0].no;
       return false;
     } catch (err) {
       throw err;
