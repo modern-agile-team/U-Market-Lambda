@@ -6,7 +6,7 @@ const ctrl = require("./reply.ctrl");
 const router = express.Router();
 
 router.get(
-  "/comment/:commentNo",
+  "/comment/:commentNo/:userNo",
   validation(joi.reply.find.params, "params"),
   ctrl.findReplyByCommentNo,
 );

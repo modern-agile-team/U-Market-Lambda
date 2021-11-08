@@ -32,11 +32,10 @@ class CommentService {
 
   async findReplyByCommentNo() {
     const commentNo = this.params.commentNo;
+    const userNo = this.params.userNo;
     try {
-      // const comment = await CommunityCommentRepository.findAllByCommunityNo(
-      //   commentNo,
-      // );
       const replies = await CommunityReplyRepository.findAllByCommunityNo(
+        userNo,
         commentNo,
       );
 
