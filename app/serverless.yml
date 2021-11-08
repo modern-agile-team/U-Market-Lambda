@@ -161,13 +161,14 @@ functions:
         #   private: true
       - http:
           method: GET
-          path: /api/communities/{communityNo}
+          path: /api/communities/{communityNo}/{userNo}
           cors: true
         #   private: true
           request:
             parameters:
               paths:
                 communityNo: true
+                userNo: true
       - http:
           method: POST
           path: /api/community
@@ -323,12 +324,13 @@ functions:
 
       - http:
           method: GET
-          path: /api/replies/comment/{commentNo}
+          path: /api/replies/comment/{commentNo}/{userNo}
           cors: true
           request:
             parameters:
               paths:
                 commentNo: true
+                userNo: true
       
       - http:
           method: POST
