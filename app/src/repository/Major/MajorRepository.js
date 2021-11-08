@@ -28,11 +28,15 @@ class MajorRepository {
     }
   }
 
-  static async findSchoolNumAndName() {
+  static async findSchoolNumAndNameByRegionNo(regionNo) {
     try {
-      const query = `SELECT no AS value, name AS item FROM schools ORDER BY no`;
       await mysql.connect();
-      const result = await mysql.query(query);
+      const query = `
+        SELECT no AS value, name AS item FROM schools 
+        WHERE region_no = ? 
+        ORDER BY no`;
+
+      const result = await mysql.query(query, [regionNo]);
       if (result.length > 0) return result;
       throw new Error("Not Exist School");
     } catch (err) {
@@ -56,11 +60,16 @@ class MajorRepository {
     }
   }
 
-  static async findMajorNumAndName() {
+  static async findMajorNumAndNameByDepartmentNo(departmentNo) {
     try {
-      const query = `SELECT no AS value, name AS item FROM majors ORDER BY no`;
       await mysql.connect();
-      const result = await mysql.query(query);
+      const query = `
+        SELECT no AS value, name AS item 
+        FROM majors 
+        WHERE department_no = ?
+        ORDER BY no`;
+
+      const result = await mysql.query(query, [departmentNo]);
       if (result.length > 0) return result;
       throw new Error("Not Exist Major");
     } catch (err) {

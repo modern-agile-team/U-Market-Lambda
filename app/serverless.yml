@@ -100,19 +100,27 @@ functions:
                 userNo: true
       - http:
           method: GET
-          path: /api/pick/school
+          path: /api/pick/regions/{regionNo}/schools
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                regionNo: true
+      - http:
+          method: GET
+          path: /api/pick/departments
           cors: true
           # private: true
       - http:
           method: GET
-          path: /api/pick/department
+          path: /api/pick/departments/{departmentNo}/majors
           cors: true
           # private: true
-      - http:
-          method: GET
-          path: /api/pick/major
-          cors: true
-          # private: true
+          request:
+            parameters:
+              paths:
+                departmentNo: true
       - http:
           method: POST
           path: /api/pick/major

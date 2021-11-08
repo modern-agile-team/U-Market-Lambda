@@ -3,12 +3,16 @@ const MajorRepository = require("../../repository/Major/MajorRepository");
 class MajorService {
   constructor(req) {
     this.body = req.body;
+    this.params = req.params;
     this.Create = new Create(this.body);
   }
 
   async findSchoolNumAndName() {
     try {
-      const schools = await MajorRepository.findSchoolNumAndName();
+      const { regionNo } = this.params;
+      const schools = await MajorRepository.findSchoolNumAndNameByRegionNo(
+        regionNo,
+      );
 
       return { schools };
     } catch (err) {
@@ -28,7 +32,10 @@ class MajorService {
 
   async findMajorNumAndName() {
     try {
-      const majors = await MajorRepository.findMajorNumAndName();
+      const { departmentNo } = this.params;
+      const majors = await MajorRepository.findMajorNumAndNameByDepartmentNo(
+        departmentNo,
+      );
 
       return { majors };
     } catch (err) {
