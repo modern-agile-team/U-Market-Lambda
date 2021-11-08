@@ -7,7 +7,9 @@ const reply = {
       const replies = new CommentService(req);
       const response = await replies.findReplyByCommentNo();
 
-      logger.info(`GET /api/replies/${req.params.commentNo}  200`);
+      logger.info(
+        `GET /api/replies/${req.params.commentNo}/${req.params.userNo}  200`,
+      );
       return res.status(200).json(response);
     } catch (err) {
       next(err);

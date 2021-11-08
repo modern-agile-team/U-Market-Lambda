@@ -1,18 +1,20 @@
 const mysql = require("../../../config/mysql");
 
 class CommunityReplyRepository {
-  static async findAllByCommunityNo(commentNo) {
+  static async findAllByCommunityNo(userNo, commentNo) {
     try {
       await mysql.connect();
       const query = `
-        SELECT users.nickname, users.profile_img_url AS profileImage, rp.no AS replyNo, rp.community_comment_no AS commentNo, rp.description, rp.like_cnt AS likeCnt, DATE_FORMAT(rp.in_date, "%Y.%m.%d") AS inDate 
+        SELECT users.nickname, users.profile_img_url AS profileImage, rp.no AS replyNo, rp.community_comment_no AS commentNo, rp.description, COUNT(li.no) AS likeFlag, rp.like_cnt AS likeCnt, DATE_FORMAT(rp.in_date, "%Y.%m.%d") AS inDate 
         FROM community_replies AS rp
         LEFT JOIN users
         ON users.no = rp.user_no
+        LEFT JOIN number_of_likes_community_replies AS li
+        ON li.user_no = ? AND rp.no = li.reply_no
         WHERE rp.community_comment_no = ?
         GROUP BY rp.no;`;
 
-      const replies = await mysql.query(query, [commentNo]);
+      const replies = await mysql.query(query, [userNo, commentNo]);
 
       return replies;
     } catch (err) {
