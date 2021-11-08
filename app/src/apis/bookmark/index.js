@@ -7,8 +7,22 @@ const router = express.Router();
 
 router.get(
   "/:userNo",
-  validation(joi.buylist.GET_schema, "params"),
+  validation(joi.bookmark.find, "params"),
   ctrl.findAllByUserNo,
+);
+
+router.post(
+  "/:userNo",
+  validation(joi.bookmark.params, "params"),
+  validation(joi.bookmark.body, "body"),
+  ctrl.create,
+);
+
+router.delete(
+  "/:userNo",
+  validation(joi.bookmark.params, "params"),
+  validation(joi.bookmark.body, "body"),
+  ctrl.delete,
 );
 
 module.exports = router;
