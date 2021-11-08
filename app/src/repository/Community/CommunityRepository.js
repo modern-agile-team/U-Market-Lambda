@@ -68,6 +68,22 @@ class CommunityRepository {
     }
   }
 
+  static async findLikeByNo(userNo, communityNo) {
+    try {
+      await mysql.connect();
+
+      const query = `SELECT no FROM number_of_likes_communities WHERE community_no = ? AND user_no = ?;`;
+
+      const result = await mysql.query(query, [communityNo, userNo]);
+
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async findHitByNo(communityNo) {
     try {
       await mysql.connect();

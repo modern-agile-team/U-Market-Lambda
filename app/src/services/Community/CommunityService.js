@@ -39,8 +39,17 @@ class CommunityService {
 
     // 커뮤니티 게시판의 댓글 데이터 모두 불러오기
     community.comments = await CommunityCommentRepository.findAllByCommunityNo(
+      this.params.userNo,
       this.params.communityNo,
     );
+
+    const isLike = await CommunityRepository.findLikeByNo(
+      this.params.userNo,
+      this.params.communityNo,
+    );
+
+    community.likeFlag = 1;
+    if (!isLike.length) community.likeFlag = 0;
 
     return { community };
   }

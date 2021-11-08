@@ -19,8 +19,8 @@ router.get(
   ctrl.communities.home,
 );
 router.get(
-  "/:communityNo",
-  validation(joi.communities.params.communityNo, "params"),
+  "/:communityNo/:userNo",
+  validation(joi.communities.params.detail, "params"),
   ctrl.communities.detail,
 );
 
