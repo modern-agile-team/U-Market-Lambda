@@ -5,16 +5,15 @@ class CommunityCommentRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT users.nickname, users.profile_img_url AS profileImage, cmt.no AS commentNo, cmt.description, cmt.like_cnt AS likeCnt, COUNT(li.no) AS likeFlag, COUNT(rp.no) AS replyCnt, cmt.delete_flag AS deleteFlag, DATE_FORMAT(cmt.in_date, "%Y.%m.%d") AS inDate 
-        FROM community_comments AS cmt
-        LEFT JOIN community_replies AS rp
-        ON rp.community_comment_no = cmt.no
-        LEFT JOIN users
-        ON cmt.user_no = users.no
-        LEFT JOIN number_of_likes_community_comments AS li
-        ON li.user_no = ? AND li.comment_no = cmt.no
-        WHERE cmt.community_no = ?
-        GROUP BY cmt.no;`;
+      SELECT users.nickname, users.profile_img_url AS profileImage, cmt.no AS commentNo, cmt.description, cmt.like_cnt AS likeCnt, (SELECT COUNT(lcc.no) FROM number_of_likes_community_comments AS lcc
+      where lcc.comment_no = cmt.no  AND lcc.user_no = ?) AS likeFlag, COUNT(rp.no) AS replyCnt, cmt.delete_flag AS deleteFlag, DATE_FORMAT(cmt.in_date, "%Y.%m.%d") AS inDate 
+      FROM community_comments AS cmt
+      LEFT JOIN community_replies AS rp
+      ON rp.community_comment_no = cmt.no
+      LEFT JOIN users
+      ON cmt.user_no = users.no
+      WHERE cmt.community_no = ?
+      GROUP BY cmt.no;`;
 
       const comments = await mysql.query(query, [userNo, communityNo]);
 
