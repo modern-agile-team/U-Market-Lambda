@@ -19,7 +19,7 @@ const comment = {
       const comment = new CommentService(req);
       const response = await comment.updateCommentLikeCnt();
 
-      logger.info(`PATCH /api/comment/${req.params.commentNo} 201`);
+      logger.info(`POST /api/comment/${req.params.commentNo} 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);

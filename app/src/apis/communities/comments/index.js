@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/", validation(joi.comment.create.body, "body"), ctrl.create);
 
-router.patch(
+router.post(
   "/:commentNo",
   validation(joi.comment.updateLikeCnt.params, "params"),
   validation(joi.comment.updateLikeCnt.body, "body"),

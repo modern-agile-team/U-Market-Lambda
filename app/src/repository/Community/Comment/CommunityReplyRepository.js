@@ -1,18 +1,20 @@
 const mysql = require("../../../config/mysql");
 
 class CommunityReplyRepository {
-  static async findAllByCommunityNo(commentNo) {
+  static async findAllByCommunityNo(userNo, commentNo) {
     try {
       await mysql.connect();
       const query = `
-        SELECT users.nickname, users.profile_img_url AS profileImage, rp.no AS replyNo, rp.community_comment_no AS commentNo, rp.description, rp.like_cnt AS likeCnt, DATE_FORMAT(rp.in_date, "%Y.%m.%d") AS inDate 
+        SELECT users.nickname, users.profile_img_url AS profileImage, rp.no AS replyNo, rp.community_comment_no AS commentNo, rp.description, COUNT(li.no) AS likeFlag, rp.like_cnt AS likeCnt, DATE_FORMAT(rp.in_date, "%Y.%m.%d") AS inDate 
         FROM community_replies AS rp
         LEFT JOIN users
         ON users.no = rp.user_no
+        LEFT JOIN number_of_likes_community_replies AS li
+        ON li.user_no = ? AND rp.no = li.reply_no
         WHERE rp.community_comment_no = ?
         GROUP BY rp.no;`;
 
-      const replies = await mysql.query(query, [commentNo]);
+      const replies = await mysql.query(query, [userNo, commentNo]);
 
       return replies;
     } catch (err) {
@@ -68,6 +70,27 @@ class CommunityReplyRepository {
         query = `UPDATE community_replies SET like_cnt = like_cnt + 1 WHERE no = ?;`;
 
       const result = await mysql.query(query, [replyNo]);
+      if (result.affectedRows) {
+        return flag === 1 ? "+" : "-";
+      }
+      throw new Error("Not Exist Comment");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async registerUserByNo(replyNo, information) {
+    const { userNo, flag } = information;
+    try {
+      await mysql.connect();
+
+      let query = `DELETE FROM number_of_likes_community_replies WHERE user_no = ? AND reply_no = ?;`;
+      if (flag === 1)
+        query = `INSERT INTO number_of_likes_community_replies(user_no, reply_no) VALUES(?, ?);`;
+
+      const result = await mysql.query(query, [userNo, replyNo]);
       if (result.affectedRows) {
         return flag === 1 ? "+" : "-";
       }

@@ -33,7 +33,7 @@ const communities = {
       const community = new CommunityService(req);
       const response = await community.register();
 
-      logger.info(`POST /api/communities/:communityNo 201`);
+      logger.info(`POST /api/community 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);
@@ -56,7 +56,7 @@ const communities = {
       const community = new CommunityService(req);
       const response = await community.updateLikeCnt();
 
-      logger.info(`PATCH /api/communities/:communityNo 201`);
+      logger.info(`POST /api/communities/:communityNo 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);

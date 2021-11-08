@@ -34,7 +34,7 @@ class UserService {
     const user = this.body;
     try {
       const whoWantsLogin = await UserRepostory.findAllByEmail(user);
-
+      console.log(whoWantsLogin);
       if (whoWantsLogin) {
         user.psword = await Cryptor.encryptBySalt(
           user.psword,
@@ -47,7 +47,7 @@ class UserService {
             msg: `${whoWantsLogin.nickname}님이 로그인을 성공했습니다.`,
             jwt,
             email,
-            userNum: whoWantsLogin.userNum,
+            userNo: whoWantsLogin.userNo,
           };
         }
         throw new Error("wrong password");

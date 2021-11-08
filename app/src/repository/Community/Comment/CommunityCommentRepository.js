@@ -1,20 +1,22 @@
 const mysql = require("../../../config/mysql");
 
 class CommunityCommentRepository {
-  static async findAllByCommunityNo(communityNo) {
+  static async findAllByCommunityNo(userNo, communityNo) {
     try {
       await mysql.connect();
       const query = `
-        SELECT users.nickname, users.profile_img_url AS profileImage, cmt.no AS commentNo, cmt.description, cmt.like_cnt AS likeCnt, COUNT(rp.no) AS replyCnt, cmt.delete_flag AS deleteFlag, DATE_FORMAT(cmt.in_date, "%Y.%m.%d") AS inDate 
+        SELECT users.nickname, users.profile_img_url AS profileImage, cmt.no AS commentNo, cmt.description, cmt.like_cnt AS likeCnt, COUNT(li.no) AS likeFlag, COUNT(rp.no) AS replyCnt, cmt.delete_flag AS deleteFlag, DATE_FORMAT(cmt.in_date, "%Y.%m.%d") AS inDate 
         FROM community_comments AS cmt
         LEFT JOIN community_replies AS rp
         ON rp.community_comment_no = cmt.no
         LEFT JOIN users
         ON cmt.user_no = users.no
+        LEFT JOIN number_of_likes_community_comments AS li
+        ON li.user_no = ? AND li.comment_no = cmt.no
         WHERE cmt.community_no = ?
         GROUP BY cmt.no;`;
 
-      const comments = await mysql.query(query, [communityNo]);
+      const comments = await mysql.query(query, [userNo, communityNo]);
 
       return comments;
     } catch (err) {
@@ -74,6 +76,27 @@ class CommunityCommentRepository {
         query = `UPDATE community_comments SET like_cnt = like_cnt + 1 WHERE no = ?;`;
 
       const result = await mysql.query(query, [commentNo]);
+      if (result.affectedRows) {
+        return flag === 1 ? "+" : "-";
+      }
+      throw new Error("Not Exist Comment");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async registerUserByNo(commentNo, information) {
+    const { userNo, flag } = information;
+    try {
+      await mysql.connect();
+
+      let query = `DELETE FROM number_of_likes_community_comments WHERE user_no = ? AND comment_no = ?;`;
+      if (flag === 1)
+        query = `INSERT INTO number_of_likes_community_comments(user_no, comment_no) VALUES(?, ?);`;
+
+      const result = await mysql.query(query, [userNo, commentNo]);
       if (result.affectedRows) {
         return flag === 1 ? "+" : "-";
       }

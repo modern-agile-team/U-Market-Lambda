@@ -7,7 +7,9 @@ const reply = {
       const replies = new CommentService(req);
       const response = await replies.findReplyByCommentNo();
 
-      logger.info(`GET /api/replies/${req.params.commentNo}  200`);
+      logger.info(
+        `GET /api/replies/${req.params.commentNo}/${req.params.userNo}  200`,
+      );
       return res.status(200).json(response);
     } catch (err) {
       next(err);
@@ -43,7 +45,7 @@ const reply = {
       const replyComment = new CommentService(req);
       const response = await replyComment.updateReplyLikeCnt();
 
-      logger.info(`PATCH /api/comment/reply/${req.params.replyNo} 201`);
+      logger.info(`POST /api/replies/${req.params.replyNo} 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);
@@ -55,7 +57,7 @@ const reply = {
       const replyComment = new CommentService(req);
       const response = await replyComment.deleteReply();
 
-      logger.info(`DELETE /api/comment/reply/${req.params.replyNo} 201`);
+      logger.info(`DELETE /api/replies/${req.params.replyNo} 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);

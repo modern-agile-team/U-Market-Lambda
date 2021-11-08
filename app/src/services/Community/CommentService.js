@@ -32,11 +32,10 @@ class CommentService {
 
   async findReplyByCommentNo() {
     const commentNo = this.params.commentNo;
+    const userNo = this.params.userNo;
     try {
-      // const comment = await CommunityCommentRepository.findAllByCommunityNo(
-      //   commentNo,
-      // );
       const replies = await CommunityReplyRepository.findAllByCommunityNo(
+        userNo,
         commentNo,
       );
 
@@ -51,16 +50,23 @@ class CommentService {
     const flag = this.body.flag;
 
     try {
+      const registerUser = await CommunityCommentRepository.registerUserByNo(
+        commentNo,
+        this.body,
+      );
+
       const response = await CommunityCommentRepository.updateLikeCnt(
         commentNo,
         flag,
       );
 
-      if (response === "+") return { msg: "좋아요 등록 완료" };
+      if (response === "+" && registerUser === "+")
+        return { msg: "좋아요 등록 완료" };
 
       return { msg: "좋아요 취소 완료" };
     } catch (err) {
       if (err.errno === 1690) throw new Error("LikeCount is not minus");
+      if (err.errno === 1452) throw new Error("Not Exist Referenced Row");
       throw err;
     }
   }
@@ -70,16 +76,23 @@ class CommentService {
     const flag = this.body.flag;
 
     try {
+      const registerUser = await CommunityReplyRepository.registerUserByNo(
+        replyNo,
+        this.body,
+      );
+
       const response = await CommunityReplyRepository.updateLikeCnt(
         replyNo,
         flag,
       );
 
-      if (response === "+") return { msg: "좋아요 등록 완료" };
+      if (response === "+" && registerUser === "+")
+        return { msg: "좋아요 등록 완료" };
 
       return { msg: "좋아요 취소 완료" };
     } catch (err) {
       if (err.errno === 1690) throw new Error("LikeCount is not minus");
+      if (err.errno === 1452) throw new Error("Not Exist Referenced Row");
       throw err;
     }
   }
