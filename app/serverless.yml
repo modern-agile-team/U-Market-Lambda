@@ -60,6 +60,11 @@ functions:
           # private: true
       - http:
           method: POST
+          path: /api/user/signup/email
+          cors: true
+          # private: true
+      - http:
+          method: POST
           path: /api/user/login
           cors: true
           # private: true

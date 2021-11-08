@@ -22,6 +22,11 @@ const signup_POST_schema = Joi.object().keys({
     "string.pattern.base": "email 형식이 틀렸습니다.",
     "any.required": "email 필드가 비었습니다.",
   }),
+  name: Joi.string().required().messages({
+    "string.base": "name 은 문자 형식입니다.",
+    "string.empty": "name 값을 입력해주세요.",
+    "any.required": "name 필드가 비었습니다.",
+  }),
   nickname: Joi.string().required().min(2).max(30).messages({
     "string.base": "nickname 은 문자 형식입니다.",
     "string.empty": "nickname 값을 입력해주세요.",

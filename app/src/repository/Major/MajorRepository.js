@@ -98,6 +98,49 @@ class MajorRepository {
     }
   }
 
+  static async findNamesOfRegionAndSchoolBySchoolNo(schoolNo) {
+    try {
+      const query = `
+        SELECT rg.name AS regionName, sh.name AS schoolName
+        FROM regions AS rg
+        JOIN schools AS sh
+        ON rg.no = sh.region_no
+        WHERE sh.no = ?;`;
+
+      await mysql.connect();
+      const results = await mysql.query(query, [schoolNo]);
+
+      if (results[0]?.regionName) return results[0];
+      throw Error("There is no the datas of name regarding region and school.");
+    } catch (err) {
+      throw err;
+    } finally {
+      await mysql?.end();
+    }
+  }
+
+  static async findNamesOfDepartmentAndMajorByMajorNo(majorNo) {
+    try {
+      const query = `
+        SELECT dp.name AS departmentName, mj.name AS majorName
+        FROM departments AS dp
+        JOIN majors AS mj
+        ON dp.no = mj.department_no
+        WHERE mj.no = ?;`;
+
+      await mysql.connect();
+      const results = await mysql.query(query, [majorNo]);
+      if (results[0]?.departmentName) return results[0];
+      throw Error(
+        "There is no the datas of name regarding department and major.",
+      );
+    } catch (err) {
+      throw err;
+    } finally {
+      await mysql?.end();
+    }
+  }
+
   static async createMajorByName(departmentNum, major) {
     try {
       const query = `INSERT INTO majors(department_no, name) VALUES(?, ?);`;

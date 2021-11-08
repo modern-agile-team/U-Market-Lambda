@@ -4,15 +4,15 @@ class UserRepository {
   static async signup(user) {
     try {
       await mysql.connect();
-      const query = `INSERT INTO users(region_no, school_no, major_no, email, nickname, psword, salt) 
+      const query = `INSERT INTO users(region_no, school_no, major_no, email, name, nickname, psword, salt) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
       const result = await mysql.query(query, [
         user.regionNum,
         user.schoolNum,
         user.majorNum,
-        user.grade,
         user.email,
+        user.name,
         user.nickname,
         user.psword,
         user.salt,
