@@ -11,11 +11,6 @@ const signup_POST_schema = Joi.object().keys({
     "number.integer": "schoolNum 은 정수입니다.",
     "any.required": "schoolNum 필드가 비었습니다",
   }),
-  departmentNum: Joi.number().required().messages({
-    "number.base": "departmentNum 은 숫자 형식입니다.",
-    "number.integer": "departmentNum 은 정수입니다.",
-    "any.required": "departmentNum 필드가 비었습니다",
-  }),
   majorNum: Joi.number().required().messages({
     "number.base": "majorNum 은 숫자 형식입니다.",
     "number.integer": "majorNum 은 정수입니다.",
