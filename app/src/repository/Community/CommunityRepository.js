@@ -199,7 +199,7 @@ class CommunityRepository {
       if (result.affectedRows) {
         return flag === 1 ? "+" : "-";
       }
-      throw new Error("Not Exist Comment");
+      throw new Error("Not Exist Community");
     } catch (err) {
       throw err;
     } finally {
