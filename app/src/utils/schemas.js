@@ -6,30 +6,26 @@ const signup_POST_schema = Joi.object().keys({
     "number.integer": "regionNum 은 정수입니다.",
     "any.required": "regionNum 필드가 비었습니다",
   }),
-
   schoolNum: Joi.number().required().messages({
     "number.base": "schoolNum 은 숫자 형식입니다.",
     "number.integer": "schoolNum 은 정수입니다.",
     "any.required": "schoolNum 필드가 비었습니다",
   }),
-
   majorNum: Joi.number().required().messages({
     "number.base": "majorNum 은 숫자 형식입니다.",
     "number.integer": "majorNum 은 정수입니다.",
     "any.required": "majorNum 필드가 비었습니다",
   }),
-
-  grade: Joi.number().required().messages({
-    "number.base": "grade 은 숫자 형식입니다.",
-    "number.integer": "grade 은 정수입니다.",
-    "any.required": "grade 필드가 비었습니다",
-  }),
-
   email: Joi.string().required().email().messages({
     "string.base": "email 은 문자 형식입니다.",
     "string.empty": "email 값을 입력해주세요.",
     "string.pattern.base": "email 형식이 틀렸습니다.",
     "any.required": "email 필드가 비었습니다.",
+  }),
+  name: Joi.string().required().messages({
+    "string.base": "name 은 문자 형식입니다.",
+    "string.empty": "name 값을 입력해주세요.",
+    "any.required": "name 필드가 비었습니다.",
   }),
   nickname: Joi.string().required().min(2).max(30).messages({
     "string.base": "nickname 은 문자 형식입니다.",

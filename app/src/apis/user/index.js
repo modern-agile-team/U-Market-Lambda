@@ -11,6 +11,12 @@ router.post(
   joiValidator(joi.signup_POST_schema, "body"),
   ctrl.signup,
 );
+router.post(
+  "/signup/email",
+  joiValidator(joi.signup_POST_schema, "body"),
+  ctrl.sendEmailToAdmin,
+);
+
 router.post("/login", joiValidator(joi.login_POST_schema, "body"), ctrl.login);
 router.post(
   "/findpassword",
