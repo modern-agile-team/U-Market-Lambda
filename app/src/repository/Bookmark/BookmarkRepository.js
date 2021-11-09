@@ -4,13 +4,30 @@ class BookmarkRepository {
   static async findAllByUserNo(userNo) {
     try {
       await mysql.connect();
-      const query = `SELECT cc.no, cc.user_no AS userNo, cc.title, cc.description, cc.like_cnt AS likeCnt, DATE_FORMAT(cc.in_date, "%Y.%m.%d") AS inDate, COUNT(com.no) AS commentCount FROM bookmark_communities AS bc
-      JOIN communities AS cc
-      ON cc.no = bc.community_no
-      LEFT JOIN community_comments AS com
-      ON com.community_no = bc.community_no
-      WHERE bc.user_no = ?;`;
+      const query = `SELECT cc.no, cc.title, users.nickname, cc.description, cc.hit, cc.thumbnail, cc.like_cnt AS likeCnt, DATE_FORMAT(cc.in_date, "%Y.%m.%d") AS inDate, COUNT(cmt.no) AS commentCnt
+      FROM communities AS cc
+        LEFT JOIN bookmark_communities AS bc
+        ON cc.no = bc.community_no
+        LEFT JOIN users
+        ON users.no = cc.user_no
+        LEFT JOIN community_comments AS cmt
+        ON cmt.community_no = bc.community_no
+        WHERE bc.user_no = ?
+        GROUP BY cc.no;`;
       const bookmark = await mysql.query(query, [userNo]);
+      return bookmark;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findLikeByNo(userNo, communityNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT no FROM bookmark_communities WHERE community_no = ? AND user_no = ?;`;
+      const bookmark = await mysql.query(query, [communityNo, userNo]);
       return bookmark;
     } catch (err) {
       throw err;
