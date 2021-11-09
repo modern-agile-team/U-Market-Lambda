@@ -9,10 +9,10 @@ class BookmarkService {
   async findAllByUserNo() {
     const userNo = this.params.userNo;
     try {
-      const bookmark = await BookmarkRepository.findAllByUserNo(userNo);
+      const bookmarks = await BookmarkRepository.findAllByUserNo(userNo);
 
-      if (bookmark[0].no === null) return { bookmark: [] };
-      return { bookmark };
+      if (bookmarks[0].no === null) return { bookmarks: [] };
+      return { bookmarks };
     } catch (err) {
       throw err;
     }

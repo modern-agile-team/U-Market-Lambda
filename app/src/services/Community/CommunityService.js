@@ -1,6 +1,7 @@
 const CommunityRepository = require("../../repository/Community/CommunityRepository");
 const CommunityCommentRepository = require("../../repository/Community/Comment/CommunityCommentRepository");
 const CommunityImageRepository = require("../../repository/Community/CommunityImageRepository");
+const BookmarkRepository = require("../../repository/Bookmark/BookmarkRepository");
 
 class CommunityService {
   constructor(req) {
@@ -47,6 +48,14 @@ class CommunityService {
       this.params.userNo,
       this.params.communityNo,
     );
+
+    const isbookmarkFlag = await BookmarkRepository.findLikeByNo(
+      this.params.userNo,
+      this.params.communityNo,
+    );
+
+    community.bookmarkFlag = 1;
+    if (!isbookmarkFlag.length) community.bookmarkFlag = 0;
 
     community.likeFlag = 1;
     if (!isLike.length) community.likeFlag = 0;
