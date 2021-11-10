@@ -70,13 +70,22 @@ functions:
           # private: true
       - http:
           method: GET
-          path: /api/user/{nickname}
+          path: /api/user/{userNo}
           cors: true
           # private: true
           request:
             parameters:
               paths:
-                nickname: true
+                userNo: true
+      - http:
+          method: PUT
+          path: /api/user/{userNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
 
       # filter
       - http:
