@@ -10,8 +10,8 @@ class WatchlistService {
   async findAllByUserNum() {
     const user = this.params;
     try {
-      const result = await WatchlistRepository.findAllByUserNum(user);
-      return { watchlist: result };
+      const watchlists = await WatchlistRepository.findAllByUserNum(user);
+      return { watchlists };
     } catch (err) {
       throw err;
     }
@@ -20,16 +20,11 @@ class WatchlistService {
   async create() {
     const content = this.body;
     try {
-      const isExistData = await WatchlistRepository.isExistWatchlist(content);
-      if (isExistData) {
-        await WatchlistRepository.create(content);
-        await ProductRepository.updateInterestByProductNo(
-          content.productNo,
-          "+",
-        );
-        return { msg: "관심목록 등록 성공" };
-      }
+      await WatchlistRepository.create(content);
+      await ProductRepository.updateInterestByProductNo(content.productNo, "+");
+      return { msg: "관심목록 등록 성공" };
     } catch (err) {
+      if (err.errorno === 1062) throw new Error("Already Exist Watchlist");
       throw err;
     }
   }
