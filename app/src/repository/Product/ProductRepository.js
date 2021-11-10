@@ -79,16 +79,16 @@ class ProductRepository {
     }
   }
 
-  static async findAllRelatedByNo(detailCategoryNo) {
+  static async findAllRelatedByNo(detailCategoryNo, productNo) {
     try {
       await mysql.connect();
       const query = `
         SELECT no, title, price, interest_cnt AS interestCnt, thumbnail
         FROM products AS pd
-        WHERE pd.product_detail_category_no = ?
+        WHERE pd.product_detail_category_no = ? AND !(pd.no = ?)
         GROUP BY pd.no;`;
 
-      const products = await mysql.query(query, [detailCategoryNo]);
+      const products = await mysql.query(query, [detailCategoryNo, productNo]);
 
       return products;
     } catch (err) {
