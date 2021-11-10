@@ -19,16 +19,14 @@ class WatchlistRepository {
     }
   }
 
-  static async isExistWatchlist(content) {
-    const { userNo, productNo } = content;
+  static async isExistWatchlist(userNo, productNo) {
     try {
       await mysql.connect();
 
-      const query = `SELECT * FROM interest_products WHERE user_no = ? AND product_no = ?;`;
+      const query = `SELECT no AS no FROM interest_products WHERE user_no = ? AND product_no = ?;`;
 
       const result = await mysql.query(query, [userNo, productNo]);
-      if (result.length > 0) throw new Error("Already Exist Watchlist");
-      return true;
+      return result;
     } catch (err) {
       throw err;
     } finally {
