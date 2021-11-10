@@ -42,17 +42,35 @@ class UserRepository {
     }
   }
 
-  static async findAllByNickname(user) {
+  static async findAllByNo(userNo) {
     try {
       await mysql.connect();
 
-      const query = `SELECT u.no AS userNum, u.nickname, u.email, u.profile_img_url AS profileURL, u.trust_score AS trustScore, count(rv.no) AS tradeCount FROM users AS u
-      JOIN reviews AS rv
-       WHERE nickname = ? AND ((rv.seller_no = u.no AND writer = 1) OR (rv.buyer_no = u.no AND writer = 0));`;
+      const query = `SELECT u.nickname, u.email, u.profile_img_url AS profileUrl, u.trust_score AS trustScore, COUNT(rv.no) AS tradeCount FROM users AS u
+        LEFT JOIN reviews AS rv
+        ON ((rv.seller_no = u.no AND writer = 1) OR (rv.buyer_no = u.no AND writer = 0))
+        WHERE u.no = ?
+        GROUP BY u.no;`;
 
-      const result = await mysql.query(query, [user.nickname]);
+      const result = await mysql.query(query, [userNo]);
       if (result.length > 0) return result[0];
-      throw new Error("Not Exist Nickname");
+      throw new Error("Not Exist User");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async update(userNo, updateData) {
+    const { nickname } = updateData;
+    try {
+      await mysql.connect();
+
+      const query = `UPDATE users SET nickname = ? WHERE no = ?;`;
+      const result = await mysql.query(query, [nickname, userNo]);
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist User");
     } catch (err) {
       throw err;
     } finally {
