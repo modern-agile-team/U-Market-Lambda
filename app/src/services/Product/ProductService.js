@@ -67,18 +67,12 @@ class ProductService {
   async detailView() {
     // 물건의 상세 데이터 불러오기
     const product = await ProductRepository.findOneByNo(this.params.productNo);
-    product.writer = {
-      nickname: product.nickname,
-      profileImage: product.profileImage,
-    };
     product.tradingMethods = {
       isDirect: Boolean(product.isDirect),
       isDelivery: Boolean(product.isDelivery),
     };
     product.isBargaining = Boolean(product.isBargaining);
 
-    delete product.nickname;
-    delete product.profileImage;
     delete product.isDirect;
     delete product.isDelivery;
 
