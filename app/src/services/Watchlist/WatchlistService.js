@@ -24,7 +24,7 @@ class WatchlistService {
       await ProductRepository.updateInterestByProductNo(content.productNo, "+");
       return { msg: "관심목록 등록 성공" };
     } catch (err) {
-      if (err.errorno === 1062) throw new Error("Already Exist Watchlist");
+      if (err.errno === 1062) throw new Error("Already Exist Watchlist");
       throw err;
     }
   }
