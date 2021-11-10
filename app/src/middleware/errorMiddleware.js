@@ -27,8 +27,8 @@ function errorMiddleware(err, req, res, next) {
     return res.status(400).json({ error: "비밀번호가 틀립니다." });
   if (err.message === "Not Exist Email")
     return res.status(404).json({ error: "이메일이 존재하지 않습니다." });
-  if (err.message === "Not Exist Nickname")
-    return res.status(404).json({ error: "닉네임이 존재하지 않습니다." });
+  if (err.message === "Not Exist User")
+    return res.status(404).json({ error: "사용자가 존재하지 않습니다." });
   if (err.message === "no data in the database")
     return res.status(401).json({ msg: "데이터가 저장되어 있지 않습니다." });
   if (err.message === "Already Exist Watchlist")
