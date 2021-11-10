@@ -3,6 +3,7 @@
 // const HashTagRepository = require("../../repository/HashTag/HashTagRepository");
 const ProductRepository = require("../../repository/Product/ProductRepository");
 const ProductImageRepository = require("../../repository/Product/ProductImageRepository");
+const WatchlistRepository = require("../../repository/Watchlist/WatchlistRepository");
 // const ProductHashTagRepository = require("../../repository/Product/ProductHashTagRepository");
 
 class ProductService {
@@ -66,18 +67,12 @@ class ProductService {
   async detailView() {
     // 물건의 상세 데이터 불러오기
     const product = await ProductRepository.findOneByNo(this.params.productNo);
-    product.writer = {
-      nickname: product.nickname,
-      profileImage: product.profileImage,
-    };
     product.tradingMethods = {
       isDirect: Boolean(product.isDirect),
       isDelivery: Boolean(product.isDelivery),
     };
     product.isBargaining = Boolean(product.isBargaining);
 
-    delete product.nickname;
-    delete product.profileImage;
     delete product.isDirect;
     delete product.isDelivery;
 
@@ -90,7 +85,16 @@ class ProductService {
     // 물건의 관련 물품 데이터 모두 불러오기
     const relatedProducts = await ProductRepository.findAllRelatedByNo(
       product.detailCategoryNo,
+      this.params.productNo,
     );
+
+    const watchFlag = await WatchlistRepository.isExistWatchlist(
+      this.params.userNo,
+      this.params.productNo,
+    );
+
+    product.watchlistFlag = 1;
+    if (!watchFlag.length) product.watchlistFlag = 0;
 
     return { product, relatedProducts };
   }

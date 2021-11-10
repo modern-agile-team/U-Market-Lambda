@@ -11,8 +11,8 @@ router.get(
   ctrl.products.home,
 );
 router.get(
-  "/:productNo",
-  validation(joi.products.params.productNo, "params"),
+  "/:productNo/:userNo",
+  validation(joi.products.params.detail, "params"),
   ctrl.products.detailView,
 );
 

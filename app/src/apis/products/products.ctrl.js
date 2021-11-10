@@ -23,7 +23,7 @@ const products = {
       const product = new ProductService(req);
       const response = await product.detailView();
 
-      logger.info(`GET /api/products/:productNo 200`);
+      logger.info(`GET /api/products/:productNo/:userNo 200`);
       return res.status(200).json(response);
     } catch (err) {
       next(err);

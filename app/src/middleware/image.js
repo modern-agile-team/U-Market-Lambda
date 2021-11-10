@@ -20,6 +20,30 @@ const upload = multer({
   limits: { fieldSize: 100 * 1024 * 1024 },
 });
 
+const profileUpload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: `${process.env.S3_BUCKET}/profile`,
+    acl: "public-read",
+    key: function (req, file, cb) {
+      cb(null, Date.now() + "." + file.originalname.split(".").pop());
+    },
+  }),
+  limits: { fieldSize: 100 * 1024 * 1024 },
+});
+
+const communityUpload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: `${process.env.S3_BUCKET}/community`,
+    acl: "public-read",
+    key: function (req, file, cb) {
+      cb(null, Date.now() + "." + file.originalname.split(".").pop());
+    },
+  }),
+  limits: { fieldSize: 100 * 1024 * 1024 },
+});
+
 const deleteImage = async keys => {
   const objectKeys = [];
   for (const key of keys) {
@@ -53,6 +77,8 @@ const deleteImage = async keys => {
 module.exports = {
   deleteImage,
   upload,
+  profileUpload,
+  communityUpload,
 };
 // disk에 업로드할 때
 
