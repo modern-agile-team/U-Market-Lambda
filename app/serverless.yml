@@ -135,13 +135,14 @@ functions:
         #   private: true
       - http:
           method: GET
-          path: /api/products/{productNo}
+          path: /api/products/{productNo}/{userNo}
           cors: true
         #   private: true
           request:
             parameters:
               paths:
                 productNo: true
+                userNo: true
       - http:
           method: POST
           path: /api/product
