@@ -296,6 +296,14 @@ functions:
           method: POST
           path: /api/image/store
           cors: true
+      - http:
+          method: POST
+          path: /api/image/profile
+          cors: true
+      - http:
+          method: POST
+          path: /api/image/community
+          cors: true
   
 
       #comments
