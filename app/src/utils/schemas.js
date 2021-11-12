@@ -563,7 +563,7 @@ const image = {
       "number.base": "flag 는 숫자 형식입니다.",
       "number.integer": "flag 는 정수입니다.",
     }),
-    imageUrl: Joi.array().messages({}),
+    images: Joi.array().messages({}),
   }),
 };
 

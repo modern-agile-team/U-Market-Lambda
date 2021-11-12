@@ -21,12 +21,9 @@ const process = {
   },
 
   profileUpload: async (req, res, next) => {
-    const images = req.files;
+    const image = req.file;
     try {
-      const path = images.map(img => {
-        let imagePath = img.location;
-        return imagePath;
-      });
+      const path = image.location;
       logger.info(`POST /api/image/profile 200 업로드 성공`);
       return res.status(200).json({
         msg: "업로드 성공되었습니다.",
