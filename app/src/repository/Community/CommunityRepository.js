@@ -6,9 +6,9 @@ class CommunityRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT cmu_outer.no, cmu_outer.nickname, cmu_outer.title, cmu_outer.description, cmu_outer.hit, cmu_outer.like_cnt AS likeCnt, cmu_outer.comment_cnt AS commentCnt, COUNT(bmk_cmu.no) AS bookmarkCnt, cmu_outer.thumbnail, DATE_FORMAT(cmu_outer.in_date, "%Y.%m.%d") AS inDate
+        SELECT cmu_outer.no, cmu_outer.nickname, cmu_outer.profileUrl, cmu_outer.title, cmu_outer.description, cmu_outer.hit, cmu_outer.like_cnt AS likeCnt, cmu_outer.comment_cnt AS commentCnt, COUNT(bmk_cmu.no) AS bookmarkCnt, cmu_outer.thumbnail, DATE_FORMAT(cmu_outer.in_date, "%Y.%m.%d") AS inDate
         FROM (
-          SELECT cmu_inner.no, users.nickname AS nickname, cmu_inner.region_no, cmu_inner.school_no, cmu_inner.department_no, cmu_inner.major_no, community_category_no, title, cmu_inner.description, hit, cmu_inner.like_cnt, COUNT(cmu_cmt.no) AS comment_cnt, thumbnail, cmu_inner.in_date
+          SELECT cmu_inner.no, users.nickname AS nickname, users.profile_img_url AS profileUrl, cmu_inner.region_no, cmu_inner.school_no, cmu_inner.department_no, cmu_inner.major_no, community_category_no, title, cmu_inner.description, hit, cmu_inner.like_cnt, COUNT(cmu_cmt.no) AS comment_cnt, thumbnail, cmu_inner.in_date
           FROM communities AS cmu_inner
           JOIN users
           ON cmu_inner.user_no = users.no
@@ -43,7 +43,7 @@ class CommunityRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT cmu_outer.no, nickname, profile_img_url AS profileImage, cmu_outer.title, cmu_outer.description, hit, cmu_outer.like_cnt AS likeCnt, comment_cnt AS commentCnt, COUNT(bmk_cmu.no) AS bookmarkCnt, DATE_FORMAT(cmu_outer.in_date, "%Y.%m.%d %H:%i") AS inDate
+        SELECT cmu_outer.no, nickname, profile_img_url AS profileUrl, cmu_outer.title, cmu_outer.description, hit, cmu_outer.like_cnt AS likeCnt, comment_cnt AS commentCnt, COUNT(bmk_cmu.no) AS bookmarkCnt, DATE_FORMAT(cmu_outer.in_date, "%Y.%m.%d %H:%i") AS inDate
         FROM (
           SELECT cmu_inner.no, users.nickname, users.profile_img_url, cmu_inner.user_no, title, cmu_inner.description, hit, cmu_inner.like_cnt, COUNT(cmu_cmt.no) AS comment_cnt, cmu_inner.in_date
           FROM communities AS cmu_inner
