@@ -5,7 +5,7 @@ class CommunityReplyRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT users.nickname, users.profile_img_url AS profileImage, rp.no AS replyNo, rp.community_comment_no AS commentNo, rp.description, COUNT(li.no) AS likeFlag, rp.like_cnt AS likeCnt, DATE_FORMAT(rp.in_date, "%Y.%m.%d") AS inDate 
+        SELECT users.nickname, users.profile_img_url AS profileUrl, rp.no AS replyNo, rp.community_comment_no AS commentNo, rp.description, COUNT(li.no) AS likeFlag, rp.like_cnt AS likeCnt, DATE_FORMAT(rp.in_date, "%Y.%m.%d") AS inDate 
         FROM community_replies AS rp
         LEFT JOIN users
         ON users.no = rp.user_no
