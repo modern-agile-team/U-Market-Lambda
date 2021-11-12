@@ -17,7 +17,7 @@ router.post(
   ctrl.saveImage,
 );
 
-router.post("/profile", profileUpload.array("upload", 1), ctrl.profileUpload);
+router.post("/profile", profileUpload.single("upload"), ctrl.profileUpload);
 router.post(
   "/community",
   communityUpload.array("upload", 5),
