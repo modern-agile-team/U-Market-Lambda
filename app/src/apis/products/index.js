@@ -29,6 +29,12 @@ router.put(
   ctrl.products.updateView,
 );
 
+router.patch(
+  "/:productNo",
+  validation(joi.products.params.productNo, "params"),
+  ctrl.products.updateHit,
+);
+
 router.delete(
   "/:productNo",
   validation(joi.products.params.productNo, "params"),

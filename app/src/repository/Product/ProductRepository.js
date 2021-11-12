@@ -5,7 +5,7 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT pd.no, users.nickname, users.profile_img_url AS profileImage, 
+        SELECT pd.no, users.nickname, users.profile_img_url AS profileUrl, 
         pd_ctg.name AS categoryName, pd_d_ctg.name AS detailCategoryName,
         product_detail_category_no AS detailCategoryNo, title, price, description, 
         hit, interest_cnt AS interestCnt, bargaining_flag AS isBargaining, 
@@ -208,7 +208,22 @@ class ProductRepository {
       if (sign === "-")
         query = `UPDATE products SET interest_cnt = interest_cnt - 1 WHERE no = ?;`;
 
-      const result = await mysql.query(query, [productNo, sign]);
+      const result = await mysql.query(query, [productNo]);
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async updateHitByProductNo(productNo) {
+    try {
+      await mysql.connect();
+      let query = `UPDATE products SET hit = hit + 1 WHERE no = ?;`;
+
+      const result = await mysql.query(query, [productNo]);
       if (result.affectedRows) return true;
       throw new Error("Not Exist Product");
     } catch (err) {

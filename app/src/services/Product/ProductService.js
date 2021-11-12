@@ -130,6 +130,17 @@ class ProductService {
     }
   }
 
+  async updateHitByProductNo() {
+    const { productNo } = this.params;
+    try {
+      const result = await ProductRepository.updateHitByProductNo(productNo);
+
+      if (result) return { msg: "조회수가 증가했습니다." };
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async delete() {
     const { productNo } = this.params;
     try {

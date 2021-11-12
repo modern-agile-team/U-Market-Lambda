@@ -51,6 +51,17 @@ const products = {
       next(err);
     }
   },
+  updateHit: async (req, res, next) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.updateHitByProductNo();
+
+      logger.info(`PATCH /api/products/:productNo 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
   delete: async (req, res, next) => {
     try {
       const product = new ProductService(req);
