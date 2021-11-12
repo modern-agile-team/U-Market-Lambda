@@ -5,7 +5,7 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT pd.no, users.nickname, users.profile_img_url AS profileImage, 
+        SELECT pd.no, users.nickname, users.profile_img_url AS profileUrl, 
         pd_ctg.name AS categoryName, pd_d_ctg.name AS detailCategoryName,
         product_detail_category_no AS detailCategoryNo, title, price, description, 
         hit, interest_cnt AS interestCnt, bargaining_flag AS isBargaining, 
