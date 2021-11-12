@@ -208,7 +208,22 @@ class ProductRepository {
       if (sign === "-")
         query = `UPDATE products SET interest_cnt = interest_cnt - 1 WHERE no = ?;`;
 
-      const result = await mysql.query(query, [productNo, sign]);
+      const result = await mysql.query(query, [productNo]);
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async updateHitByProductNo(productNo) {
+    try {
+      await mysql.connect();
+      let query = `UPDATE products SET hit = hit + 1 WHERE no = ?;`;
+
+      const result = await mysql.query(query, [productNo]);
       if (result.affectedRows) return true;
       throw new Error("Not Exist Product");
     } catch (err) {
