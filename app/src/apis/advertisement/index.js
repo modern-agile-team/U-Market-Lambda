@@ -11,4 +11,10 @@ router.post(
   ctrl.saveInquiry,
 );
 
+// router.post(
+//     "/inquiry",
+//     validation(joi.advertisement.body.inquiry, "body"),
+//     ctrl.saveInquiry,
+//   );
+
 module.exports = router;

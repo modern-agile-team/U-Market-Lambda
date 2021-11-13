@@ -758,6 +758,11 @@ const advertisement = {
         "number.integer": "majorNo은 정수입니다.",
         "any.required": "majorNo 필드가 비었습니다.",
       }),
+      userNo: Joi.number().required().messages({
+        "number.base": "userNo은 숫자 형식입니다.",
+        "number.integer": "userNo은 정수입니다.",
+        "any.required": "userNo 필드가 비었습니다.",
+      }),
       organizationName: Joi.string().required().min(1).max(30).messages({
         "string.base": "organizationName은 문자 형식입니다.",
         "string.min": "organizationName은 최소 1글자 입니다..",
@@ -776,10 +781,10 @@ const advertisement = {
         "string.max": "position은 최대 20글자 입니다.",
         "any.required": "position 필드가 비었습니다.",
       }),
-      phoneNumber: Joi.string().required().min(1).max(10).messages({
+      phoneNumber: Joi.string().required().min(1).max(20).messages({
         "string.base": "phoneNumber은 문자 형식입니다.",
         "string.min": "phoneNumber은 최소 1글자 입니다..",
-        "string.max": "phoneNumber은 최대 10글자 입니다.",
+        "string.max": "phoneNumber은 최대 20글자 입니다.",
         "any.required": "phoneNumber 필드가 비었습니다.",
       }),
       email: Joi.string().max(30).messages({
