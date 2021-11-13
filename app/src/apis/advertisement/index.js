@@ -7,14 +7,14 @@ const router = express.Router();
 
 router.post(
   "/inquiry",
-  validation(joi.advertisement.body.inquiry, "body"),
+  validation(joi.advertisement.body.inquiry.save, "body"),
   ctrl.saveInquiry,
 );
 
-// router.post(
-//     "/inquiry",
-//     validation(joi.advertisement.body.inquiry, "body"),
-//     ctrl.saveInquiry,
-//   );
+router.delete(
+  "/:inquiryNo",
+  validation(joi.advertisement.params, "params"),
+  ctrl.deleteInquiry,
+);
 
 module.exports = router;

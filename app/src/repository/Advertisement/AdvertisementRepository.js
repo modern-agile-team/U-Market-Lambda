@@ -33,19 +33,19 @@ class AdvertisementRepository {
       mysql?.end();
     }
   }
-  // 문의 삭제 기능 구현중
-  // static async deleteInquiry(inquiry) {
-  //   try {
-  //     await mysql.connect();
-  //     const query = `DELETE FROM advertisement_inquiries WHERE no = ?`;
-  //     const result = await mysql.query(query, [inquiry.no]);
-  //     return result?.insertId;
-  //   } catch (err) {
-  //     throw err;
-  //   } finally {
-  //     mysql?.end();
-  //   }
-  // }
+
+  static async deleteInquiry(inquiryNo) {
+    try {
+      await mysql.connect();
+      const query = `DELETE FROM advertisement_inquiries WHERE no = ?`;
+      const result = await mysql.query(query, [inquiryNo]);
+      return Boolean(result.affectedRows);
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = AdvertisementRepository;

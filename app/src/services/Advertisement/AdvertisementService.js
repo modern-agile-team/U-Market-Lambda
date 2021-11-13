@@ -3,6 +3,7 @@ const AdvertisementRepository = require("../../repository/Advertisement/Advertis
 class AdvertisementService {
   constructor(req) {
     this.body = req.body;
+    this.params = req.params;
   }
 
   async saveInquiry() {
@@ -10,6 +11,16 @@ class AdvertisementService {
     try {
       const insertId = await AdvertisementRepository.saveInquiry(inquirer);
       if (insertId) return { inquiryNo: insertId };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async deleteInquiry() {
+    const { inquiryNo } = this.params;
+    try {
+      const isDelete = await AdvertisementRepository.deleteInquiry(inquiryNo);
+      if (isDelete) return true;
     } catch (err) {
       throw err;
     }

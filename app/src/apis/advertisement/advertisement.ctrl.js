@@ -11,6 +11,17 @@ const process = {
       next(err);
     }
   },
+
+  deleteInquiry: async (req, res, next) => {
+    try {
+      const advertisementService = new AdvertisementService(req);
+      const isDelete = await advertisementService.deleteInquiry();
+
+      if (isDelete) return res.status(204).end();
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = process;

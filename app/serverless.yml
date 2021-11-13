@@ -405,3 +405,11 @@ functions:
           method: POST
           path: /api/advertisements/inquiry
           # cors: true
+      - http:
+          method: DELETE
+          path: /api/advertisements/{inquiryNo}
+          # cors: true
+          request:
+            parameters:
+              paths:
+                inquiryNo: true
