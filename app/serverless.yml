@@ -399,3 +399,9 @@ functions:
             parameters:
               paths:
                 userNo: true
+      
+      # advertisement
+      - http:
+          method: POST
+          path: /api/advertisements/inquiry
+          # cors: true

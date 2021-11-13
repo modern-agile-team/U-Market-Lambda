@@ -735,6 +735,11 @@ const bookmark = {
   }),
 };
 
+
+const advertisement = {
+  
+};
+
 module.exports = {
   major_POST_schema,
   user_DELETE_schema,
@@ -752,6 +757,7 @@ module.exports = {
   comment,
   reply,
   bookmark,
+  advertisement,
 };
 
 // export const market_POST_schema = Joi.object().keys({

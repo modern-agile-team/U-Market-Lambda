@@ -23,6 +23,7 @@ const image = require("./src/apis/image");
 const comments = require("./src/apis/communities/comments");
 const replies = require("./src/apis/communities/replies");
 const bookmark = require("./src/apis/bookmark");
+const advertisement = require("./src/apis/advertisement");
 
 app.use("/api/user", user);
 app.use("/api/home", home);
@@ -40,6 +41,7 @@ app.use("/api/comments", comments);
 app.use("/api/reply", replies);
 app.use("/api/replies", replies);
 app.use("/api/bookmarks", bookmark);
+app.use("/api/advertisements", advertisement);
 app.use(errorMiddleware);
 
 module.exports = app;
