@@ -33,11 +33,13 @@ const process = {
     }
   },
 
-  findAdvertisementByInquirer: async (req, res, text) => {
+  findAdvertisementByInquirer: async (req, res, next) => {
     try {
-      console.log(req);
+      const advertisementService = new AdvertisementService(req);
+      const response = await advertisementService.findAdvertisementByInquirer();
+      return res.status(200).json(response);
     } catch (err) {
-      text(err);
+      next(err);
     }
   },
 };

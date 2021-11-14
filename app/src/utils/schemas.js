@@ -911,13 +911,29 @@ const advertisement = {
       }),
     },
   },
-  params: Joi.object().keys({
-    inquiryNo: Joi.number().required().messages({
-      "number.base": "inquiryNo은 숫자 형식입니다.",
-      "number.integer": "inquiryNo은 정수입니다.",
-      "any.required": "inquiryNo 필드가 비었습니다.",
+  params: {
+    delete: Joi.object().keys({
+      inquiryNo: Joi.number().required().messages({
+        "number.base": "inquiryNo은 숫자 형식입니다.",
+        "number.integer": "inquiryNo은 정수입니다.",
+        "any.required": "inquiryNo 필드가 비었습니다.",
+      }),
     }),
-  }),
+    put: Joi.object().keys({
+      inquiryNo: Joi.number().required().messages({
+        "number.base": "inquiryNo은 숫자 형식입니다.",
+        "number.integer": "inquiryNo은 정수입니다.",
+        "any.required": "inquiryNo 필드가 비었습니다.",
+      }),
+    }),
+    get: Joi.object().keys({
+      userNo: Joi.number().required().messages({
+        "number.base": "userNo은 숫자 형식입니다.",
+        "number.integer": "userNo은 정수입니다.",
+        "any.required": "userNo 필드가 비었습니다.",
+      }),
+    }),
+  },
 };
 
 module.exports = {

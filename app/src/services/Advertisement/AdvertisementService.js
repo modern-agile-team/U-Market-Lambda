@@ -41,9 +41,11 @@ class AdvertisementService {
   }
 
   async findAdvertisementByInquirer() {
-    const { inquiryNo } = this.params;
+    const { userNo } = this.params;
     try {
-      console.log(inquiryNo);
+      const inquiries =
+        await AdvertisementRepository.findAdvertisementByInquirer(userNo);
+      return { inquiries };
     } catch (err) {
       throw err;
     }

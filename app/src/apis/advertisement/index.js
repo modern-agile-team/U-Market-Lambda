@@ -13,20 +13,20 @@ router.post(
 
 router.delete(
   "/:inquiryNo",
-  validation(joi.advertisement.params, "params"),
+  validation(joi.advertisement.params.delete, "params"),
   ctrl.deleteInquiry,
 );
 
 router.put(
   "/:inquiryNo",
   validation(joi.advertisement.body.inquiry.update, "body"),
-  validation(joi.advertisement.params, "params"),
+  validation(joi.advertisement.params.put, "params"),
   ctrl.updateInquiry,
 );
 
 router.get(
-  "/:inquiryNo",
-  validation(joi.advertisement.params, "params"),
+  "/:userNo/inquiries",
+  validation(joi.advertisement.params.get, "params"),
   ctrl.findAdvertisementByInquirer,
 );
 

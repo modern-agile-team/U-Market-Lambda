@@ -421,3 +421,11 @@ functions:
             parameters:
               paths:
                 inquiryNo: true
+      - http:
+          method: GET
+          path: /api/advertisements/{userNo}/inquiries
+          # cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
