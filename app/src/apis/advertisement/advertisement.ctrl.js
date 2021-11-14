@@ -22,6 +22,16 @@ const process = {
       next(err);
     }
   },
+
+  updateInquiry: async (req, res, next) => {
+    try {
+      const advertisementService = new AdvertisementService(req);
+      const response = await advertisementService.updateInquiry();
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = process;

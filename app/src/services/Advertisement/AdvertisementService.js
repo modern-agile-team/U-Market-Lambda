@@ -25,5 +25,19 @@ class AdvertisementService {
       throw err;
     }
   }
+
+  async updateInquiry() {
+    const inquiry = this.body;
+    const { inquiryNo } = this.params;
+    try {
+      const isUpdate = await AdvertisementRepository.updateInquiry(
+        inquiry,
+        inquiryNo,
+      );
+      if (isUpdate) return { inquiryNo };
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 module.exports = AdvertisementService;

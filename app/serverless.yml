@@ -413,3 +413,11 @@ functions:
             parameters:
               paths:
                 inquiryNo: true
+      - http:
+          method: PUT
+          path: /api/advertisements/{inquiryNo}
+          # cors: true
+          request:
+            parameters:
+              paths:
+                inquiryNo: true

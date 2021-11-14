@@ -46,6 +46,40 @@ class AdvertisementRepository {
       mysql?.end();
     }
   }
+
+  static async updateInquiry(inquiry, inquiryNo) {
+    try {
+      await mysql.connect();
+      const query = `UPDATE advertisement_inquiries 
+          SET region_no=?, school_no=?, department_no=?, major_no=?, user_no=?, 
+          organization_name=?, inquirer_name=?, position=?, phone_number=?, email=?,
+          homepage_url=?, banner_url=?, advertisement_month=?, advertisement_price=?
+          WHERE no=?;`;
+
+      const result = await mysql.query(query, [
+        inquiry.regionNo,
+        inquiry.schoolNo,
+        inquiry.departmentNo,
+        inquiry.majorNo,
+        inquiry.userNo,
+        inquiry.organizationName,
+        inquiry.inquirer,
+        inquiry.position,
+        inquiry.phoneNumber,
+        inquiry.email,
+        inquiry.homepageUrl,
+        inquiry.bannerUrl,
+        inquiry.advertisementMonth,
+        inquiry.advertisementPrice,
+        inquiryNo,
+      ]);
+      return Boolean(result?.affectedRows);
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = AdvertisementRepository;

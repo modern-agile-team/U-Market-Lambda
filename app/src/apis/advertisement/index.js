@@ -17,4 +17,11 @@ router.delete(
   ctrl.deleteInquiry,
 );
 
+router.put(
+  "/:inquiryNo",
+  validation(joi.advertisement.body.inquiry.update, "body"),
+  validation(joi.advertisement.params, "params"),
+  ctrl.updateInquiry,
+);
+
 module.exports = router;
