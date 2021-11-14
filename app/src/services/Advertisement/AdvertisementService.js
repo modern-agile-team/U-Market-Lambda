@@ -39,5 +39,14 @@ class AdvertisementService {
       throw err;
     }
   }
+
+  async findAdvertisementByInquirer() {
+    const { inquiryNo } = this.params;
+    try {
+      console.log(inquiryNo);
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 module.exports = AdvertisementService;

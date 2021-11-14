@@ -32,6 +32,14 @@ const process = {
       next(err);
     }
   },
+
+  findAdvertisementByInquirer: async (req, res, text) => {
+    try {
+      console.log(req);
+    } catch (err) {
+      text(err);
+    }
+  },
 };
 
 module.exports = process;

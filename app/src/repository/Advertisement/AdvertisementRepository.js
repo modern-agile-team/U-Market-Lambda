@@ -6,9 +6,10 @@ class AdvertisementRepository {
       await mysql.connect();
       const query = `INSERT INTO advertisement_inquiries (
           region_no, school_no, department_no, major_no, user_no, 
+          title, content,
           organization_name, inquirer_name, position, phone_number, email,
           homepage_url, banner_url, advertisement_month, advertisement_price
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
 
       const result = await mysql.query(query, [
         inquiry.regionNo,
@@ -16,6 +17,8 @@ class AdvertisementRepository {
         inquiry.departmentNo,
         inquiry.majorNo,
         inquiry.userNo,
+        inquiry.title,
+        inquiry.content,
         inquiry.organizationName,
         inquiry.inquirer,
         inquiry.position,
@@ -52,6 +55,7 @@ class AdvertisementRepository {
       await mysql.connect();
       const query = `UPDATE advertisement_inquiries 
           SET region_no=?, school_no=?, department_no=?, major_no=?, user_no=?, 
+          title=?, content=?,
           organization_name=?, inquirer_name=?, position=?, phone_number=?, email=?,
           homepage_url=?, banner_url=?, advertisement_month=?, advertisement_price=?
           WHERE no=?;`;
@@ -62,6 +66,8 @@ class AdvertisementRepository {
         inquiry.departmentNo,
         inquiry.majorNo,
         inquiry.userNo,
+        inquiry.title,
+        inquiry.content,
         inquiry.organizationName,
         inquiry.inquirer,
         inquiry.position,
@@ -74,6 +80,22 @@ class AdvertisementRepository {
         inquiryNo,
       ]);
       return Boolean(result?.affectedRows);
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAdvertisementByInquirer(inquiryNo) {
+    try {
+      await mysql.connect();
+      const query = `
+        SELECT FROM advertisement_inquiries WHERE `;
+
+      const communities = await mysql.query(query, [0]);
+
+      return communities;
     } catch (err) {
       throw err;
     } finally {

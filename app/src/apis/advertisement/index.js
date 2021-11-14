@@ -24,4 +24,10 @@ router.put(
   ctrl.updateInquiry,
 );
 
+router.get(
+  "/:inquiryNo",
+  validation(joi.advertisement.params, "params"),
+  ctrl.findAdvertisementByInquirer,
+);
+
 module.exports = router;

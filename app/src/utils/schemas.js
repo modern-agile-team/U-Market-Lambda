@@ -764,6 +764,18 @@ const advertisement = {
           "number.integer": "userNo은 정수입니다.",
           "any.required": "userNo 필드가 비었습니다.",
         }),
+        title: Joi.string().required().min(1).max(30).messages({
+          "string.base": "title은 문자 형식입니다.",
+          "string.min": "title은 최소 1글자 입니다..",
+          "string.max": "title은 최대 30글자 입니다.",
+          "any.required": "title 필드가 비었습니다.",
+        }),
+        content: Joi.string().required().min(1).max(255).messages({
+          "string.base": "content은 문자 형식입니다.",
+          "string.min": "content은 최소 1글자 입니다..",
+          "string.max": "content은 최대 255글자 입니다.",
+          "any.required": "content 필드가 비었습니다.",
+        }),
         organizationName: Joi.string().required().min(1).max(30).messages({
           "string.base": "organizationName은 문자 형식입니다.",
           "string.min": "organizationName은 최소 1글자 입니다..",
@@ -837,6 +849,18 @@ const advertisement = {
           "number.base": "userNo은 숫자 형식입니다.",
           "number.integer": "userNo은 정수입니다.",
           "any.required": "userNo 필드가 비었습니다.",
+        }),
+        title: Joi.string().required().min(1).max(30).messages({
+          "string.base": "title은 문자 형식입니다.",
+          "string.min": "title은 최소 1글자 입니다..",
+          "string.max": "title은 최대 30글자 입니다.",
+          "any.required": "title 필드가 비었습니다.",
+        }),
+        content: Joi.string().required().min(1).max(255).messages({
+          "string.base": "content은 문자 형식입니다.",
+          "string.min": "content은 최소 1글자 입니다..",
+          "string.max": "content은 최대 255글자 입니다.",
+          "any.required": "content 필드가 비었습니다.",
         }),
         organizationName: Joi.string().required().min(1).max(30).messages({
           "string.base": "organizationName은 문자 형식입니다.",
