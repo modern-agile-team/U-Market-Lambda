@@ -757,6 +757,21 @@ const bookmark = {
   }),
 };
 
+const chat = {
+  body: Joi.object().keys({
+    userNo: Joi.number().required().messages({
+      "number.base": "userNo 는 숫자 형식입니다.",
+      "number.integer": "userNo 는 정수입니다.",
+      "any.required": "userNo 필드가 비었습니다.",
+    }),
+    writerNo: Joi.number().required().messages({
+      "number.base": "userNo 는 숫자 형식입니다.",
+      "number.integer": "userNo 는 정수입니다.",
+      "any.required": "userNo 필드가 비었습니다.",
+    }),
+  }),
+};
+
 module.exports = {
   major_POST_schema,
   user,
@@ -774,6 +789,7 @@ module.exports = {
   comment,
   reply,
   bookmark,
+  chat,
 };
 
 // export const market_POST_schema = Joi.object().keys({

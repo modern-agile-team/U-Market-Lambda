@@ -426,3 +426,8 @@ functions:
             parameters:
               paths:
                 userNo: true
+
+      - http:
+          method: POST
+          path: /api/chat
+          cors: true
