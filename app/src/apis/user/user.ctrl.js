@@ -88,6 +88,18 @@ const process = {
       next(err);
     }
   },
+
+  createReview: async (req, res, next) => {
+    try {
+      const review = new UserService(req);
+      const response = await review.createReview();
+
+      logger.info(`POST /api/user/review 201 리뷰 생성 완료`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = process;

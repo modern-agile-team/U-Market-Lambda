@@ -102,6 +102,17 @@ class UserService {
       throw err;
     }
   }
+
+  async createReview() {
+    const information = this.body;
+
+    try {
+      const review = await UserRepostory.createReview(information);
+      if (review) return { msg: "리뷰 작성 완료" };
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = UserService;
