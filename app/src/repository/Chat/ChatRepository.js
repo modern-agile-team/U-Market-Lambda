@@ -10,9 +10,11 @@ class ChatRepository {
       WHERE c.seller_no = ? OR c.buyer_no = ?;`;
 
       const chatList = await mysql.query(query, [userNo, userNo]);
-      return { chatList };
+      return chatList;
     } catch (err) {
       throw err;
+    } finally {
+      mysql?.end();
     }
   }
 
