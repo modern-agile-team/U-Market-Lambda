@@ -97,7 +97,6 @@ class AdvertisementRepository {
       LEFT JOIN users on ad_i.user_no = users.no
       WHERE ad_i.user_no = ?`;
       const inquiries = await mysql.query(query, [inquiryNo]);
-      console.log(inquiryNo);
       return inquiries;
     } catch (err) {
       throw err;
