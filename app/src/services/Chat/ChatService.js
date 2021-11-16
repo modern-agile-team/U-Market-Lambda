@@ -9,12 +9,19 @@ class ChatService {
   async insertChatRoom() {
     const user = this.body;
     try {
-      const chatRoomNo = await ChatRepository.insertChatRoom(
+      const isExistChatRoom = await ChatRepository.isExistChatRoom(
         user.sellerNo,
         user.buyerNo,
       );
+      if (!isExistChatRoom.length) {
+        const chatRoomNo = await ChatRepository.insertChatRoom(
+          user.sellerNo,
+          user.buyerNo,
+        );
 
-      return { chatRoomNo };
+        return { chatRoomNo };
+      }
+      return { chatRoomNo: isExistChatRoom[0].chatRoomNo };
     } catch (err) {
       throw err;
     }
