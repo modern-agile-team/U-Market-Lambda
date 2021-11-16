@@ -784,12 +784,19 @@ const bookmark = {
 
 const chat = {
   body: Joi.object().keys({
-    userNo: Joi.number().required().messages({
-      "number.base": "userNo 는 숫자 형식입니다.",
-      "number.integer": "userNo 는 정수입니다.",
-      "any.required": "userNo 필드가 비었습니다.",
+    sellerNo: Joi.number().required().messages({
+      "number.base": "sellerNo 는 숫자 형식입니다.",
+      "number.integer": "sellerNo 는 정수입니다.",
+      "any.required": "sellerNo 필드가 비었습니다.",
     }),
-    writerNo: Joi.number().required().messages({
+    buyerNo: Joi.number().required().messages({
+      "number.base": "buyerNo 는 숫자 형식입니다.",
+      "number.integer": "buyerNo 는 정수입니다.",
+      "any.required": "buyerNo 필드가 비었습니다.",
+    }),
+  }),
+  params: Joi.object().keys({
+    userNo: Joi.number().required().messages({
       "number.base": "userNo 는 숫자 형식입니다.",
       "number.integer": "userNo 는 정수입니다.",
       "any.required": "userNo 필드가 비었습니다.",

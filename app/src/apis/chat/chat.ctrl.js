@@ -13,6 +13,18 @@ const process = {
       next(err);
     }
   },
+
+  findAllByUserNo: async (req, res, next) => {
+    try {
+      const chatService = new ChatService(req);
+      const response = await chatService.findAllByUserNo();
+
+      logger.info(`GET /api/chat/:userNo 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = process;

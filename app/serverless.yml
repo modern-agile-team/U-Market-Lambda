@@ -437,3 +437,12 @@ functions:
           method: POST
           path: /api/chat
           cors: true
+
+      - http:
+          method: GET
+          path: /api/chat/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
