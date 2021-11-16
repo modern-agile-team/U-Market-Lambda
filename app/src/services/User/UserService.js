@@ -34,7 +34,6 @@ class UserService {
     const user = this.body;
     try {
       const whoWantsLogin = await UserRepostory.findAllByEmail(user);
-      console.log(whoWantsLogin);
       if (whoWantsLogin) {
         user.psword = await Cryptor.encryptBySalt(
           user.psword,
