@@ -31,7 +31,7 @@ class UserRepository {
       await mysql.connect();
 
       const query = `SELECT no AS userNo,region_no AS regionNum, school_no AS schoolNum, major_no AS majorNum,
-      grade, nickname, psword, salt, profile_img_url AS profileURL, trust_score AS trustScore FROM users WHERE email = ?;`;
+       nickname, psword, salt, profile_img_url AS profileURL, trust_score AS trustScore FROM users WHERE email = ?;`;
 
       const result = await mysql.query(query, [user.email]);
       if (result.length > 0) return result[0];
