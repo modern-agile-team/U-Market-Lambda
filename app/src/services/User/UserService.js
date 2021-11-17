@@ -112,6 +112,21 @@ class UserService {
       throw err;
     }
   }
+
+  async updateTrustScore() {
+    const information = this.body;
+    const userNo = this.params.userNo;
+
+    try {
+      let { trustScore, tradeCount } = await UserRepostory.findAllByNo(userNo);
+      trustScore =
+        (trustScore * (tradeCount - 1) + information.trustScore) / tradeCount;
+      const result = await UserRepostory.updateTrustScore(trustScore, userNo);
+      if (result) return { msg: "별점 업데이트 완료" };
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = UserService;

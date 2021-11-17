@@ -148,6 +148,20 @@ class UserRepository {
       mysql?.end();
     }
   }
+
+  static async updateTrustScore(trustScore, userNo) {
+    try {
+      await mysql.connect();
+
+      const query = `UPDATE users SET trust_score = ? WHERE no = ?;`;
+      const result = await mysql.query(query, [trustScore, userNo]);
+      if (result.affectedRows) return true;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = UserRepository;

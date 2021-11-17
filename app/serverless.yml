@@ -93,6 +93,16 @@ functions:
           cors: true
           # private: true
 
+      - http:
+          method: PATCH
+          path: /api/user/review/{userNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
       # filter
       - http:
           method: GET

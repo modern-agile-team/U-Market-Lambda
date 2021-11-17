@@ -38,4 +38,6 @@ router.put(
   ctrl.update,
 );
 
+router.patch("/review/:userNo", ctrl.updateTrustScore);
+
 module.exports = router;

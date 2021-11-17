@@ -100,6 +100,20 @@ const process = {
       next(err);
     }
   },
+
+  updateTrustScore: async (req, res, next) => {
+    try {
+      const review = new UserService(req);
+      const response = await review.updateTrustScore();
+
+      logger.info(
+        `POST /api/user/review/${req.params.userNo} 201 별점 업데이트 완료`,
+      );
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = process;
