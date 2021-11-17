@@ -34,7 +34,6 @@ class UserService {
     const user = this.body;
     try {
       const whoWantsLogin = await UserRepostory.findAllByEmail(user);
-      console.log(whoWantsLogin);
       if (whoWantsLogin) {
         user.psword = await Cryptor.encryptBySalt(
           user.psword,
@@ -98,6 +97,17 @@ class UserService {
       user.salt = salt;
       await UserRepostory.updatePassword(isExistUser.no, user);
       return { msg: "비밀번호가 변경되었습니다." };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async createReview() {
+    const information = this.body;
+
+    try {
+      const review = await UserRepostory.createReview(information);
+      if (review) return { msg: "리뷰 작성 완료" };
     } catch (err) {
       throw err;
     }

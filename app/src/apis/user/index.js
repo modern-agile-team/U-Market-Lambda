@@ -29,6 +29,8 @@ router.post(
   ctrl.changePassword,
 );
 
+router.post("/review", ctrl.createReview);
+
 router.put(
   "/:userNo",
   joiValidator(joi.user.params, "params"),

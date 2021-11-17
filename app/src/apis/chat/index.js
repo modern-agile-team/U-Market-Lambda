@@ -7,4 +7,10 @@ const router = express.Router();
 
 router.post("/", validation(joi.chat.body, "body"), ctrl.insertChatRoom);
 
+router.get(
+  "/:userNo",
+  validation(joi.chat.params, "params"),
+  ctrl.findAllByUserNo,
+);
+
 module.exports = router;

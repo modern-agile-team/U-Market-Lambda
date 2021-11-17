@@ -9,12 +9,29 @@ class ChatService {
   async insertChatRoom() {
     const user = this.body;
     try {
-      const chatRoomNo = await ChatRepository.insertChatRoom(
-        user.userNo,
-        user.writerNo,
+      const isExistChatRoom = await ChatRepository.isExistChatRoom(
+        user.sellerNo,
+        user.buyerNo,
       );
+      if (!isExistChatRoom.length) {
+        const chatRoomNo = await ChatRepository.insertChatRoom(
+          user.sellerNo,
+          user.buyerNo,
+        );
 
-      return { chatRoomNo };
+        return { chatRoomNo };
+      }
+      return { chatRoomNo: isExistChatRoom[0].chatRoomNo };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findAllByUserNo() {
+    const userNo = this.params.userNo;
+    try {
+      const chatlist = await ChatRepository.findAllByUserNo(userNo);
+      return { chatlist };
     } catch (err) {
       throw err;
     }

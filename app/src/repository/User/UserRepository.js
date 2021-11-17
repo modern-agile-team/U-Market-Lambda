@@ -4,12 +4,13 @@ class UserRepository {
   static async signup(user) {
     try {
       await mysql.connect();
-      const query = `INSERT INTO users(region_no, school_no, major_no, email, name, nickname, psword, salt) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+      const query = `INSERT INTO users(region_no, school_no, department_no, major_no, email, name, nickname, psword, salt) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
       const result = await mysql.query(query, [
         user.regionNum,
         user.schoolNum,
+        user.departmentNum,
         user.majorNum,
         user.email,
         user.name,
@@ -30,7 +31,7 @@ class UserRepository {
       await mysql.connect();
 
       const query = `SELECT no AS userNo,region_no AS regionNum, school_no AS schoolNum, major_no AS majorNum,
-      grade, nickname, psword, salt, profile_img_url AS profileURL, trust_score AS trustScore FROM users WHERE email = ?;`;
+       nickname, psword, salt, profile_img_url AS profileURL, trust_score AS trustScore FROM users WHERE email = ?;`;
 
       const result = await mysql.query(query, [user.email]);
       if (result.length > 0) return result[0];
@@ -117,6 +118,30 @@ class UserRepository {
 
       if (result[0].no) return result[0];
       throw new Error("Wrong Password");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async createReview(information) {
+    const { productNo, sellerNo, buyerNo, description, trustScore, writer } =
+      information;
+    try {
+      await mysql.connect();
+
+      const query = `INSERT INTO reviews(product_no, seller_no, buyer_no, description, trust_score, writer) VALUES (?, ?, ?, ?, ?, ?);`;
+      const result = await mysql.query(query, [
+        productNo,
+        sellerNo,
+        buyerNo,
+        description,
+        trustScore,
+        writer,
+      ]);
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Referenced Row");
     } catch (err) {
       throw err;
     } finally {

@@ -86,6 +86,12 @@ functions:
             parameters:
               paths:
                 userNo: true
+      
+      - http:
+          method: POST
+          path: /api/user/review
+          cors: true
+          # private: true
 
       # filter
       - http:
@@ -426,11 +432,6 @@ functions:
             parameters:
               paths:
                 userNo: true
-
-      - http:
-          method: POST
-          path: /api/chat
-          cors: true
       
       # advertisement
       - http:
@@ -461,3 +462,17 @@ functions:
             parameters:
               paths:
                 userNo: true
+
+      - http:
+          method: GET
+          path: /api/chat/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+                
+      - http:
+          method: POST
+          path: /api/chat
+          cors: true
