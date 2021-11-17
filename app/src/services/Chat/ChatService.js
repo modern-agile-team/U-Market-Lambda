@@ -33,8 +33,8 @@ class ChatService {
   async findAllByUserNo() {
     const userNo = this.params.userNo;
     try {
-      const buyerList = await ChatRepository.findAllByBuyerNo(userNo);
-      const sellerList = await ChatRepository.findAllBySellerNo(userNo);
+      const buyerList = await ChatRepository.findBuyerBySellerNo(userNo);
+      const sellerList = await ChatRepository.findSellerByBuyerNo(userNo);
 
       const chatlist = [...buyerList, ...sellerList];
       return { chatlist };

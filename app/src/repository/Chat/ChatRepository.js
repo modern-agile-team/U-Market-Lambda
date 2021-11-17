@@ -1,7 +1,7 @@
 const mysql = require("../../config/mysql");
 
 class ChatRepository {
-  static async findAllByBuyerNo(userNo) {
+  static async findBuyerBySellerNo(userNo) {
     try {
       await mysql.connect();
       const query = `SELECT c.no AS chatRoomNo, c.buyer_no AS userNo, c.product_title AS title, users.nickname, users.profile_img_url AS profileUrl
@@ -19,7 +19,7 @@ class ChatRepository {
     }
   }
 
-  static async findAllBySellerNo(userNo) {
+  static async findSellerByBuyerNo(userNo) {
     try {
       await mysql.connect();
       const query = `SELECT c.no AS chatRoomNo, c.seller_no AS userNo, c.product_title AS title, users.nickname, users.profile_img_url AS profileUrl
