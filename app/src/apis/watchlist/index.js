@@ -6,15 +6,7 @@ const joiValidator = require("../../middleware/validation");
 const router = express.Router();
 
 router.get("/:userNo", ctrl.findAllByUserNum);
-router.post(
-  "/",
-  joiValidator(joi.watchlist.watchlist_POST_DELETE_schema, "body"),
-  ctrl.create,
-);
-router.delete(
-  "/",
-  joiValidator(joi.watchlist.watchlist_POST_DELETE_schema, "body"),
-  ctrl.delete,
-);
+router.post("/", joiValidator(joi.watchlist.body, "body"), ctrl.create);
+router.delete("/", joiValidator(joi.watchlist.body, "body"), ctrl.delete);
 
 module.exports = router;
