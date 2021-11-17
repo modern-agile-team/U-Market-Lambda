@@ -62,6 +62,18 @@ const products = {
       next(err);
     }
   },
+  updateStatus: async (req, res, next) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.updateStatus();
+
+      logger.info(`PATCH /api/products/:productNo/status 201`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   delete: async (req, res, next) => {
     try {
       const product = new ProductService(req);

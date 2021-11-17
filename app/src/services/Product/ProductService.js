@@ -141,6 +141,18 @@ class ProductService {
     }
   }
 
+  async updateStatus() {
+    const { productNo } = this.params;
+    const { status } = this.body;
+    try {
+      const result = await ProductRepository.updateStatus(productNo, status);
+
+      if (result) return { msg: "거래 상태 변환 완료." };
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async delete() {
     const { productNo } = this.params;
     try {

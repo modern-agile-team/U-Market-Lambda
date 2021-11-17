@@ -35,6 +35,8 @@ router.patch(
   ctrl.products.updateHit,
 );
 
+router.patch("/:productNo/status", ctrl.products.updateStatus);
+
 router.delete(
   "/:productNo",
   validation(joi.products.params.productNo, "params"),

@@ -202,6 +202,16 @@ functions:
               paths:
                 productNo: true
       - http:
+          method: PATCH
+          path: /api/products/{productNo}/status
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                productNo: true
+
+      - http:
           method: DELETE
           path: /api/products/{productNo}
           cors: true
