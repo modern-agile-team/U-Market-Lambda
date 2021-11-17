@@ -456,7 +456,7 @@ functions:
                 inquiryNo: true
       - http:
           method: GET
-          path: /api/advertisements/{userNo}/inquiries
+          path: /api/advertisements/inquiries/{userNo}
           # cors: true
           request:
             parameters:
@@ -471,7 +471,7 @@ functions:
             parameters:
               paths:
                 userNo: true
-                
+
       - http:
           method: POST
           path: /api/chat
