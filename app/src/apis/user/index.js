@@ -51,7 +51,8 @@ router.patch(
 
 router.get(
   "/review/:userNo",
-  joiValidator(joi.user.review.updateScore.params, "params"),
+  joiValidator(joi.user.review.find.params, "params"),
+  joiValidator(joi.user.review.find.query, "query"),
   ctrl.findBuyerByUserNo,
 );
 

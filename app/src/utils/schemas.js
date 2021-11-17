@@ -145,6 +145,23 @@ const user = {
         }),
       }),
     },
+    find: {
+      params: Joi.object().keys({
+        userNo: Joi.number().required().messages({
+          "number.base": "userNo 는 숫자 형식입니다.",
+          "number.integer": "userNo 는 정수입니다.",
+          "any.required": "userNo 필드가 비었습니다.",
+        }),
+      }),
+
+      query: Joi.object().keys({
+        product: Joi.number().required().messages({
+          "number.base": "product 는 숫자 형식입니다.",
+          "number.integer": "product 는 정수입니다.",
+          "any.required": "product 필드가 비었습니다.",
+        }),
+      }),
+    },
   },
 };
 

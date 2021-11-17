@@ -7,6 +7,7 @@ class UserService {
   constructor(req) {
     this.body = req.body;
     this.params = req.params;
+    this.query = req.query;
   }
 
   async signup() {
@@ -105,9 +106,13 @@ class UserService {
 
   async findBuyerByUserNo() {
     const userNo = this.params.userNo;
+    const productNo = this.query.product;
 
     try {
-      const buyerList = await ChatRepository.findBuyerBySellerNo(userNo);
+      const buyerList = await ChatRepository.findOneProductBuyerBySellerNo(
+        userNo,
+        productNo,
+      );
       return { buyerList };
     } catch (err) {
       throw err;
