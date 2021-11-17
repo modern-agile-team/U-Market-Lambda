@@ -772,6 +772,207 @@ const chat = {
   }),
 };
 
+const advertisement = {
+  body: {
+    inquiry: {
+      save: Joi.object().keys({
+        regionNo: Joi.number().required().messages({
+          "number.base": "regionNo은 숫자 형식입니다.",
+          "number.integer": "regionNo은 정수입니다.",
+          "any.required": "regionNo 필드가 비었습니다.",
+        }),
+        schoolNo: Joi.number().required().messages({
+          "number.base": "schoolNo은 숫자 형식입니다.",
+          "number.integer": "schoolNo은 정수입니다.",
+          "any.required": "schoolNo 필드가 비었습니다.",
+        }),
+        departmentNo: Joi.number().required().messages({
+          "number.base": "departmentNo은 숫자 형식입니다.",
+          "number.integer": "departmentNo은 정수입니다.",
+          "any.required": "departmentNo 필드가 비었습니다.",
+        }),
+        majorNo: Joi.number().required().messages({
+          "number.base": "majorNo은 숫자 형식입니다.",
+          "number.integer": "majorNo은 정수입니다.",
+          "any.required": "majorNo 필드가 비었습니다.",
+        }),
+        userNo: Joi.number().required().messages({
+          "number.base": "userNo은 숫자 형식입니다.",
+          "number.integer": "userNo은 정수입니다.",
+          "any.required": "userNo 필드가 비었습니다.",
+        }),
+        title: Joi.string().required().min(1).max(30).messages({
+          "string.base": "title은 문자 형식입니다.",
+          "string.min": "title은 최소 1글자 입니다..",
+          "string.max": "title은 최대 30글자 입니다.",
+          "any.required": "title 필드가 비었습니다.",
+        }),
+        content: Joi.string().required().min(1).max(255).messages({
+          "string.base": "content은 문자 형식입니다.",
+          "string.min": "content은 최소 1글자 입니다..",
+          "string.max": "content은 최대 255글자 입니다.",
+          "any.required": "content 필드가 비었습니다.",
+        }),
+        organizationName: Joi.string().required().min(1).max(30).messages({
+          "string.base": "organizationName은 문자 형식입니다.",
+          "string.min": "organizationName은 최소 1글자 입니다..",
+          "string.max": "organizationName은 최대 30글자 입니다.",
+          "any.required": "organizationName 필드가 비었습니다.",
+        }),
+        inquirer: Joi.string().required().min(1).max(20).messages({
+          "string.base": "inquirer은 문자 형식입니다.",
+          "string.min": "inquirer은 최소 1글자 입니다..",
+          "string.max": "inquirer은 최대 20글자 입니다.",
+          "any.required": "inquirer 필드가 비었습니다.",
+        }),
+        position: Joi.string().required().min(1).max(20).messages({
+          "string.base": "position은 문자 형식입니다.",
+          "string.min": "position은 최소 1글자 입니다..",
+          "string.max": "position은 최대 20글자 입니다.",
+          "any.required": "position 필드가 비었습니다.",
+        }),
+        phoneNumber: Joi.string().required().min(1).max(15).messages({
+          "string.base": "phoneNumber은 문자 형식입니다.",
+          "string.min": "phoneNumber은 최소 1글자 입니다..",
+          "string.max": "phoneNumber은 최대 15글자 입니다.",
+          "any.required": "phoneNumber 필드가 비었습니다.",
+        }),
+        email: Joi.string().max(30).messages({
+          "string.base": "email은 문자 형식입니다.",
+          "string.max": "email은 최대 30글자 입니다.",
+        }),
+        homepageUrl: Joi.string().max(255).messages({
+          "string.base": "homepageUrl은 문자 형식입니다.",
+          "string.max": "homepageUrl은 최대 255글자 입니다.",
+        }),
+        bannerUrl: Joi.string().max(255).messages({
+          "string.base": "bannerUrl은 문자 형식입니다.",
+          "string.max": "bannerUrl은 최대 255글자 입니다.",
+        }),
+        advertisementMonth: Joi.number().required().messages({
+          "number.base": "advertisementMonth은 숫자 형식입니다.",
+          "number.integer": "advertisementMonth은 정수입니다.",
+          "any.required": "advertisementMonth 필드가 비었습니다.",
+        }),
+        advertisementPrice: Joi.number().required().messages({
+          "number.base": "advertisementPrice은 숫자 형식입니다.",
+          "number.integer": "advertisementPrice은 정수입니다.",
+          "any.required": "advertisementPrice 필드가 비었습니다.",
+        }),
+      }),
+
+      update: Joi.object().keys({
+        regionNo: Joi.number().required().messages({
+          "number.base": "regionNo은 숫자 형식입니다.",
+          "number.integer": "regionNo은 정수입니다.",
+          "any.required": "regionNo 필드가 비었습니다.",
+        }),
+        schoolNo: Joi.number().required().messages({
+          "number.base": "schoolNo은 숫자 형식입니다.",
+          "number.integer": "schoolNo은 정수입니다.",
+          "any.required": "schoolNo 필드가 비었습니다.",
+        }),
+        departmentNo: Joi.number().required().messages({
+          "number.base": "departmentNo은 숫자 형식입니다.",
+          "number.integer": "departmentNo은 정수입니다.",
+          "any.required": "departmentNo 필드가 비었습니다.",
+        }),
+        majorNo: Joi.number().required().messages({
+          "number.base": "majorNo은 숫자 형식입니다.",
+          "number.integer": "majorNo은 정수입니다.",
+          "any.required": "majorNo 필드가 비었습니다.",
+        }),
+        userNo: Joi.number().required().messages({
+          "number.base": "userNo은 숫자 형식입니다.",
+          "number.integer": "userNo은 정수입니다.",
+          "any.required": "userNo 필드가 비었습니다.",
+        }),
+        title: Joi.string().required().min(1).max(30).messages({
+          "string.base": "title은 문자 형식입니다.",
+          "string.min": "title은 최소 1글자 입니다..",
+          "string.max": "title은 최대 30글자 입니다.",
+          "any.required": "title 필드가 비었습니다.",
+        }),
+        content: Joi.string().required().min(1).max(255).messages({
+          "string.base": "content은 문자 형식입니다.",
+          "string.min": "content은 최소 1글자 입니다..",
+          "string.max": "content은 최대 255글자 입니다.",
+          "any.required": "content 필드가 비었습니다.",
+        }),
+        organizationName: Joi.string().required().min(1).max(30).messages({
+          "string.base": "organizationName은 문자 형식입니다.",
+          "string.min": "organizationName은 최소 1글자 입니다..",
+          "string.max": "organizationName은 최대 30글자 입니다.",
+          "any.required": "organizationName 필드가 비었습니다.",
+        }),
+        inquirer: Joi.string().required().min(1).max(20).messages({
+          "string.base": "inquirer은 문자 형식입니다.",
+          "string.min": "inquirer은 최소 1글자 입니다..",
+          "string.max": "inquirer은 최대 20글자 입니다.",
+          "any.required": "inquirer 필드가 비었습니다.",
+        }),
+        position: Joi.string().required().min(1).max(20).messages({
+          "string.base": "position은 문자 형식입니다.",
+          "string.min": "position은 최소 1글자 입니다..",
+          "string.max": "position은 최대 20글자 입니다.",
+          "any.required": "position 필드가 비었습니다.",
+        }),
+        phoneNumber: Joi.string().required().min(1).max(15).messages({
+          "string.base": "phoneNumber은 문자 형식입니다.",
+          "string.min": "phoneNumber은 최소 1글자 입니다..",
+          "string.max": "phoneNumber은 최대 15글자 입니다.",
+          "any.required": "phoneNumber 필드가 비었습니다.",
+        }),
+        email: Joi.string().max(30).messages({
+          "string.base": "email은 문자 형식입니다.",
+          "string.max": "email은 최대 30글자 입니다.",
+        }),
+        homepageUrl: Joi.string().max(255).messages({
+          "string.base": "homepageUrl은 문자 형식입니다.",
+          "string.max": "homepageUrl은 최대 255글자 입니다.",
+        }),
+        bannerUrl: Joi.string().max(255).messages({
+          "string.base": "bannerUrl은 문자 형식입니다.",
+          "string.max": "bannerUrl은 최대 255글자 입니다.",
+        }),
+        advertisementMonth: Joi.number().required().messages({
+          "number.base": "advertisementMonth은 숫자 형식입니다.",
+          "number.integer": "advertisementMonth은 정수입니다.",
+          "any.required": "advertisementMonth 필드가 비었습니다.",
+        }),
+        advertisementPrice: Joi.number().required().messages({
+          "number.base": "advertisementPrice은 숫자 형식입니다.",
+          "number.integer": "advertisementPrice은 정수입니다.",
+          "any.required": "advertisementPrice 필드가 비었습니다.",
+        }),
+      }),
+    },
+  },
+  params: {
+    delete: Joi.object().keys({
+      inquiryNo: Joi.number().required().messages({
+        "number.base": "inquiryNo은 숫자 형식입니다.",
+        "number.integer": "inquiryNo은 정수입니다.",
+        "any.required": "inquiryNo 필드가 비었습니다.",
+      }),
+    }),
+    put: Joi.object().keys({
+      inquiryNo: Joi.number().required().messages({
+        "number.base": "inquiryNo은 숫자 형식입니다.",
+        "number.integer": "inquiryNo은 정수입니다.",
+        "any.required": "inquiryNo 필드가 비었습니다.",
+      }),
+    }),
+    get: Joi.object().keys({
+      userNo: Joi.number().required().messages({
+        "number.base": "userNo은 숫자 형식입니다.",
+        "number.integer": "userNo은 정수입니다.",
+        "any.required": "userNo 필드가 비었습니다.",
+      }),
+    }),
+  },
+};
+
 module.exports = {
   major_POST_schema,
   user,
@@ -790,6 +991,7 @@ module.exports = {
   reply,
   bookmark,
   chat,
+  advertisement,
 };
 
 // export const market_POST_schema = Joi.object().keys({
