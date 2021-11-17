@@ -1,15 +1,34 @@
 const mysql = require("../../config/mysql");
 
 class ChatRepository {
-  static async findAllByUserNo(userNo) {
+  static async findAllByBuyerNo(userNo) {
     try {
       await mysql.connect();
-      const query = `SELECT c.no AS chatRoomNo, c.seller_no AS sellerNo, c.buyer_no AS buyerNo, 
-      (SELECT users.nickname FROM users WHERE users.no = sellerNo) AS sellerNickname, (SELECT users.nickname FROM users WHERE users.no = buyerNo) AS buyerNickname
+      const query = `SELECT c.no AS chatRoomNo, c.buyer_no AS userNo, c.product_title AS title, users.nickname, users.profile_img_url AS profileUrl
       FROM chat_lists AS c
-      WHERE c.seller_no = ? OR c.buyer_no = ?;`;
+      LEFT JOIN users
+      ON users.no = c.buyer_no
+      WHERE c.seller_no = ?;`;
 
-      const chatList = await mysql.query(query, [userNo, userNo]);
+      const chatList = await mysql.query(query, [userNo]);
+      return chatList;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAllBySellerNo(userNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT c.no AS chatRoomNo, c.seller_no AS userNo, c.product_title AS title, users.nickname, users.profile_img_url AS profileUrl
+      FROM chat_lists AS c
+      LEFT JOIN users
+      ON users.no = c.seller_no
+      WHERE c.buyer_no = ?;`;
+
+      const chatList = await mysql.query(query, [userNo]);
       return chatList;
     } catch (err) {
       throw err;
@@ -34,13 +53,13 @@ class ChatRepository {
     }
   }
 
-  static async insertChatRoom(sellerNo, buyerNo) {
+  static async insertChatRoom(sellerNo, buyerNo, title) {
     try {
       await mysql.connect();
 
-      const query = `INSERT INTO chat_lists (seller_no, buyer_no) VALUES (?, ?);`;
+      const query = `INSERT INTO chat_lists (seller_no, buyer_no, product_title) VALUES (?, ?, ?);`;
 
-      const result = await mysql.query(query, [sellerNo, buyerNo]);
+      const result = await mysql.query(query, [sellerNo, buyerNo, title]);
 
       return result.insertId;
     } catch (err) {

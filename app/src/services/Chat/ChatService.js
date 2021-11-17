@@ -17,6 +17,7 @@ class ChatService {
         const chatRoomNo = await ChatRepository.insertChatRoom(
           user.sellerNo,
           user.buyerNo,
+          user.title,
         );
 
         return { chatRoomNo };
@@ -30,7 +31,10 @@ class ChatService {
   async findAllByUserNo() {
     const userNo = this.params.userNo;
     try {
-      const chatlist = await ChatRepository.findAllByUserNo(userNo);
+      const buyerList = await ChatRepository.findAllByBuyerNo(userNo);
+      const sellerList = await ChatRepository.findAllBySellerNo(userNo);
+
+      const chatlist = [...buyerList, ...sellerList];
       return { chatlist };
     } catch (err) {
       throw err;
