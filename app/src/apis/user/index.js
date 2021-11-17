@@ -49,4 +49,10 @@ router.patch(
   ctrl.updateTrustScore,
 );
 
+router.get(
+  "/review/:userNo",
+  joiValidator(joi.user.review.updateScore.params, "params"),
+  ctrl.findBuyerByUserNo,
+);
+
 module.exports = router;

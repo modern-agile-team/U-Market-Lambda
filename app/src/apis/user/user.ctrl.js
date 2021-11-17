@@ -101,6 +101,20 @@ const process = {
     }
   },
 
+  findBuyerByUserNo: async (req, res, next) => {
+    try {
+      const buyerlist = new UserService(req);
+      const response = await buyerlist.findBuyerByUserNo();
+
+      logger.info(
+        `GET /api/user/review/${req.params.userNo} 200 살 사람 조회 완료`,
+      );
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   updateTrustScore: async (req, res, next) => {
     try {
       const review = new UserService(req);

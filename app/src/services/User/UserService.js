@@ -1,6 +1,7 @@
 const UserRepostory = require("../../repository/User/UserRepository");
 const Cryptor = require("../../utils/Cryptor");
 const AuthService = require("../Auth/AuthService");
+const ChatRepository = require("../../repository/Chat/ChatRepository");
 
 class UserService {
   constructor(req) {
@@ -97,6 +98,17 @@ class UserService {
       user.salt = salt;
       await UserRepostory.updatePassword(isExistUser.no, user);
       return { msg: "비밀번호가 변경되었습니다." };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findBuyerByUserNo() {
+    const userNo = this.params.userNo;
+
+    try {
+      const buyerList = await ChatRepository.findBuyerBySellerNo(userNo);
+      return { buyerList };
     } catch (err) {
       throw err;
     }
