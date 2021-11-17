@@ -77,6 +77,41 @@ const user = {
   }),
 
   review: {
+    create: {
+      body: Joi.object().keys({
+        productNo: Joi.number().integer().required().messages({
+          "number.base": "productNo 는 숫자 형식입니다.",
+          "number.integer": "productNo 는 정수입니다.",
+          "any.required": "productNo 필드가 비었습니다.",
+        }),
+        sellerNo: Joi.number().integer().required().messages({
+          "number.base": "sellerNo 는 숫자 형식입니다.",
+          "number.integer": "sellerNo 는 정수입니다.",
+          "any.required": "sellerNo 필드가 비었습니다.",
+        }),
+        buyerNo: Joi.number().integer().required().messages({
+          "number.base": "buyerNo 는 숫자 형식입니다.",
+          "number.integer": "buyerNo 는 정수입니다.",
+          "any.required": "buyerNo 필드가 비었습니다.",
+        }),
+        description: Joi.string().required().messages({
+          "string.base": "description 은 문자 형식입니다.",
+          "string.empty": "description 값을 입력해주세요.",
+          "any.required": "description 필드가 비었습니다.",
+        }),
+        trustScore: Joi.number().required().messages({
+          "number.base": "trustScore 는 숫자 형식입니다.",
+          "any.required": "trustScore 필드가 비었습니다.",
+        }),
+        writer: Joi.number().min(0).max(1).required().messages({
+          "number.base": "writer 는 숫자 형식입니다.",
+          "number.integer": "writer 는 정수입니다.",
+          "number.min": "writer 는 0 이상 입니다.",
+          "number.max": "writer 는 1 이하입니다.",
+          "any.required": "writer 필드가 비었습니다.",
+        }),
+      }),
+    },
     body: Joi.object().keys({
       buyerNo: Joi.number().integer().required().messages({
         "number.base": "buyerNo 는 숫자 형식입니다.",
@@ -94,6 +129,22 @@ const user = {
         "any.required": "sellerNo 필드가 비었습니다.",
       }),
     }),
+
+    updateScore: {
+      body: Joi.object().keys({
+        trustScore: Joi.number().required().messages({
+          "number.base": "trustScore 는 숫자 형식입니다.",
+          "any.required": "trustScore 필드가 비었습니다.",
+        }),
+      }),
+      params: Joi.object().keys({
+        userNo: Joi.number().required().messages({
+          "number.base": "userNo 는 숫자 형식입니다.",
+          "number.integer": "userNo 는 정수입니다.",
+          "any.required": "userNo 필드가 비었습니다.",
+        }),
+      }),
+    },
   },
 };
 

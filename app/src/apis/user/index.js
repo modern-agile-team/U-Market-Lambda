@@ -29,7 +29,11 @@ router.post(
   ctrl.changePassword,
 );
 
-router.post("/review", ctrl.createReview);
+router.post(
+  "/review",
+  joiValidator(joi.user.review.create.body, "body"),
+  ctrl.createReview,
+);
 
 router.put(
   "/:userNo",
@@ -38,6 +42,11 @@ router.put(
   ctrl.update,
 );
 
-router.patch("/review/:userNo", ctrl.updateTrustScore);
+router.patch(
+  "/review/:userNo",
+  joiValidator(joi.user.review.updateScore.params, "params"),
+  joiValidator(joi.user.review.updateScore.body, "body"),
+  ctrl.updateTrustScore,
+);
 
 module.exports = router;
