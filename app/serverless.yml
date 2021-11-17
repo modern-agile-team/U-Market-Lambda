@@ -426,3 +426,33 @@ functions:
             parameters:
               paths:
                 userNo: true
+      
+      # advertisement
+      - http:
+          method: POST
+          path: /api/advertisements/inquiry
+          # cors: true
+      - http:
+          method: DELETE
+          path: /api/advertisements/{inquiryNo}
+          # cors: true
+          request:
+            parameters:
+              paths:
+                inquiryNo: true
+      - http:
+          method: PUT
+          path: /api/advertisements/{inquiryNo}
+          # cors: true
+          request:
+            parameters:
+              paths:
+                inquiryNo: true
+      - http:
+          method: GET
+          path: /api/advertisements/{userNo}/inquiries
+          # cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
