@@ -794,6 +794,11 @@ const chat = {
       "number.integer": "buyerNo 는 정수입니다.",
       "any.required": "buyerNo 필드가 비었습니다.",
     }),
+    productNo: Joi.number().required().messages({
+      "number.base": "productNo 는 숫자 형식입니다.",
+      "number.integer": "productNo 는 정수입니다.",
+      "any.required": "productNo 필드가 비었습니다.",
+    }),
     title: Joi.string().required().min(1).max(30).messages({
       "string.base": "title은 문자 형식입니다.",
       "string.min": "title은 최소 1글자 입니다..",

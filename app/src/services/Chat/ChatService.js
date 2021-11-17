@@ -12,11 +12,13 @@ class ChatService {
       const isExistChatRoom = await ChatRepository.isExistChatRoom(
         user.sellerNo,
         user.buyerNo,
+        user.productNo,
       );
       if (!isExistChatRoom.length) {
         const chatRoomNo = await ChatRepository.insertChatRoom(
           user.sellerNo,
           user.buyerNo,
+          user.productNo,
           user.title,
         );
 

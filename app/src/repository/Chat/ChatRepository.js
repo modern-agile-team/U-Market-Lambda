@@ -37,13 +37,13 @@ class ChatRepository {
     }
   }
 
-  static async isExistChatRoom(sellerNo, buyerNo) {
+  static async isExistChatRoom(sellerNo, buyerNo, productNo) {
     try {
       await mysql.connect();
 
-      const query = `SELECT no AS chatRoomNo FROM chat_lists WHERE seller_no = ? AND buyer_no = ?;`;
+      const query = `SELECT no AS chatRoomNo FROM chat_lists WHERE seller_no = ? AND buyer_no = ? AND product_no = ?;`;
 
-      const result = await mysql.query(query, [sellerNo, buyerNo]);
+      const result = await mysql.query(query, [sellerNo, buyerNo, productNo]);
 
       return result;
     } catch (err) {
@@ -53,13 +53,18 @@ class ChatRepository {
     }
   }
 
-  static async insertChatRoom(sellerNo, buyerNo, title) {
+  static async insertChatRoom(sellerNo, buyerNo, productNo, title) {
     try {
       await mysql.connect();
 
-      const query = `INSERT INTO chat_lists (seller_no, buyer_no, product_title) VALUES (?, ?, ?);`;
+      const query = `INSERT INTO chat_lists (seller_no, buyer_no, product_no, product_title) VALUES (?, ?, ?, ?);`;
 
-      const result = await mysql.query(query, [sellerNo, buyerNo, title]);
+      const result = await mysql.query(query, [
+        sellerNo,
+        buyerNo,
+        productNo,
+        title,
+      ]);
 
       return result.insertId;
     } catch (err) {
