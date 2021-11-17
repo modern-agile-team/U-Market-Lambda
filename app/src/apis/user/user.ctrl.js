@@ -88,6 +88,46 @@ const process = {
       next(err);
     }
   },
+
+  createReview: async (req, res, next) => {
+    try {
+      const review = new UserService(req);
+      const response = await review.createReview();
+
+      logger.info(`POST /api/user/review 201 리뷰 생성 완료`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  findBuyerByUserNo: async (req, res, next) => {
+    try {
+      const buyerlist = new UserService(req);
+      const response = await buyerlist.findBuyerByUserNo();
+
+      logger.info(
+        `GET /api/user/review/${req.params.userNo} 200 살 사람 조회 완료`,
+      );
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  updateTrustScore: async (req, res, next) => {
+    try {
+      const review = new UserService(req);
+      const response = await review.updateTrustScore();
+
+      logger.info(
+        `POST /api/user/review/${req.params.userNo} 201 별점 업데이트 완료`,
+      );
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = process;

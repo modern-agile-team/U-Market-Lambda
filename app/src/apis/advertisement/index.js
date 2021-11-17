@@ -25,7 +25,7 @@ router.put(
 );
 
 router.get(
-  "/:userNo/inquiries",
+  "/inquiries/:userNo",
   validation(joi.advertisement.params.get, "params"),
   ctrl.findAdvertisementByInquirer,
 );

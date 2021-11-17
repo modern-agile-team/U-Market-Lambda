@@ -16,6 +16,11 @@ const signup_POST_schema = Joi.object().keys({
     "number.integer": "majorNum 은 정수입니다.",
     "any.required": "majorNum 필드가 비었습니다",
   }),
+  departmentNum: Joi.number().required().messages({
+    "number.base": "departmentNum 은 숫자 형식입니다.",
+    "number.integer": "departmentNum 은 정수입니다.",
+    "any.required": "departmentNum 필드가 비었습니다",
+  }),
   email: Joi.string().required().email().messages({
     "string.base": "email 은 문자 형식입니다.",
     "string.empty": "email 값을 입력해주세요.",
@@ -70,6 +75,77 @@ const user = {
       "any.required": "nickname 필드가 비었습니다.",
     }),
   }),
+
+  review: {
+    create: {
+      body: Joi.object().keys({
+        productNo: Joi.number().integer().required().messages({
+          "number.base": "productNo 는 숫자 형식입니다.",
+          "number.integer": "productNo 는 정수입니다.",
+          "any.required": "productNo 필드가 비었습니다.",
+        }),
+        sellerNo: Joi.number().integer().required().messages({
+          "number.base": "sellerNo 는 숫자 형식입니다.",
+          "number.integer": "sellerNo 는 정수입니다.",
+          "any.required": "sellerNo 필드가 비었습니다.",
+        }),
+        buyerNo: Joi.number().integer().required().messages({
+          "number.base": "buyerNo 는 숫자 형식입니다.",
+          "number.integer": "buyerNo 는 정수입니다.",
+          "any.required": "buyerNo 필드가 비었습니다.",
+        }),
+        description: Joi.string().required().messages({
+          "string.base": "description 은 문자 형식입니다.",
+          "string.empty": "description 값을 입력해주세요.",
+          "any.required": "description 필드가 비었습니다.",
+        }),
+        trustScore: Joi.number().required().messages({
+          "number.base": "trustScore 는 숫자 형식입니다.",
+          "any.required": "trustScore 필드가 비었습니다.",
+        }),
+        writer: Joi.number().min(0).max(1).required().messages({
+          "number.base": "writer 는 숫자 형식입니다.",
+          "number.integer": "writer 는 정수입니다.",
+          "number.min": "writer 는 0 이상 입니다.",
+          "number.max": "writer 는 1 이하입니다.",
+          "any.required": "writer 필드가 비었습니다.",
+        }),
+      }),
+    },
+    body: Joi.object().keys({
+      buyerNo: Joi.number().integer().required().messages({
+        "number.base": "buyerNo 는 숫자 형식입니다.",
+        "number.integer": "buyerNo 는 정수입니다.",
+        "any.required": "buyerNo 필드가 비었습니다.",
+      }),
+      productNo: Joi.number().integer().required().messages({
+        "number.base": "productNo 는 숫자 형식입니다.",
+        "number.integer": "productNo 는 정수입니다.",
+        "any.required": "productNo 필드가 비었습니다.",
+      }),
+      sellerNo: Joi.number().integer().required().messages({
+        "number.base": "sellerNo 는 숫자 형식입니다.",
+        "number.integer": "sellerNo 는 정수입니다.",
+        "any.required": "sellerNo 필드가 비었습니다.",
+      }),
+    }),
+
+    updateScore: {
+      body: Joi.object().keys({
+        trustScore: Joi.number().required().messages({
+          "number.base": "trustScore 는 숫자 형식입니다.",
+          "any.required": "trustScore 필드가 비었습니다.",
+        }),
+      }),
+      params: Joi.object().keys({
+        userNo: Joi.number().required().messages({
+          "number.base": "userNo 는 숫자 형식입니다.",
+          "number.integer": "userNo 는 정수입니다.",
+          "any.required": "userNo 필드가 비었습니다.",
+        }),
+      }),
+    },
+  },
 };
 
 const major_POST_schema = Joi.object().keys({
@@ -757,6 +833,39 @@ const bookmark = {
   }),
 };
 
+const chat = {
+  body: Joi.object().keys({
+    sellerNo: Joi.number().required().messages({
+      "number.base": "sellerNo 는 숫자 형식입니다.",
+      "number.integer": "sellerNo 는 정수입니다.",
+      "any.required": "sellerNo 필드가 비었습니다.",
+    }),
+    buyerNo: Joi.number().required().messages({
+      "number.base": "buyerNo 는 숫자 형식입니다.",
+      "number.integer": "buyerNo 는 정수입니다.",
+      "any.required": "buyerNo 필드가 비었습니다.",
+    }),
+    productNo: Joi.number().required().messages({
+      "number.base": "productNo 는 숫자 형식입니다.",
+      "number.integer": "productNo 는 정수입니다.",
+      "any.required": "productNo 필드가 비었습니다.",
+    }),
+    title: Joi.string().required().min(1).max(30).messages({
+      "string.base": "title은 문자 형식입니다.",
+      "string.min": "title은 최소 1글자 입니다..",
+      "string.max": "title은 최대 30글자 입니다.",
+      "any.required": "title 필드가 비었습니다.",
+    }),
+  }),
+  params: Joi.object().keys({
+    userNo: Joi.number().required().messages({
+      "number.base": "userNo 는 숫자 형식입니다.",
+      "number.integer": "userNo 는 정수입니다.",
+      "any.required": "userNo 필드가 비었습니다.",
+    }),
+  }),
+};
+
 const advertisement = {
   body: {
     inquiry: {
@@ -975,6 +1084,7 @@ module.exports = {
   comment,
   reply,
   bookmark,
+  chat,
   advertisement,
 };
 
