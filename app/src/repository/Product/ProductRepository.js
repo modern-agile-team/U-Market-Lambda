@@ -169,6 +169,26 @@ class ProductRepository {
     }
   }
 
+  static async findTradeFinishByUserNo(userNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT pro.no, pro.title, pro.thumbnail, users.nickname 
+      FROM products AS pro
+      LEFT JOIN sell_products AS sp
+      ON sp.product_no = pro.no
+      LEFT JOIN users
+      ON users.no = sp.user_no
+      WHERE pro.user_no = ? AND pro.trading_status_no = 3;`;
+
+      const products = await mysql.query(query, [userNo]);
+      return products;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async insertOne(product) {
     try {
       await mysql.connect();

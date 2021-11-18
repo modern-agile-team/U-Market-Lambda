@@ -18,6 +18,12 @@ router.get(
 );
 
 router.get(
+  "/:userNo/seller",
+  validation(joi.user.review.find.params, "params"),
+  ctrl.findNotReviewBySeller,
+);
+
+router.get(
   "/:userNo",
   validation(joi.user.review.find.params, "params"),
   validation(joi.user.review.find.query, "query"),
@@ -28,6 +34,13 @@ router.post(
   "/",
   validation(joi.user.review.create.body, "body"),
   ctrl.createReview,
+);
+
+router.post(
+  "/:userNo",
+  validation(joi.user.review.createBuyer.body, "body"),
+  validation(joi.user.review.createBuyer.params, "params"),
+  ctrl.createBuyer,
 );
 
 router.patch(

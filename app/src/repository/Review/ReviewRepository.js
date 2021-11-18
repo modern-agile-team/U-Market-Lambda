@@ -39,11 +39,24 @@ class ReviewRepository {
     }
   }
 
+  static async createBuyer(userNo, productNo) {
+    try {
+      await mysql.connect();
+      const query = `INSERT INTO sell_products(user_no, product_no) VALUES(?, ?);`;
+      const result = await mysql.query(query, [userNo, productNo]);
+      if (result.affectedRows) return true;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async findWriteBySellerNo(userNo) {
     try {
       await mysql.connect();
 
-      const query = `SELECT reviews.no, pro.title, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate
+      const query = `SELECT reviews.no, reviews.product_no AS productNo, reviews.description, pro.title, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate
       FROM reviews
       LEFT JOIN products AS pro
       ON pro.no = reviews.product_no
@@ -64,7 +77,7 @@ class ReviewRepository {
     try {
       await mysql.connect();
 
-      const query = `SELECT reviews.no, pro.title, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate 
+      const query = `SELECT reviews.no, pro.title, reviews.description, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate 
       FROM reviews
       LEFT JOIN products AS pro
       ON pro.no = reviews.product_no
@@ -85,7 +98,7 @@ class ReviewRepository {
     try {
       await mysql.connect();
 
-      const query = `SELECT reviews.no, pro.title, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate
+      const query = `SELECT reviews.no, reviews.product_no AS productNo, pro.title, reviews.description, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate
       FROM reviews
       LEFT JOIN products AS pro
       ON pro.no = reviews.product_no
@@ -106,7 +119,7 @@ class ReviewRepository {
     try {
       await mysql.connect();
 
-      const query = `SELECT reviews.no, pro.title, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate 
+      const query = `SELECT reviews.no, pro.title, pro.thumbnail, reviews.description, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate 
       FROM reviews
       LEFT JOIN products AS pro
       ON pro.no = reviews.product_no

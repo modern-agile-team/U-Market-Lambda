@@ -489,6 +489,16 @@ functions:
           # private: true
 
       - http:
+          method: POST
+          path: /api/review/{userNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
           method: PATCH
           path: /api/review/{userNo}
           cors: true
@@ -521,6 +531,16 @@ functions:
       - http:
           method: GET
           path: /api/review/{userNo}/receiver
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/review/{userNo}/seller
           cors: true
           # private: true
           request:

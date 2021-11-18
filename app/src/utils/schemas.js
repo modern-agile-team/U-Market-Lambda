@@ -112,6 +112,22 @@ const user = {
         }),
       }),
     },
+    createBuyer: {
+      body: Joi.object().keys({
+        productNo: Joi.number().required().messages({
+          "number.base": "productNo 는 숫자 형식입니다.",
+          "number.integer": "productNo 는 정수입니다.",
+          "any.required": "productNo 필드가 비었습니다.",
+        }),
+      }),
+      params: Joi.object().keys({
+        userNo: Joi.number().required().messages({
+          "number.base": "userNo 는 숫자 형식입니다.",
+          "number.integer": "userNo 는 정수입니다.",
+          "any.required": "userNo 필드가 비었습니다.",
+        }),
+      }),
+    },
     body: Joi.object().keys({
       buyerNo: Joi.number().integer().required().messages({
         "number.base": "buyerNo 는 숫자 형식입니다.",

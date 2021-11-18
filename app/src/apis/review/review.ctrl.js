@@ -14,6 +14,18 @@ const process = {
     }
   },
 
+  createBuyer: async (req, res, next) => {
+    try {
+      const review = new ReviewService(req);
+      const response = await review.createBuyer();
+
+      logger.info(`POST /api/review/:userNo 201 구매자 저장 완료`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   findBuyerByUserNo: async (req, res, next) => {
     try {
       const buyerlist = new ReviewService(req);
@@ -49,6 +61,20 @@ const process = {
 
       logger.info(
         `GET /api/review/${req.params.userNo}/receiver 200 남이 쓴 리뷰 조회 완료`,
+      );
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  findNotReviewBySeller: async (req, res, next) => {
+    try {
+      const reviewlist = new ReviewService(req);
+      const response = await reviewlist.findNotReviewBySeller();
+
+      logger.info(
+        `GET /api/review/${req.params.userNo}/seller 200 자신이 써야 하는 리뷰(판매자) 조회 완료`,
       );
       return res.status(200).json(response);
     } catch (err) {
