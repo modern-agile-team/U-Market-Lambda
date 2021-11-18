@@ -286,7 +286,7 @@ functions:
                 userNo: true
       - http:
           method: GET
-          path: /api/selllist/finish/{userNo}
+          path: /api/selllist/{userNo}/finish
           cors: true
           request:
             parameters:

@@ -11,7 +11,7 @@ router.get(
   ctrl.selllist,
 );
 router.get(
-  "/finish/:userNo",
+  "/:userNo/finish",
   validation(joi.selllist.params, "params"),
   ctrl.endSelllist,
 );
