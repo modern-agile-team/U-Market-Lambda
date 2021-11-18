@@ -6,6 +6,18 @@ const validation = require("../../middleware/validation");
 const router = express.Router();
 
 router.get(
+  "/:userNo/writer",
+  validation(joi.user.review.find.params, "params"),
+  ctrl.findAllByWriter,
+);
+
+router.get(
+  "/:userNo/receiver",
+  validation(joi.user.review.find.params, "params"),
+  ctrl.findAllByReceiver,
+);
+
+router.get(
   "/:userNo",
   validation(joi.user.review.find.params, "params"),
   validation(joi.user.review.find.query, "query"),

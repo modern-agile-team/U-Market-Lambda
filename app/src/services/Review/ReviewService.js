@@ -23,6 +23,39 @@ class ReviewService {
     }
   }
 
+  async findAllByWriter() {
+    const userNo = this.params.userNo;
+    try {
+      const findWriteByBuyer = await ReviewRepository.findWriteByBuyerNo(
+        userNo,
+      );
+      const findWriteBySeller = await ReviewRepository.findWriteBySellerNo(
+        userNo,
+      );
+      const writedReviews = [...findWriteByBuyer, ...findWriteBySeller];
+      return { writedReviews };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findAllByReceiver() {
+    const userNo = this.params.userNo;
+    try {
+      const findReceivedReviewByBuyerNo =
+        await ReviewRepository.findReceivedReviewByBuyerNo(userNo);
+      const findReceivedReviewBySellerNo =
+        await ReviewRepository.findReceivedReviewBySellerNo(userNo);
+      const receivedReviews = [
+        ...findReceivedReviewByBuyerNo,
+        ...findReceivedReviewBySellerNo,
+      ];
+      return { receivedReviews };
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async createReview() {
     const information = this.body;
 

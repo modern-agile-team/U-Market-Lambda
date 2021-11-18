@@ -38,6 +38,90 @@ class ReviewRepository {
       mysql?.end();
     }
   }
+
+  static async findWriteBySellerNo(userNo) {
+    try {
+      await mysql.connect();
+
+      const query = `SELECT reviews.no, pro.title, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate
+      FROM reviews
+      LEFT JOIN products AS pro
+      ON pro.no = reviews.product_no
+      LEFT JOIN users AS u
+      ON u.no = reviews.buyer_no
+       WHERE seller_no = ? AND writer = 0;`;
+
+      const result = await mysql.query(query, [userNo]);
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findWriteByBuyerNo(userNo) {
+    try {
+      await mysql.connect();
+
+      const query = `SELECT reviews.no, pro.title, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate 
+      FROM reviews
+      LEFT JOIN products AS pro
+      ON pro.no = reviews.product_no
+      LEFT JOIN users AS u
+      ON u.no = reviews.seller_no
+       WHERE buyer_no = ? AND writer = 1;`;
+
+      const result = await mysql.query(query, [userNo]);
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findReceivedReviewBySellerNo(userNo) {
+    try {
+      await mysql.connect();
+
+      const query = `SELECT reviews.no, pro.title, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate
+      FROM reviews
+      LEFT JOIN products AS pro
+      ON pro.no = reviews.product_no
+      LEFT JOIN users AS u
+      ON u.no = reviews.buyer_no
+       WHERE seller_no = ? AND writer = 1;`;
+
+      const result = await mysql.query(query, [userNo]);
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findReceivedReviewByBuyerNo(userNo) {
+    try {
+      await mysql.connect();
+
+      const query = `SELECT reviews.no, pro.title, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate 
+      FROM reviews
+      LEFT JOIN products AS pro
+      ON pro.no = reviews.product_no
+      LEFT JOIN users AS u
+      ON u.no = reviews.seller_no
+       WHERE buyer_no = ? AND writer = 0;`;
+
+      const result = await mysql.query(query, [userNo]);
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = ReviewRepository;

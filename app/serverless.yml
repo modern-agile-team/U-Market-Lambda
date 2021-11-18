@@ -507,3 +507,23 @@ functions:
             parameters:
               paths:
                 userNo: true
+
+      - http:
+          method: GET
+          path: /api/review/{userNo}/writer
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/review/{userNo}/receiver
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true

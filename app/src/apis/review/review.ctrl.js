@@ -28,6 +28,34 @@ const process = {
     }
   },
 
+  findAllByWriter: async (req, res, next) => {
+    try {
+      const reviewlist = new ReviewService(req);
+      const response = await reviewlist.findAllByWriter();
+
+      logger.info(
+        `GET /api/review/${req.params.userNo}/writer 200 내가 쓴 리뷰 조회 완료`,
+      );
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  findAllByReceiver: async (req, res, next) => {
+    try {
+      const reviewlist = new ReviewService(req);
+      const response = await reviewlist.findAllByReceiver();
+
+      logger.info(
+        `GET /api/review/${req.params.userNo}/receiver 200 남이 쓴 리뷰 조회 완료`,
+      );
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   updateTrustScore: async (req, res, next) => {
     try {
       const review = new ReviewService(req);
