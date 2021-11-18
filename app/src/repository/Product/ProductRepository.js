@@ -221,9 +221,24 @@ class ProductRepository {
   static async updateHitByProductNo(productNo) {
     try {
       await mysql.connect();
-      let query = `UPDATE products SET hit = hit + 1 WHERE no = ?;`;
+      const query = `UPDATE products SET hit = hit + 1 WHERE no = ?;`;
 
       const result = await mysql.query(query, [productNo]);
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async updateStatus(productNo, status) {
+    try {
+      await mysql.connect();
+      const query = `UPDATE products SET trading_status_no = ? WHERE no = ?;`;
+      const result = await mysql.query(query, [status, productNo]);
+
       if (result.affectedRows) return true;
       throw new Error("Not Exist Product");
     } catch (err) {

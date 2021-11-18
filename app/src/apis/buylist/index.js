@@ -5,10 +5,6 @@ const validation = require("../../middleware/validation");
 
 const router = express.Router();
 
-router.get(
-  "/:userNo",
-  validation(joi.buylist.GET_schema, "params"),
-  ctrl.buylist,
-);
+router.get("/:userNo", validation(joi.buylist.params, "params"), ctrl.buylist);
 
 module.exports = router;

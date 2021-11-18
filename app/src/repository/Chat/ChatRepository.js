@@ -37,6 +37,28 @@ class ChatRepository {
     }
   }
 
+  static async findOneProductBuyerBySellerNo(userNo, productNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT c.buyer_no AS userNo, c.product_title AS title, users.nickname, users.profile_img_url AS profileUrl, pro.thumbnail, pc.name AS category
+      FROM chat_lists AS c
+      LEFT JOIN users
+      ON users.no = c.buyer_no
+      LEFT JOIN products AS pro
+      ON c.product_no = pro.no
+      LEFT JOIN product_detail_categories AS pc
+      ON pc.no = pro.product_detail_category_no
+      WHERE c.seller_no = ? AND c.product_no = ?;`;
+
+      const chatList = await mysql.query(query, [userNo, productNo]);
+      return chatList;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async isExistChatRoom(sellerNo, buyerNo, productNo) {
     try {
       await mysql.connect();

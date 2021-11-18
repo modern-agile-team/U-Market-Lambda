@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get(
   "/:userNo",
-  validation(joi.bookmark.find, "params"),
+  validation(joi.bookmark.params, "params"),
   ctrl.findAllByUserNo,
 );
 

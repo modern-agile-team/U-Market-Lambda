@@ -107,7 +107,7 @@ const process = {
       const response = await buyerlist.findBuyerByUserNo();
 
       logger.info(
-        `GET /api/user/review/${req.params.userNo} 200 살 사람 조회 완료`,
+        `GET /api/user/review/${req.params.userNo}?product=${req.query.product} 200 살 사람 조회 완료`,
       );
       return res.status(200).json(response);
     } catch (err) {

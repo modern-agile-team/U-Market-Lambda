@@ -145,10 +145,27 @@ const user = {
         }),
       }),
     },
+    find: {
+      params: Joi.object().keys({
+        userNo: Joi.number().required().messages({
+          "number.base": "userNo 는 숫자 형식입니다.",
+          "number.integer": "userNo 는 정수입니다.",
+          "any.required": "userNo 필드가 비었습니다.",
+        }),
+      }),
+
+      query: Joi.object().keys({
+        product: Joi.number().required().messages({
+          "number.base": "product 는 숫자 형식입니다.",
+          "number.integer": "product 는 정수입니다.",
+          "any.required": "product 필드가 비었습니다.",
+        }),
+      }),
+    },
   },
 };
 
-const major_POST_schema = Joi.object().keys({
+const major = Joi.object().keys({
   department: Joi.string().required().min(2).max(30).messages({
     "string.base": "department 은 문자 형식입니다.",
     "string.empty": "department 값을 입력해주세요.",
@@ -166,7 +183,7 @@ const major_POST_schema = Joi.object().keys({
 });
 
 const home = {
-  byPrice_GET_schema: Joi.object().keys({
+  byPrice: Joi.object().keys({
     sort: Joi.string().required().valid("desc", "asc").messages({
       "string.base": "sort 은 문자 형식입니다.",
       "string.empty": "sort 값을 입력해주세요.",
@@ -186,7 +203,7 @@ const home = {
     }),
   }),
   viewedProducts: {
-    query_GET_schema: Joi.object().keys({
+    query: Joi.object().keys({
       startNo: Joi.number().required().messages({
         "number.base": "startNo는 숫자 형식입니다.",
         "number.integer": "startNo는 정수입니다.",
@@ -198,7 +215,7 @@ const home = {
         "any.required": "limit 필드가 비었습니다.",
       }),
     }),
-    params_GET_schema: Joi.object().keys({
+    params: Joi.object().keys({
       userNo: Joi.number().required().messages({
         "number.base": "userNo은 숫자 형식입니다.",
         "number.integer": "userNo은 정수입니다.",
@@ -269,6 +286,13 @@ const products = {
     }),
   },
   body: {
+    status: Joi.object().keys({
+      status: Joi.number().required().messages({
+        "number.base": "status 은 숫자 형식입니다.",
+        "number.integer": "status 은 정수입니다.",
+        "any.required": "status 필드가 비었습니다.",
+      }),
+    }),
     root: Joi.object().keys({
       product: Joi.object()
         .required()
@@ -566,7 +590,7 @@ const communities = {
 };
 
 const watchlist = {
-  watchlist_POST_DELETE_schema: Joi.object().keys({
+  body: Joi.object().keys({
     userNo: Joi.number().required().messages({
       "number.base": "userNo 는 숫자 형식입니다.",
       "number.integer": "userNo 는 정수입니다.",
@@ -581,15 +605,17 @@ const watchlist = {
 };
 
 const buylist = {
-  GET_schema: Joi.object().keys({
-    userNo: Joi.string().required().messages({
+  params: Joi.object().keys({
+    userNo: Joi.number().required().messages({
+      "number.base": "userNo 는 숫자 형식입니다.",
+      "number.integer": "userNo 는 정수입니다.",
       "any.required": "userNo 필드가 비었습니다.",
     }),
   }),
 };
 
 const selllist = {
-  GET_schema: Joi.object().keys({
+  params: Joi.object().keys({
     userNo: Joi.string().required().messages({
       "any.required": "userNo 필드가 비었습니다.",
     }),
@@ -630,7 +656,7 @@ const changePassword = {
 };
 
 const image = {
-  POST_schema: Joi.object().keys({
+  body: Joi.object().keys({
     no: Joi.number().messages({
       "number.base": "no 는 숫자 형식입니다.",
       "number.integer": "no 는 정수입니다.",
@@ -809,14 +835,6 @@ const reply = {
 };
 
 const bookmark = {
-  find: Joi.object().keys({
-    userNo: Joi.number().required().messages({
-      "number.base": "userNo 는 숫자 형식입니다.",
-      "number.integer": "userNo 는 정수입니다.",
-      "any.required": "userNo 필드가 비었습니다.",
-    }),
-  }),
-
   params: Joi.object().keys({
     userNo: Joi.number().required().messages({
       "number.base": "userNo 는 숫자 형식입니다.",
@@ -1068,7 +1086,7 @@ const advertisement = {
 };
 
 module.exports = {
-  major_POST_schema,
+  major,
   user,
   login_POST_schema,
   signup_POST_schema,
