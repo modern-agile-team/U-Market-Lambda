@@ -25,6 +25,7 @@ const replies = require("./src/apis/communities/replies");
 const bookmark = require("./src/apis/bookmark");
 const chat = require("./src/apis/chat");
 const advertisement = require("./src/apis/advertisement");
+const review = require("./src/apis/review");
 
 app.use("/api/user", user);
 app.use("/api/home", home);
@@ -44,6 +45,7 @@ app.use("/api/replies", replies);
 app.use("/api/bookmarks", bookmark);
 app.use("/api/chat", chat);
 app.use("/api/advertisements", advertisement);
+app.use("/api/review", review);
 app.use(errorMiddleware);
 
 module.exports = app;

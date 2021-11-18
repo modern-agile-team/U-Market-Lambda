@@ -1,7 +1,6 @@
 const UserRepostory = require("../../repository/User/UserRepository");
 const Cryptor = require("../../utils/Cryptor");
 const AuthService = require("../Auth/AuthService");
-const ChatRepository = require("../../repository/Chat/ChatRepository");
 
 class UserService {
   constructor(req) {
@@ -99,47 +98,6 @@ class UserService {
       user.salt = salt;
       await UserRepostory.updatePassword(isExistUser.no, user);
       return { msg: "비밀번호가 변경되었습니다." };
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async findBuyerByUserNo() {
-    const userNo = this.params.userNo;
-    const productNo = this.query.product;
-
-    try {
-      const buyerList = await ChatRepository.findOneProductBuyerBySellerNo(
-        userNo,
-        productNo,
-      );
-      return { buyerList };
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async createReview() {
-    const information = this.body;
-
-    try {
-      const review = await UserRepostory.createReview(information);
-      if (review) return { msg: "리뷰 작성 완료" };
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async updateTrustScore() {
-    const information = this.body;
-    const userNo = this.params.userNo;
-
-    try {
-      let { trustScore, tradeCount } = await UserRepostory.findAllByNo(userNo);
-      trustScore =
-        (trustScore * (tradeCount - 1) + information.trustScore) / tradeCount;
-      const result = await UserRepostory.updateTrustScore(trustScore, userNo);
-      if (result) return { msg: "별점 업데이트 완료" };
     } catch (err) {
       throw err;
     }

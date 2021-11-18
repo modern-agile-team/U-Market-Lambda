@@ -87,32 +87,6 @@ functions:
               paths:
                 userNo: true
       
-      - http:
-          method: POST
-          path: /api/user/review
-          cors: true
-          # private: true
-
-      - http:
-          method: PATCH
-          path: /api/user/review/{userNo}
-          cors: true
-          # private: true
-          request:
-            parameters:
-              paths:
-                userNo: true
-
-      - http:
-          method: GET
-          path: /api/user/review/{userNo}
-          cors: true
-          # private: true
-          request:
-            parameters:
-              paths:
-                userNo: true
-
       # filter
       - http:
           method: GET
@@ -506,3 +480,30 @@ functions:
           method: POST
           path: /api/chat
           cors: true
+
+    # review
+      - http:
+          method: POST
+          path: /api/review
+          cors: true
+          # private: true
+
+      - http:
+          method: PATCH
+          path: /api/review/{userNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/review/{userNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
