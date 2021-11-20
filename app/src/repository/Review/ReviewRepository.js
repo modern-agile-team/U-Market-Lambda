@@ -77,7 +77,7 @@ class ReviewRepository {
     try {
       await mysql.connect();
 
-      const query = `SELECT reviews.no, pro.title, reviews.description, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate 
+      const query = `SELECT reviews.no, reviews.product_no AS productNo, pro.title, reviews.description, pro.thumbnail, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate 
       FROM reviews
       LEFT JOIN products AS pro
       ON pro.no = reviews.product_no
@@ -119,7 +119,7 @@ class ReviewRepository {
     try {
       await mysql.connect();
 
-      const query = `SELECT reviews.no, pro.title, pro.thumbnail, reviews.description, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate 
+      const query = `SELECT reviews.no, reviews.product_no AS productNo, pro.title, pro.thumbnail, reviews.description, reviews.trust_score AS trustScore, u.nickname, DATE_FORMAT(reviews.in_date, "%Y.%m.%d %H:%i") AS inDate 
       FROM reviews
       LEFT JOIN products AS pro
       ON pro.no = reviews.product_no

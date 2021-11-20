@@ -24,6 +24,12 @@ router.get(
 );
 
 router.get(
+  "/:userNo/buyer",
+  validation(joi.user.review.find.params, "params"),
+  ctrl.findNotReviewByBuyer,
+);
+
+router.get(
   "/:userNo",
   validation(joi.user.review.find.params, "params"),
   validation(joi.user.review.find.query, "query"),

@@ -78,6 +78,35 @@ class ReviewService {
     }
   }
 
+  async findNotReviewByBuyerler() {
+    const userNo = this.params.userNo;
+    try {
+      const sellerReviews = await ReviewRepository.findReceivedReviewByBuyerNo(
+        userNo,
+      );
+      const reviews = await ReviewRepository.findWriteByBuyerNo(userNo);
+      let productList = [];
+
+      let existReview = sellerReviews.map(review => {
+        return review.productNo;
+      });
+      let writedReview = reviews.map(review => {
+        return review.productNo;
+      });
+
+      const productNo = existReview.filter(
+        review => !writedReview.includes(review),
+      );
+
+      for (let no of productNo) {
+        productList.push(...(await ProductRepository.findAllByProductNo(no)));
+      }
+      return { productList };
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async createReview() {
     const information = this.body;
 
