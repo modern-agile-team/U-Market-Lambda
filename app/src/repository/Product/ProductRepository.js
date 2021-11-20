@@ -5,7 +5,7 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT pd.no, pd.user_no AS sellerNo, users.nickname, users.profile_img_url AS profileUrl, 
+        SELECT pd.no, pd.user_no AS sellerNo, users.nickname, users.profile_img_url AS profileUrl, pd.thumbnail, 
         pd_ctg.name AS categoryName, pd_d_ctg.name AS detailCategoryName,
         product_detail_category_no AS detailCategoryNo, title, price, description, 
         hit, interest_cnt AS interestCnt, bargaining_flag AS isBargaining, 
@@ -25,9 +25,9 @@ class ProductRepository {
         WHERE pd.no = ?
         LIMIT 20;`;
 
-      const community = await mysql.query(query, [productNo]);
+      const product = await mysql.query(query, [productNo]);
 
-      return community[0];
+      return product[0];
     } catch (err) {
       throw err;
     } finally {
