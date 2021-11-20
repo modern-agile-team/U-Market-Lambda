@@ -890,6 +890,10 @@ const chat = {
       "string.max": "title은 최대 30글자 입니다.",
       "any.required": "title 필드가 비었습니다.",
     }),
+    thumbnail: Joi.string().required().messages({
+      "string.base": "thumbnail 은 문자 형식입니다.",
+      "any.required": "thumbnail 필드가 비었습니다.",
+    }),
   }),
   params: Joi.object().keys({
     userNo: Joi.number().required().messages({

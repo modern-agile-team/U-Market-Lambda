@@ -4,7 +4,7 @@ class ChatRepository {
   static async findBuyerBySellerNo(userNo) {
     try {
       await mysql.connect();
-      const query = `SELECT c.no AS chatRoomNo, c.buyer_no AS userNo, c.product_title AS title, users.nickname, users.profile_img_url AS profileUrl
+      const query = `SELECT c.no AS chatRoomNo, c.thumbnail, c.buyer_no AS userNo, c.product_title AS title, users.nickname, users.profile_img_url AS profileUrl
       FROM chat_lists AS c
       LEFT JOIN users
       ON users.no = c.buyer_no
@@ -22,7 +22,7 @@ class ChatRepository {
   static async findSellerByBuyerNo(userNo) {
     try {
       await mysql.connect();
-      const query = `SELECT c.no AS chatRoomNo, c.seller_no AS userNo, c.product_title AS title, users.nickname, users.profile_img_url AS profileUrl
+      const query = `SELECT c.no AS chatRoomNo, c.thumbnail, c.seller_no AS userNo, c.product_title AS title, users.nickname, users.profile_img_url AS profileUrl
       FROM chat_lists AS c
       LEFT JOIN users
       ON users.no = c.seller_no
@@ -75,17 +75,18 @@ class ChatRepository {
     }
   }
 
-  static async insertChatRoom(sellerNo, buyerNo, productNo, title) {
+  static async insertChatRoom(sellerNo, buyerNo, productNo, title, thumbnail) {
     try {
       await mysql.connect();
 
-      const query = `INSERT INTO chat_lists (seller_no, buyer_no, product_no, product_title) VALUES (?, ?, ?, ?);`;
+      const query = `INSERT INTO chat_lists (seller_no, buyer_no, product_no, product_title, thumbnail) VALUES (?, ?, ?, ?, ?);`;
 
       const result = await mysql.query(query, [
         sellerNo,
         buyerNo,
         productNo,
         title,
+        thumbnail,
       ]);
 
       return result.insertId;
