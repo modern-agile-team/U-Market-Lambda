@@ -100,6 +100,31 @@ class CommunityRepository {
     }
   }
 
+  static async findAllBySearch(word) {
+    try {
+      await mysql.connect();
+
+      const query = `SELECT com.no, com.title, com.description, com.hit, com.like_cnt AS likeCnt, com.thumbnail, DATE_FORMAT(com.in_date, "%y.%m.%d") AS inDate,
+      u.nickname, u.profile_img_url AS profileUrl, COUNT(cc.no) AS commentCount
+      FROM communities AS com
+      LEFT JOIN users AS u
+      ON u.no = com.user_no
+      LEFT JOIN community_comments AS cc
+      ON com.no = cc.community_no
+      WHERE com.title regexp ?
+      group by com.no
+      ORDER BY com.no DESC;`;
+
+      const result = await mysql.query(query, [word]);
+
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async insertOne(community) {
     try {
       await mysql.connect();
