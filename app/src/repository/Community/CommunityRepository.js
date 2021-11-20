@@ -111,7 +111,7 @@ class CommunityRepository {
       ON u.no = com.user_no
       LEFT JOIN community_comments AS cc
       ON com.no = cc.community_no
-      WHERE com.title regexp ?
+      WHERE match(com.title) against(? IN BOOLEAN MODE)
       group by com.no
       ORDER BY com.no DESC;`;
 

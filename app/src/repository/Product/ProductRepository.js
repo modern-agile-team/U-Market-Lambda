@@ -264,10 +264,10 @@ class ProductRepository {
   static async findAllBySearch(word) {
     try {
       await mysql.connect();
-      const query = `SELECT pro.no, pro.title, pro.price, pro.interest_cnt AS interestCnt, pro.thumbnail 
-          FROM products AS pro
-          WHERE pro.title regexp ?
-          ORDER BY pro.no DESC;`;
+      const query = `SELECT no, title, price, interest_cnt AS interestCnt, thumbnail 
+      FROM products
+      WHERE MATCH(title) against(? IN BOOLEAN MODE)
+      ORDER BY no DESC;`;
 
       const product = await mysql.query(query, [word]);
       return product;
