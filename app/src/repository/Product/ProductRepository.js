@@ -169,6 +169,50 @@ class ProductRepository {
     }
   }
 
+  static async findTradeFinishByUserNo(userNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT pro.no, pro.title, pro.thumbnail, users.nickname, users.no AS buyerNo, pdc.name AS category
+      FROM products AS pro
+      LEFT JOIN sell_products AS sp
+      ON sp.product_no = pro.no
+      LEFT JOIN users
+      ON users.no = sp.user_no
+      LEFT JOIN product_detail_categories AS pdc
+      ON pdc.no = pro.product_detail_category_no
+      WHERE pro.user_no = ? AND pro.trading_status_no = 3;`;
+
+      const products = await mysql.query(query, [userNo]);
+      return products;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAllByProductNo(productNo) {
+    try {
+      await mysql.connect();
+      const query = `
+        SELECT pro.no, pro.title, pro.thumbnail, users.nickname, users.no AS buyerNo, pdc.name AS category
+        FROM products AS pro
+        LEFT JOIN users
+        ON users.no = pro.user_no
+        LEFT JOIN product_detail_categories AS pdc
+        ON pdc.no = pro.product_detail_category_no
+        WHERE pro.no = ?;`;
+
+      const product = await mysql.query(query, [productNo]);
+
+      return product;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async insertOne(product) {
     try {
       await mysql.connect();

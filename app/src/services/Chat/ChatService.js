@@ -20,6 +20,7 @@ class ChatService {
           user.buyerNo,
           user.productNo,
           user.title,
+          user.thumbnail,
         );
 
         return { chatRoomNo };

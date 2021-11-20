@@ -29,31 +29,11 @@ router.post(
   ctrl.changePassword,
 );
 
-router.post(
-  "/review",
-  joiValidator(joi.user.review.create.body, "body"),
-  ctrl.createReview,
-);
-
 router.put(
   "/:userNo",
   joiValidator(joi.user.params, "params"),
   joiValidator(joi.user.body, "body"),
   ctrl.update,
-);
-
-router.patch(
-  "/review/:userNo",
-  joiValidator(joi.user.review.updateScore.params, "params"),
-  joiValidator(joi.user.review.updateScore.body, "body"),
-  ctrl.updateTrustScore,
-);
-
-router.get(
-  "/review/:userNo",
-  joiValidator(joi.user.review.find.params, "params"),
-  joiValidator(joi.user.review.find.query, "query"),
-  ctrl.findBuyerByUserNo,
 );
 
 module.exports = router;
