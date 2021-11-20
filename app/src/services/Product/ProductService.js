@@ -64,6 +64,28 @@ class ProductService {
     return { products };
   }
 
+  async findAllByDetailCategory() {
+    const { detail } = this.query;
+    try {
+      const products = await ProductRepository.findAllByDetailCategory(detail);
+
+      return { products };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findAllByCategory() {
+    const { categoryNo } = this.params;
+    try {
+      const products = await ProductRepository.findAllByCategory(categoryNo);
+
+      return { products };
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async detailView() {
     // 물건의 상세 데이터 불러오기
     const product = await ProductRepository.findOneByNo(this.params.productNo);

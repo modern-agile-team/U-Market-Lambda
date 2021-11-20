@@ -10,10 +10,23 @@ router.get(
   validation(joi.products.query.root, "query"),
   ctrl.products.home,
 );
+
+router.get(
+  "/category/:categoryNo",
+  validation(joi.products.params.category, "params"),
+  ctrl.products.findAllByCategory,
+);
+
 router.get(
   "/:productNo/:userNo",
   validation(joi.products.params.detail, "params"),
   ctrl.products.detailView,
+);
+
+router.get(
+  "/category",
+  validation(joi.products.query.category, "query"),
+  ctrl.products.findAllByDetailCategory,
 );
 
 router.post(
