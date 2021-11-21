@@ -18,6 +18,31 @@ const products = {
       next(err);
     }
   },
+
+  findAllByDetailCategory: async (req, res, next) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.findAllByDetailCategory();
+
+      logger.info(`GET /api/products/category?detail=${req.query.detail} 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  findAllByCategory: async (req, res, next) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.findAllByCategory();
+
+      logger.info(`GET /api/products/category/${req.params.categoryNo} 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   detailView: async (req, res, next) => {
     try {
       const product = new ProductService(req);

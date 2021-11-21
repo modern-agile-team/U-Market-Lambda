@@ -279,8 +279,23 @@ const products = {
         "number.integer": "endPriceRange은 정수입니다.",
       }),
     }),
+    category: Joi.object().keys({
+      detail: Joi.string().required().messages({
+        "string.base": "detail 은 문자 형식입니다.",
+        "string.empty": "detail 값을 입력해주세요.",
+        "any.required": "detail 필드가 비었습니다.",
+      }),
+    }),
   },
   params: {
+    category: Joi.object().keys({
+      categoryNo: Joi.number().required().messages({
+        "number.base": "category 은 문자 형식입니다.",
+        "number.integer": "category 값을 입력해주세요.",
+        "any.required": "category 필드가 비었습니다.",
+      }),
+    }),
+
     productNo: Joi.object().keys({
       productNo: Joi.number().required().messages({
         "number.base": "productNo은 숫자 형식입니다.",
@@ -1105,6 +1120,18 @@ const advertisement = {
   },
 };
 
+const search = {
+  category: {
+    query: Joi.object().keys({
+      query: Joi.string().required().messages({
+        "string.base": "query 은 문자 형식입니다.",
+        "string.empty": "query 값을 입력해주세요.",
+        "any.required": "query 필드가 비었습니다.",
+      }),
+    }),
+  },
+};
+
 module.exports = {
   major,
   user,
@@ -1124,6 +1151,7 @@ module.exports = {
   bookmark,
   chat,
   advertisement,
+  search,
 };
 
 // export const market_POST_schema = Joi.object().keys({

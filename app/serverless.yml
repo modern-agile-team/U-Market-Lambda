@@ -153,6 +153,22 @@ functions:
                 productNo: true
                 userNo: true
       - http:
+          method: GET
+          path: /api/products/category
+          cors: true
+          # private: true
+
+      - http:
+          method: GET
+          path: /api/products/category/{categoryNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                categoryNo: true
+
+      - http:
           method: POST
           path: /api/product
           cors: true
@@ -522,7 +538,7 @@ functions:
           method: GET
           path: /api/review/{userNo}/writer
           cors: true
-          # private: true
+          # private: true                   
           request:
             parameters:
               paths:
@@ -557,3 +573,19 @@ functions:
             parameters:
               paths:
                 userNo: true
+
+      - http:
+          method: GET
+          path: /api/search/products
+          cors: true
+          # private: true
+
+      - http:
+          method: GET
+          path: /api/search/communities
+          cors: true
+          # private: true
+
+
+
+      

@@ -213,6 +213,71 @@ class ProductRepository {
     }
   }
 
+  static async findAllByDetailCategory(category) {
+    try {
+      await mysql.connect();
+      const query = `
+        SELECT pd.no, pd.title, pd.price,
+        pd.interest_cnt AS interestCnt, pd.thumbnail 
+        FROM product_detail_categories AS pdc
+        RIGHT JOIN products AS pd
+        ON pdc.no = pd.product_detail_category_no
+        WHERE pdc.name = ?
+        ORDER BY pd.no DESC;
+      `;
+
+      const product = await mysql.query(query, [category]);
+
+      return product;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAllByCategory(category) {
+    try {
+      await mysql.connect();
+      const query = `
+        SELECT pd.no, pd.title, pd.price,
+        pd.interest_cnt AS interestCnt, pd.thumbnail 
+        FROM product_categories AS pc
+        LEFT JOIN product_detail_categories AS pdc
+        ON pc.no = pdc.product_category_no
+        RIGHT JOIN products AS pd
+        ON pdc.no = pd.product_detail_category_no
+        WHERE pc.no = ?
+        ORDER BY pd.no DESC;
+      `;
+
+      const product = await mysql.query(query, [category]);
+
+      return product;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAllBySearch(word) {
+    try {
+      await mysql.connect();
+      const query = `SELECT no, title, price, interest_cnt AS interestCnt, thumbnail 
+      FROM products
+      WHERE MATCH(title) against(? IN BOOLEAN MODE)
+      ORDER BY no DESC;`;
+
+      const product = await mysql.query(query, [word]);
+      return product;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async insertOne(product) {
     try {
       await mysql.connect();
