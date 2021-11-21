@@ -78,7 +78,7 @@ class ReviewService {
     }
   }
 
-  async findNotReviewByBuyerler() {
+  async findNotReviewByBuyer() {
     const userNo = this.params.userNo;
     try {
       const sellerReviews = await ReviewRepository.findReceivedReviewByBuyerNo(
