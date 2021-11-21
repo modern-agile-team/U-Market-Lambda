@@ -13,7 +13,7 @@ class SearchService {
     try {
       word = word.replace(/\+/g, " ");
       const products = await ProductRepository.findAllBySearch(word);
-      return products;
+      return { products };
     } catch (err) {
       throw err;
     }
@@ -24,7 +24,7 @@ class SearchService {
     try {
       word = word.replace(/\+/g, " ");
       const communities = await CommunityRepository.findAllBySearch(word);
-      return communities;
+      return { communities };
     } catch (err) {
       throw err;
     }
