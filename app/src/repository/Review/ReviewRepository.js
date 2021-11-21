@@ -42,7 +42,7 @@ class ReviewRepository {
   static async createBuyer(userNo, productNo) {
     try {
       await mysql.connect();
-      const query = `INSERT INTO sell_products(user_no, product_no) VALUES(?, ?);`;
+      const query = `INSERT INTO purchase_products(user_no, product_no) VALUES(?, ?);`;
       const result = await mysql.query(query, [userNo, productNo]);
       if (result.affectedRows) return true;
     } catch (err) {
