@@ -48,6 +48,9 @@ class UserService {
             jwt,
             email,
             userNo: whoWantsLogin.userNo,
+            regionNo: whoWantsLogin.regionNo,
+            schoolNo: whoWantsLogin.schoolNo,
+            majorNo: whoWantsLogin.majorNo,
           };
         }
         throw new Error("wrong password");
