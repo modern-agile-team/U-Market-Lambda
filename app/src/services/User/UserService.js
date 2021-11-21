@@ -51,6 +51,7 @@ class UserService {
             regionNo: whoWantsLogin.regionNo,
             schoolNo: whoWantsLogin.schoolNo,
             majorNo: whoWantsLogin.majorNo,
+            departmentNo: whoWantsLogin.departmentNo,
           };
         }
         throw new Error("wrong password");
