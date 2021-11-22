@@ -81,26 +81,18 @@ class ReviewService {
   async findNotReviewByBuyer() {
     const userNo = this.params.userNo;
     try {
-      const sellerReviews = await ReviewRepository.findReceivedReviewByBuyerNo(
-        userNo,
-      );
+      const products = await ProductRepository.findTradeBySeller(userNo);
       const reviews = await ReviewRepository.findWriteByBuyerNo(userNo);
-      let productList = [];
 
-      let existReview = sellerReviews.map(review => {
-        return review.productNo;
-      });
-      let writedReview = reviews.map(review => {
-        return review.productNo;
-      });
-
-      const productNo = existReview.filter(
-        review => !writedReview.includes(review),
+      const productList = products.filter(
+        product =>
+          !reviews
+            .map(reviews => {
+              return reviews.productNo;
+            })
+            .includes(product.no),
       );
 
-      for (let no of productNo) {
-        productList.push(...(await ProductRepository.findAllByProductNo(no)));
-      }
       return { productList };
     } catch (err) {
       throw err;
