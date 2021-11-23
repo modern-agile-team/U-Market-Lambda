@@ -192,7 +192,7 @@ class ProductRepository {
   static async findTradeBySeller(userNo) {
     try {
       await mysql.connect();
-      const query = `SELECT pro.no, pro.title, pro.thumbnail, u.nickname
+      const query = `SELECT pro.no, pro.title, pro.thumbnail, u.nickname, pro.user_no AS sellerNo
       FROM purchase_products AS pp
       LEFT JOIN products AS pro
       ON pro.no = pp.product_no
