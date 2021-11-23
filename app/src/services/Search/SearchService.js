@@ -9,22 +9,22 @@ class SearchService {
   }
 
   async findProductBySearch() {
-    const word = this.query.query;
+    let word = this.query.query;
     try {
-      console.log(word);
+      word = word.replace(/\+/g, " ");
       const products = await ProductRepository.findAllBySearch(word);
-      return products;
+      return { products };
     } catch (err) {
       throw err;
     }
   }
 
   async findCommunityBySearch() {
-    const word = this.query.query;
+    let word = this.query.query;
     try {
+      word = word.replace(/\+/g, " ");
       const communities = await CommunityRepository.findAllBySearch(word);
-
-      return communities;
+      return { communities };
     } catch (err) {
       throw err;
     }

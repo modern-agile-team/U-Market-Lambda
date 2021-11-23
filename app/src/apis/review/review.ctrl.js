@@ -85,7 +85,7 @@ const process = {
   findNotReviewByBuyer: async (req, res, next) => {
     try {
       const reviewlist = new ReviewService(req);
-      const response = await reviewlist.findNotReviewByBuyerler();
+      const response = await reviewlist.findNotReviewByBuyer();
 
       logger.info(
         `GET /api/review/${req.params.userNo}/buyer 200 자신이 써야 하는 리뷰(구매자) 조회 완료`,

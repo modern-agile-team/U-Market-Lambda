@@ -172,15 +172,33 @@ class ProductRepository {
   static async findTradeFinishByUserNo(userNo) {
     try {
       await mysql.connect();
-      const query = `SELECT pro.no, pro.title, pro.thumbnail, users.nickname, users.no AS buyerNo, pdc.name AS category
+      const query = `SELECT pro.no, pro.title, pro.thumbnail, users.nickname, users.no AS buyerNo
       FROM products AS pro
-      LEFT JOIN sell_products AS sp
-      ON sp.product_no = pro.no
+      LEFT JOIN purchase_products AS pp
+      ON pp.product_no = pro.no
       LEFT JOIN users
-      ON users.no = sp.user_no
-      LEFT JOIN product_detail_categories AS pdc
-      ON pdc.no = pro.product_detail_category_no
+      ON users.no = pp.user_no
       WHERE pro.user_no = ? AND pro.trading_status_no = 3;`;
+
+      const products = await mysql.query(query, [userNo]);
+      return products;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findTradeBySeller(userNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT pro.no, pro.title, pro.thumbnail, u.nickname
+      FROM purchase_products AS pp
+      LEFT JOIN products AS pro
+      ON pro.no = pp.product_no
+      LEFT JOIN users AS u
+      ON u.no = pro.user_no
+       WHERE pp.user_no = ?;`;
 
       const products = await mysql.query(query, [userNo]);
       return products;
