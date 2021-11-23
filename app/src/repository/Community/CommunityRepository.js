@@ -43,7 +43,7 @@ class CommunityRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT cmu_outer.no, nickname, profile_img_url AS profileUrl, cmu_outer.title, cmu_outer.description, hit, cmu_outer.like_cnt AS likeCnt, comment_cnt AS commentCnt, COUNT(bmk_cmu.no) AS bookmarkCnt, DATE_FORMAT(cmu_outer.in_date, "%Y.%m.%d %H:%i") AS inDate
+        SELECT cmu_outer.no, nickname, cmu_outer.user_no AS writerNo, profile_img_url AS profileUrl, cmu_outer.title, cmu_outer.description, hit, cmu_outer.like_cnt AS likeCnt, comment_cnt AS commentCnt, COUNT(bmk_cmu.no) AS bookmarkCnt, DATE_FORMAT(cmu_outer.in_date, "%Y.%m.%d %H:%i") AS inDate
         FROM (
           SELECT cmu_inner.no, users.nickname, users.profile_img_url, cmu_inner.user_no, title, cmu_inner.description, hit, cmu_inner.like_cnt, COUNT(cmu_cmt.no) AS comment_cnt, cmu_inner.in_date
           FROM communities AS cmu_inner
@@ -104,7 +104,7 @@ class CommunityRepository {
     try {
       await mysql.connect();
 
-      const query = `SELECT com.no, com.title, com.description, com.community_category_no AS categoryNo, com.hit, com.like_cnt AS likeCnt, com.thumbnail, DATE_FORMAT(com.in_date, "%y.%m.%d") AS inDate,
+      const query = `SELECT com.no, com.user_no AS writerNo, com.title, com.description, com.community_category_no AS categoryNo, com.hit, com.like_cnt AS likeCnt, com.thumbnail, DATE_FORMAT(com.in_date, "%y.%m.%d") AS inDate,
       u.nickname, u.profile_img_url AS profileUrl, COUNT(cc.no) AS commentCount
       FROM communities AS com
       LEFT JOIN users AS u
