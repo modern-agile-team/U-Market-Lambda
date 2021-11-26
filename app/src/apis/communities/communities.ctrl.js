@@ -80,11 +80,8 @@ const communities = {
       const community = new CommunityService(req);
       const isDelete = await community.delete();
 
-      if (isDelete) {
-        logger.info(`DELETE /api/communities/:communityNo 204`);
-        return res.status(204).end();
-      }
-      throw new Error("Not Exist Community");
+      logger.info(`DELETE /api/communities/:communityNo 201`);
+      return res.status(201).json(isDelete);
     } catch (err) {
       next(err);
     }

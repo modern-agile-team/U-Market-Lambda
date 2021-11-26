@@ -4,7 +4,7 @@ class BookmarkRepository {
   static async findAllByUserNo(userNo) {
     try {
       await mysql.connect();
-      const query = `SELECT cc.no, cc.title, users.nickname, cc.description, cc.hit, cc.thumbnail, cc.like_cnt AS likeCnt, DATE_FORMAT(cc.in_date, "%Y.%m.%d") AS inDate, COUNT(cmt.no) AS commentCnt
+      const query = `SELECT cc.no, cc.title,users.profile_img_url AS profileUrl, users.nickname, cc.description, cc.hit, cc.thumbnail, cc.like_cnt AS likeCnt, DATE_FORMAT(cc.in_date, "%Y.%m.%d") AS inDate, COUNT(cmt.no) AS commentCnt
       FROM communities AS cc
         LEFT JOIN bookmark_communities AS bc
         ON cc.no = bc.community_no

@@ -104,11 +104,8 @@ const products = {
       const product = new ProductService(req);
       const isDelete = await product.delete();
 
-      if (isDelete) {
-        logger.info(`DELETE /api/products/:productNo 204`);
-        return res.status(204).end();
-      }
-      throw new Error("Not Exist Product");
+      logger.info(`DELETE /api/products/:productNo 204`);
+      return res.status(201).json(isDelete);
     } catch (err) {
       next(err);
     }
