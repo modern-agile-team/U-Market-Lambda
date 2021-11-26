@@ -138,7 +138,7 @@ class CommunityService {
         this.params.communityNo,
       );
 
-      if (isDeleteCommunity) return true;
+      if (isDeleteCommunity) return { msg: "삭제 완료되었습니다." };
       throw new Error("Not Exist Community");
     } catch (err) {
       throw err;

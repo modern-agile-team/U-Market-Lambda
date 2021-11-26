@@ -180,7 +180,7 @@ class ProductService {
     try {
       const isDeleteProduct = await ProductRepository.deleteOneByNo(productNo);
 
-      if (isDeleteProduct) return true;
+      if (isDeleteProduct) return { msg: "삭제 완료되었습니다." };
       throw new Error("Not Exist Product");
     } catch (err) {
       throw err;
