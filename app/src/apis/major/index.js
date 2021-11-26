@@ -5,12 +5,9 @@ const joiValidator = require("../../middleware/validation");
 
 const router = express.Router();
 
-router.get("/school", ctrl.findSchoolNumAndName);
-router.get("/department", ctrl.findDepartmentNumAndName);
-router.post(
-  "/major",
-  joiValidator(joi.major_POST_schema, "body"),
-  ctrl.createMajorByname,
-);
+router.get("/regions/:regionNo/schools", ctrl.findSchoolNumAndName);
+router.get("/departments", ctrl.findDepartmentNumAndName);
+router.get("/departments/:departmentNo/majors", ctrl.findMajorNumAndName);
+router.post("/major", joiValidator(joi.major, "body"), ctrl.createMajorByname);
 
 module.exports = router;

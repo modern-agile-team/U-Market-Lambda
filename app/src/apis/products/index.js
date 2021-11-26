@@ -10,10 +10,23 @@ router.get(
   validation(joi.products.query.root, "query"),
   ctrl.products.home,
 );
+
 router.get(
-  "/:productNo",
-  validation(joi.products.params.productNo, "params"),
+  "/category/:categoryNo",
+  validation(joi.products.params.category, "params"),
+  ctrl.products.findAllByCategory,
+);
+
+router.get(
+  "/:productNo/:userNo",
+  validation(joi.products.params.detail, "params"),
   ctrl.products.detailView,
+);
+
+router.get(
+  "/category",
+  validation(joi.products.query.category, "query"),
+  ctrl.products.findAllByDetailCategory,
 );
 
 router.post(
@@ -27,6 +40,19 @@ router.put(
   validation(joi.products.params.productNo, "params"),
   validation(joi.products.body.productNo, "body"),
   ctrl.products.updateView,
+);
+
+router.patch(
+  "/:productNo",
+  validation(joi.products.params.productNo, "params"),
+  ctrl.products.updateHit,
+);
+
+router.patch(
+  "/:productNo/status",
+  validation(joi.products.params.productNo, "params"),
+  validation(joi.products.body.status, "body"),
+  ctrl.products.updateStatus,
 );
 
 router.delete(

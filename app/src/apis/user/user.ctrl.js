@@ -39,6 +39,32 @@ const process = {
     }
   },
 
+  update: async (req, res, next) => {
+    try {
+      const user = new UserService(req);
+      const response = await user.update();
+
+      logger.info(`PUT /api/user/${req.params.userNo} 201 수정 완료`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  sendEmailToAdmin: async (req, res, next) => {
+    try {
+      const email = new EmailService(req);
+      const response = await email.sendNewUserToAdmin();
+
+      logger.info(
+        `POST /api/user/signup/email 201 관리자에게 회원인증 요청 이메일 전송 성공`,
+      );
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   sendNewPsword: async (req, res, next) => {
     try {
       const email = new EmailService(req);

@@ -4,15 +4,16 @@ class UserRepository {
   static async signup(user) {
     try {
       await mysql.connect();
-      const query = `INSERT INTO users(region_no, school_no, major_no, grade, email, nickname, psword, salt) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+      const query = `INSERT INTO users(region_no, school_no, department_no, major_no, email, name, nickname, psword, salt) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
       const result = await mysql.query(query, [
         user.regionNum,
         user.schoolNum,
+        user.departmentNum,
         user.majorNum,
-        user.grade,
         user.email,
+        user.name,
         user.nickname,
         user.psword,
         user.salt,
@@ -29,8 +30,8 @@ class UserRepository {
     try {
       await mysql.connect();
 
-      const query = `SELECT no AS userNum,region_no AS regionNum, school_no AS schoolNum, major_no AS majorNum,
-      grade, nickname, psword, salt, profile_img_url AS profileURL, trust_score AS trustScore FROM users WHERE email = ?;`;
+      const query = `SELECT no AS userNo,region_no AS regionNo, school_no AS schoolNo, major_no AS majorNo, department_no AS departmentNo,
+       nickname, psword, salt, profile_img_url AS profileURL, trust_score AS trustScore FROM users WHERE email = ?;`;
 
       const result = await mysql.query(query, [user.email]);
       if (result.length > 0) return result[0];
@@ -42,17 +43,35 @@ class UserRepository {
     }
   }
 
-  static async findAllByNickname(user) {
+  static async findAllByNo(userNo) {
     try {
       await mysql.connect();
 
-      const query = `SELECT u.no AS userNum, u.nickname, u.email, u.profile_img_url AS profileURL, u.trust_score AS trustScore, count(rv.no) AS tradeCount FROM users AS u
-      JOIN reviews AS rv
-       WHERE nickname = ? AND ((rv.seller_no = u.no AND writer = 1) OR (rv.buyer_no = u.no AND writer = 0));`;
+      const query = `SELECT u.nickname, u.email, u.profile_img_url AS profileUrl, u.trust_score AS trustScore, COUNT(rv.no) AS tradeCount FROM users AS u
+        LEFT JOIN reviews AS rv
+        ON ((rv.seller_no = u.no AND writer = 1) OR (rv.buyer_no = u.no AND writer = 0))
+        WHERE u.no = ?
+        GROUP BY u.no;`;
 
-      const result = await mysql.query(query, [user.nickname]);
+      const result = await mysql.query(query, [userNo]);
       if (result.length > 0) return result[0];
-      throw new Error("Not Exist Nickname");
+      throw new Error("Not Exist User");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async update(userNo, updateData) {
+    const { nickname } = updateData;
+    try {
+      await mysql.connect();
+
+      const query = `UPDATE users SET nickname = ? WHERE no = ?;`;
+      const result = await mysql.query(query, [nickname, userNo]);
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist User");
     } catch (err) {
       throw err;
     } finally {

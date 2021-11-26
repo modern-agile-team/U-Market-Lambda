@@ -52,9 +52,15 @@ functions:
   app:
     handler: handler.handler
     events:
+    # login & signup
       - http:
           method: POST
           path: /api/user/signup
+          cors: true
+          # private: true
+      - http:
+          method: POST
+          path: /api/user/signup/email
           cors: true
           # private: true
       - http:
@@ -64,13 +70,24 @@ functions:
           # private: true
       - http:
           method: GET
-          path: /api/user/{nickname}
+          path: /api/user/{userNo}
           cors: true
           # private: true
           request:
             parameters:
               paths:
-                nickname: true
+                userNo: true
+      - http:
+          method: PUT
+          path: /api/user/{userNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+      
+      # filter
       - http:
           method: GET
           path: /api/home/today
@@ -92,14 +109,27 @@ functions:
                 userNo: true
       - http:
           method: GET
-          path: /api/pick/school
+          path: /api/pick/regions/{regionNo}/schools
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                regionNo: true
+      - http:
+          method: GET
+          path: /api/pick/departments
           cors: true
           # private: true
       - http:
           method: GET
-          path: /api/pick/department
+          path: /api/pick/departments/{departmentNo}/majors
           cors: true
           # private: true
+          request:
+            parameters:
+              paths:
+                departmentNo: true
       - http:
           method: POST
           path: /api/pick/major
@@ -114,13 +144,30 @@ functions:
         #   private: true
       - http:
           method: GET
-          path: /api/products/{productNo}
+          path: /api/products/{productNo}/{userNo}
           cors: true
         #   private: true
           request:
             parameters:
               paths:
                 productNo: true
+                userNo: true
+      - http:
+          method: GET
+          path: /api/products/category
+          cors: true
+          # private: true
+
+      - http:
+          method: GET
+          path: /api/products/category/{categoryNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                categoryNo: true
+
       - http:
           method: POST
           path: /api/product
@@ -136,6 +183,25 @@ functions:
               paths:
                 productNo: true
       - http:
+          method: PATCH
+          path: /api/products/{productNo}
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                productNo: true
+      - http:
+          method: PATCH
+          path: /api/products/{productNo}/status
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                productNo: true
+
+      - http:
           method: DELETE
           path: /api/products/{productNo}
           cors: true
@@ -148,18 +214,19 @@ functions:
       # 커뮤니티 API
       - http:
           method: GET
-          path: /api/communities/
+          path: /api/communities
           cors: true
         #   private: true
       - http:
           method: GET
-          path: /api/communities/{communityNo}
+          path: /api/communities/{communityNo}/{userNo}
           cors: true
         #   private: true
           request:
             parameters:
               paths:
                 communityNo: true
+                userNo: true
       - http:
           method: POST
           path: /api/community
@@ -174,6 +241,25 @@ functions:
             parameters:
               paths:
                 communityNo: true
+
+      - http:
+          method: POST
+          path: /api/communities/{communityNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                communityNo: true
+      
+      - http:
+          method: PATCH
+          path: /api/communities/{communityNo}/hit
+          cors: true
+          request:
+            parameters:
+              paths:
+                communityNo: true
+
       - http:
           method: DELETE
           path: /api/communities/{communityNo}
@@ -204,6 +290,7 @@ functions:
           path: /api/watchlist
           cors: true
           # private: true
+      
       # SELLLIST
       - http:
           method: GET
@@ -215,7 +302,7 @@ functions:
                 userNo: true
       - http:
           method: GET
-          path: /api/selllist/finish/{userNo}
+          path: /api/selllist/{userNo}/finish
           cors: true
           request:
             parameters:
@@ -242,15 +329,263 @@ functions:
 
       #S3
       - http:
-            method: POST
-            path: /api/image
-            cors: true
+          method: POST
+          path: /api/image/product
+          cors: true
       - http:
-            method: DELETE
-            path: /api/image
-            cors: true
+          method: DELETE
+          path: /api/image
+          cors: true
       - http:
-            method: POST
-            path: /api/image/store
-            cors: true
+          method: POST
+          path: /api/image/store
+          cors: true
+      - http:
+          method: POST
+          path: /api/image/profile
+          cors: true
+      - http:
+          method: POST
+          path: /api/image/community
+          cors: true
   
+
+      #comments
+      - http:
+          method: POST
+          path: /api/comment
+          cors: true
+          
+      - http:
+          method: POST
+          path: /api/comments/{commentNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                commentNo: true
+      - http:
+          method: PUT
+          path: /api/comments/{commentNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                commentNo: true
+      - http:
+          method: DELETE
+          path: /api/comments/{commentNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                commentNo: true
+
+
+    # reply
+      - http:
+          method: POST
+          path: /api/reply
+          cors: true
+
+      - http:
+          method: GET
+          path: /api/replies/comment/{commentNo}/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                commentNo: true
+                userNo: true
+      
+      - http:
+          method: POST
+          path: /api/replies/{replyNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                replyNo: true
+      
+      - http:
+          method: PUT
+          path: /api/replies/{replyNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                replyNo: true
+              
+      - http:
+          method: DELETE
+          path: /api/replies/{replyNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                replyNo: true
+
+    # bookmark
+      - http:
+          method: GET
+          path: /api/bookmarks/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: POST
+          path: /api/bookmarks/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: DELETE
+          path: /api/bookmarks/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+      
+      # advertisement
+      - http:
+          method: POST
+          path: /api/advertisements/inquiry
+          # cors: true
+      - http:
+          method: DELETE
+          path: /api/advertisements/{inquiryNo}
+          # cors: true
+          request:
+            parameters:
+              paths:
+                inquiryNo: true
+      - http:
+          method: PUT
+          path: /api/advertisements/{inquiryNo}
+          # cors: true
+          request:
+            parameters:
+              paths:
+                inquiryNo: true
+      - http:
+          method: GET
+          path: /api/advertisements/inquiries/{userNo}
+          # cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/chat/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: POST
+          path: /api/chat
+          cors: true
+
+    # review
+      - http:
+          method: POST
+          path: /api/review
+          cors: true
+          # private: true
+
+      - http:
+          method: POST
+          path: /api/review/{userNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: PATCH
+          path: /api/review/{userNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/review/{userNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/review/{userNo}/writer
+          cors: true
+          # private: true                   
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/review/{userNo}/receiver
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/review/{userNo}/seller
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+                
+      - http:
+          method: GET
+          path: /api/review/{userNo}/buyer
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/search/products
+          cors: true
+          # private: true
+
+      - http:
+          method: GET
+          path: /api/search/communities
+          cors: true
+          # private: true
+
+
+
+      

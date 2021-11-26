@@ -1,6 +1,7 @@
 const CommunityRepository = require("../../repository/Community/CommunityRepository");
-const CommunityCommentRepository = require("../../repository/Community/CommunityCommentRepository");
+const CommunityCommentRepository = require("../../repository/Community/Comment/CommunityCommentRepository");
 const CommunityImageRepository = require("../../repository/Community/CommunityImageRepository");
+const BookmarkRepository = require("../../repository/Bookmark/BookmarkRepository");
 
 class CommunityService {
   constructor(req) {
@@ -30,13 +31,6 @@ class CommunityService {
     const community = await CommunityRepository.findOneByNo(
       this.params.communityNo,
     );
-    community.writer = {
-      nickname: community.nickname,
-      profileImage: community.profileImage,
-    };
-
-    delete community.nickname;
-    delete community.profileImage;
 
     // 커뮤니티 게시판의 이미지 데이터 모두 불러오기
     community.images = await CommunityImageRepository.findAllByCommunityNo(
@@ -46,18 +40,25 @@ class CommunityService {
 
     // 커뮤니티 게시판의 댓글 데이터 모두 불러오기
     community.comments = await CommunityCommentRepository.findAllByCommunityNo(
+      this.params.userNo,
       this.params.communityNo,
     );
-    community.comments = community.comments.map(cmt => {
-      cmt.writer = {
-        nickname: cmt.nickname,
-        profileImage: cmt.profileImage,
-      };
 
-      delete cmt.nickname;
-      delete cmt.profileImage;
-      return cmt;
-    });
+    const isLike = await CommunityRepository.findLikeByNo(
+      this.params.userNo,
+      this.params.communityNo,
+    );
+
+    const isbookmarkFlag = await BookmarkRepository.findLikeByNo(
+      this.params.userNo,
+      this.params.communityNo,
+    );
+
+    community.bookmarkFlag = 1;
+    if (!isbookmarkFlag.length) community.bookmarkFlag = 0;
+
+    community.likeFlag = 1;
+    if (!isLike.length) community.likeFlag = 0;
 
     return { community };
   }
@@ -67,9 +68,6 @@ class CommunityService {
     const { community } = this.body;
     try {
       const communityNo = await CommunityRepository.insertOne(community);
-      community.images.forEach(async imageUrl => {
-        await CommunityImageRepository.insertOne(communityNo, imageUrl);
-      });
 
       return { communityNo };
     } catch (err) {
@@ -94,13 +92,53 @@ class CommunityService {
     }
   }
 
+  async updateLikeCnt() {
+    const communityNo = this.params.communityNo;
+    const flag = this.body.flag;
+    try {
+      const registerUser = await CommunityRepository.registerUserByNo(
+        communityNo,
+        this.body,
+      );
+
+      const response = await CommunityRepository.updateLikeCnt(
+        communityNo,
+        flag,
+      );
+
+      if (response === "+" && registerUser === "+")
+        return { msg: "좋아요 등록 완료" };
+
+      return { msg: "좋아요 취소 완료" };
+    } catch (err) {
+      if (err.errno === 1690) throw new Error("LikeCount is not minus");
+      if (err.errno === 1452) throw new Error("Not Exist Referenced Row");
+      throw err;
+    }
+  }
+
+  async updateHit() {
+    const communityNo = this.params.communityNo;
+    let result;
+    try {
+      const updateResult = await CommunityRepository.updateHit(communityNo);
+      if (updateResult) {
+        result = await CommunityRepository.findHitByNo(communityNo);
+        return { hit: result[0].hit };
+      }
+      throw new Error("Not Exist Community");
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async delete() {
     try {
       const isDeleteCommunity = await CommunityRepository.deleteOneByNo(
         this.params.communityNo,
       );
 
-      if (isDeleteCommunity) return true;
+      if (isDeleteCommunity) return { msg: "삭제 완료되었습니다." };
       throw new Error("Not Exist Community");
     } catch (err) {
       throw err;

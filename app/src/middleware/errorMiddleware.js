@@ -25,10 +25,10 @@ function errorMiddleware(err, req, res, next) {
     return res.status(401).json({ error: "닉네임이 중복되었습니다." });
   if (err.message === "wrong password")
     return res.status(400).json({ error: "비밀번호가 틀립니다." });
-  if (err.message === "Not Exist email")
+  if (err.message === "Not Exist Email")
     return res.status(404).json({ error: "이메일이 존재하지 않습니다." });
-  if (err.message === "Not Exist Nickname")
-    return res.status(404).json({ error: "닉네임이 존재하지 않습니다." });
+  if (err.message === "Not Exist User")
+    return res.status(404).json({ error: "사용자가 존재하지 않습니다." });
   if (err.message === "no data in the database")
     return res.status(401).json({ msg: "데이터가 저장되어 있지 않습니다." });
   if (err.message === "Already Exist Watchlist")
@@ -43,6 +43,20 @@ function errorMiddleware(err, req, res, next) {
     return res.status(400).json({ msg: "사용자가 존재하지 않습니다." });
   if (err.message === "Wrong Password")
     return res.status(400).json({ msg: "현재 비밀번호와 맞지 않습니다." });
+  if (err.message === "Not Exist ImageUrl")
+    return res.status(400).json({ msg: "image의 주소가 넘어오지 않았습니다." });
+  if (err.message === "Create Fail Comment")
+    return res.status(400).json({ msg: "댓글이 생성되지 않았습니다." });
+  if (err.message === "Not Exist Comment")
+    return res.status(400).json({ msg: "댓글이 존재하지 않습니다." });
+  if (err.message === "Not Delete Comment")
+    return res.status(400).json({ msg: "댓글이 삭제되지 않았습니다." });
+  if (err.message === "Not Update Comment")
+    return res.status(400).json({ msg: "댓글이 업데이트되지 않았습니다." });
+  if (err.message === "LikeCount is not minus")
+    return res.status(400).json({ msg: "좋아요 수가 이미 0입니다." });
+  if (err.message === "Already Exist Bookmark")
+    return res.status(400).json({ msg: "북마크에 이미 저장되었습니다." });
 
   return res.status(500).json({ error: err.message });
 }

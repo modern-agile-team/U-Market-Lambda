@@ -1,9 +1,10 @@
-const Validator = require("../../utils/Validator");
-const HashTagService = require("../HashTag/HashTagService");
-const HashTagRepository = require("../../repository/HashTag/HashTagRepository");
+// const Validator = require("../../utils/Validator");
+// const HashTagService = require("../HashTag/HashTagService");
+// const HashTagRepository = require("../../repository/HashTag/HashTagRepository");
 const ProductRepository = require("../../repository/Product/ProductRepository");
 const ProductImageRepository = require("../../repository/Product/ProductImageRepository");
-const ProductHashTagRepository = require("../../repository/Product/ProductHashTagRepository");
+const WatchlistRepository = require("../../repository/Watchlist/WatchlistRepository");
+// const ProductHashTagRepository = require("../../repository/Product/ProductHashTagRepository");
 
 class ProductService {
   constructor(req) {
@@ -63,21 +64,37 @@ class ProductService {
     return { products };
   }
 
+  async findAllByDetailCategory() {
+    const { detail } = this.query;
+    try {
+      const products = await ProductRepository.findAllByDetailCategory(detail);
+
+      return { products };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findAllByCategory() {
+    const { categoryNo } = this.params;
+    try {
+      const products = await ProductRepository.findAllByCategory(categoryNo);
+
+      return { products };
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async detailView() {
     // 물건의 상세 데이터 불러오기
     const product = await ProductRepository.findOneByNo(this.params.productNo);
-    product.writer = {
-      nickname: product.nickname,
-      profileImage: product.profileImage,
-    };
     product.tradingMethods = {
       isDirect: Boolean(product.isDirect),
       isDelivery: Boolean(product.isDelivery),
     };
     product.isBargaining = Boolean(product.isBargaining);
 
-    delete product.nickname;
-    delete product.profileImage;
     delete product.isDirect;
     delete product.isDelivery;
 
@@ -90,7 +107,16 @@ class ProductService {
     // 물건의 관련 물품 데이터 모두 불러오기
     const relatedProducts = await ProductRepository.findAllRelatedByNo(
       product.detailCategoryNo,
+      this.params.productNo,
     );
+
+    const watchFlag = await WatchlistRepository.isExistWatchlist(
+      this.params.userNo,
+      this.params.productNo,
+    );
+
+    product.watchlistFlag = 1;
+    if (!watchFlag.length) product.watchlistFlag = 0;
 
     return { product, relatedProducts };
   }
@@ -100,9 +126,6 @@ class ProductService {
     const { product } = this.body;
     try {
       const productNo = await ProductRepository.insertOne(product);
-      product.images.forEach(async imageUrl => {
-        await ProductImageRepository.insertOne(productNo, imageUrl);
-      });
 
       return { productNo };
     } catch (err) {
@@ -129,12 +152,35 @@ class ProductService {
     }
   }
 
+  async updateHitByProductNo() {
+    const { productNo } = this.params;
+    try {
+      const result = await ProductRepository.updateHitByProductNo(productNo);
+
+      if (result) return { msg: "조회수가 증가했습니다." };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateStatus() {
+    const { productNo } = this.params;
+    const { status } = this.body;
+    try {
+      const result = await ProductRepository.updateStatus(productNo, status);
+
+      if (result) return { msg: "거래 상태 변환 완료." };
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async delete() {
     const { productNo } = this.params;
     try {
       const isDeleteProduct = await ProductRepository.deleteOneByNo(productNo);
 
-      if (isDeleteProduct) return true;
+      if (isDeleteProduct) return { msg: "삭제 완료되었습니다." };
       throw new Error("Not Exist Product");
     } catch (err) {
       throw err;

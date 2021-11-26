@@ -6,6 +6,7 @@ class UserService {
   constructor(req) {
     this.body = req.body;
     this.params = req.params;
+    this.query = req.query;
   }
 
   async signup() {
@@ -34,7 +35,6 @@ class UserService {
     const user = this.body;
     try {
       const whoWantsLogin = await UserRepostory.findAllByEmail(user);
-
       if (whoWantsLogin) {
         user.psword = await Cryptor.encryptBySalt(
           user.psword,
@@ -47,7 +47,11 @@ class UserService {
             msg: `${whoWantsLogin.nickname}님이 로그인을 성공했습니다.`,
             jwt,
             email,
-            userNum: whoWantsLogin.userNum,
+            userNo: whoWantsLogin.userNo,
+            regionNo: whoWantsLogin.regionNo,
+            schoolNo: whoWantsLogin.schoolNo,
+            majorNo: whoWantsLogin.majorNo,
+            departmentNo: whoWantsLogin.departmentNo,
           };
         }
         throw new Error("wrong password");
@@ -59,13 +63,26 @@ class UserService {
   }
 
   async profile() {
-    const user = this.params;
+    const userNo = this.params.userNo;
 
     try {
-      const result = await UserRepostory.findAllByNickname(user);
+      const result = await UserRepostory.findAllByNo(userNo);
 
       return { profile: result };
     } catch (err) {
+      throw err;
+    }
+  }
+
+  async update() {
+    const userNo = this.params.userNo;
+    const updateData = this.body;
+    try {
+      const result = await UserRepostory.update(userNo, updateData);
+      if (!result) return { msg: "원래 닉네임과 똑같습니다." };
+      return { msg: "정보 변경 완료" };
+    } catch (err) {
+      if (err.errno === 1062) throw new Error("Duplicate nickname");
       throw err;
     }
   }

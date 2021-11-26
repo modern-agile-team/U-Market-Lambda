@@ -3,14 +3,18 @@ const MajorRepository = require("../../repository/Major/MajorRepository");
 class MajorService {
   constructor(req) {
     this.body = req.body;
+    this.params = req.params;
     this.Create = new Create(this.body);
   }
 
   async findSchoolNumAndName() {
     try {
-      const schools = await MajorRepository.findSchoolNumAndName();
+      const { regionNo } = this.params;
+      const schools = await MajorRepository.findSchoolNumAndNameByRegionNo(
+        regionNo,
+      );
 
-      return { success: true, msg: "학교 조회 성공", schools };
+      return { schools };
     } catch (err) {
       throw err;
     }
@@ -20,7 +24,20 @@ class MajorService {
     try {
       const departments = await MajorRepository.findDepartmentNumAndName();
 
-      return { success: true, msg: "계열 목록 불러오기 성공", departments };
+      return { departments };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findMajorNumAndName() {
+    try {
+      const { departmentNo } = this.params;
+      const majors = await MajorRepository.findMajorNumAndNameByDepartmentNo(
+        departmentNo,
+      );
+
+      return { majors };
     } catch (err) {
       throw err;
     }
@@ -28,13 +45,13 @@ class MajorService {
 
   async createMajorByname() {
     let majorNum, departmentNum;
-
     try {
       departmentNum = await this.Create.findDepartment();
 
       majorNum = await this.Create.findOrCreateMajor(departmentNum);
+
       if (!majorNum) throw new Error("Not Exist Major");
-      return { success: true, msg: "전공 조회 성공", majorNum };
+      return { majorNum };
     } catch (err) {
       throw err;
     }

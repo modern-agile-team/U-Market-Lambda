@@ -7,12 +7,12 @@ const router = express.Router();
 
 router.get(
   "/:userNo",
-  validation(joi.selllist.GET_schema, "params"),
+  validation(joi.selllist.params, "params"),
   ctrl.selllist,
 );
 router.get(
-  "/finish/:userNo",
-  validation(joi.selllist.GET_schema, "params"),
+  "/:userNo/finish",
+  validation(joi.selllist.params, "params"),
   ctrl.endSelllist,
 );
 

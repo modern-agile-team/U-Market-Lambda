@@ -18,12 +18,37 @@ const products = {
       next(err);
     }
   },
+
+  findAllByDetailCategory: async (req, res, next) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.findAllByDetailCategory();
+
+      logger.info(`GET /api/products/category?detail=${req.query.detail} 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  findAllByCategory: async (req, res, next) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.findAllByCategory();
+
+      logger.info(`GET /api/products/category/${req.params.categoryNo} 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   detailView: async (req, res, next) => {
     try {
       const product = new ProductService(req);
       const response = await product.detailView();
 
-      logger.info(`GET /api/products/:productNo 200`);
+      logger.info(`GET /api/products/:productNo/:userNo 200`);
       return res.status(200).json(response);
     } catch (err) {
       next(err);
@@ -51,16 +76,36 @@ const products = {
       next(err);
     }
   },
+  updateHit: async (req, res, next) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.updateHitByProductNo();
+
+      logger.info(`PATCH /api/products/:productNo 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+  updateStatus: async (req, res, next) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.updateStatus();
+
+      logger.info(`PATCH /api/products/:productNo/status 201`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   delete: async (req, res, next) => {
     try {
       const product = new ProductService(req);
       const isDelete = await product.delete();
 
-      if (isDelete) {
-        logger.info(`DELETE /api/products/:productNo 204`);
-        return res.status(204).end();
-      }
-      throw new Error("Not Exist Product");
+      logger.info(`DELETE /api/products/:productNo 204`);
+      return res.status(201).json(isDelete);
     } catch (err) {
       next(err);
     }

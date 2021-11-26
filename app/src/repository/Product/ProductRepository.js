@@ -5,7 +5,7 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT pd.no, users.nickname, users.profile_img_url AS profileImage, 
+        SELECT pd.no, pd.user_no AS sellerNo, users.nickname, users.profile_img_url AS profileUrl, pd.thumbnail, 
         pd_ctg.name AS categoryName, pd_d_ctg.name AS detailCategoryName,
         product_detail_category_no AS detailCategoryNo, title, price, description, 
         hit, interest_cnt AS interestCnt, bargaining_flag AS isBargaining, 
@@ -25,9 +25,9 @@ class ProductRepository {
         WHERE pd.no = ?
         LIMIT 20;`;
 
-      const community = await mysql.query(query, [productNo]);
+      const product = await mysql.query(query, [productNo]);
 
-      return community[0];
+      return product[0];
     } catch (err) {
       throw err;
     } finally {
@@ -39,10 +39,8 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT pd.no, title, price, COUNT(p_cmt.no) AS commentCnt, interest_cnt AS interestCnt, thumbnail 
+        SELECT pd.no, title, price, interest_cnt AS interestCnt, thumbnail 
         FROM products AS pd
-        LEFT JOIN product_comments AS p_cmt
-        ON pd.no = p_cmt.product_no
         WHERE pd.in_date > (CURRENT_TIMESTAMP() - INTERVAL 7 DAY)
         GROUP BY pd.no
         ORDER BY hit DESC
@@ -62,9 +60,7 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT pd.no, title, price, COUNT(p_cmt.no) AS commentCnt, interest_cnt AS interestCnt, thumbnail FROM products AS pd
-        LEFT JOIN product_comments AS p_cmt
-        ON pd.no = p_cmt.product_no
+        SELECT pd.no, title, price, interest_cnt AS interestCnt, thumbnail FROM products AS pd
         GROUP BY pd.no
         ORDER BY pd.no DESC
         LIMIT ?;`;
@@ -79,16 +75,16 @@ class ProductRepository {
     }
   }
 
-  static async findAllRelatedByNo(detailCategoryNo) {
+  static async findAllRelatedByNo(detailCategoryNo, productNo) {
     try {
       await mysql.connect();
       const query = `
         SELECT no, title, price, interest_cnt AS interestCnt, thumbnail
         FROM products AS pd
-        WHERE pd.product_detail_category_no = ?
+        WHERE pd.product_detail_category_no = ? AND !(pd.no = ?)
         GROUP BY pd.no;`;
 
-      const products = await mysql.query(query, [detailCategoryNo]);
+      const products = await mysql.query(query, [detailCategoryNo, productNo]);
 
       return products;
     } catch (err) {
@@ -127,11 +123,9 @@ class ProductRepository {
     try {
       await mysql.connect();
       const query = `
-          SELECT pd.no, title, price, COUNT(p_cmt.no) AS commentCnt, 
+          SELECT pd.no, title, price,
             interest_cnt AS interestCnt, thumbnail 
           FROM products AS pd
-          LEFT JOIN product_comments AS p_cmt
-          ON pd.no = p_cmt.product_no
           WHERE pd.no >= ? AND price >= ? AND price <= ? ${filterSql}
           GROUP BY pd.no
           ORDER BY price ASC, pd.no DESC
@@ -168,6 +162,133 @@ class ProductRepository {
 
       const products = await mysql.query(query, [userNo, startNo, limit]);
       return products;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findTradeFinishByUserNo(userNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT pro.no, pro.title, pro.thumbnail, users.nickname, users.no AS buyerNo
+      FROM products AS pro
+      LEFT JOIN purchase_products AS pp
+      ON pp.product_no = pro.no
+      LEFT JOIN users
+      ON users.no = pp.user_no
+      WHERE pro.user_no = ? AND pro.trading_status_no = 3;`;
+
+      const products = await mysql.query(query, [userNo]);
+      return products;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findTradeBySeller(userNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT pro.no, pro.title, pro.thumbnail, u.nickname, pro.user_no AS sellerNo
+      FROM purchase_products AS pp
+      LEFT JOIN products AS pro
+      ON pro.no = pp.product_no
+      LEFT JOIN users AS u
+      ON u.no = pro.user_no
+       WHERE pp.user_no = ?;`;
+
+      const products = await mysql.query(query, [userNo]);
+      return products;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAllByProductNo(productNo) {
+    try {
+      await mysql.connect();
+      const query = `
+        SELECT pro.no, pro.title, pro.thumbnail, users.nickname, users.no AS buyerNo, pdc.name AS category
+        FROM products AS pro
+        LEFT JOIN users
+        ON users.no = pro.user_no
+        LEFT JOIN product_detail_categories AS pdc
+        ON pdc.no = pro.product_detail_category_no
+        WHERE pro.no = ?;`;
+
+      const product = await mysql.query(query, [productNo]);
+
+      return product;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAllByDetailCategory(category) {
+    try {
+      await mysql.connect();
+      const query = `
+        SELECT pd.no, pd.title, pd.price,
+        pd.interest_cnt AS interestCnt, pd.thumbnail 
+        FROM product_detail_categories AS pdc
+        RIGHT JOIN products AS pd
+        ON pdc.no = pd.product_detail_category_no
+        WHERE pdc.name = ?
+        ORDER BY pd.no DESC;
+      `;
+
+      const product = await mysql.query(query, [category]);
+
+      return product;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAllByCategory(category) {
+    try {
+      await mysql.connect();
+      const query = `
+        SELECT pd.no, pd.title, pd.price,
+        pd.interest_cnt AS interestCnt, pd.thumbnail 
+        FROM product_categories AS pc
+        LEFT JOIN product_detail_categories AS pdc
+        ON pc.no = pdc.product_category_no
+        RIGHT JOIN products AS pd
+        ON pdc.no = pd.product_detail_category_no
+        WHERE pc.no = ?
+        ORDER BY pd.no DESC;
+      `;
+
+      const product = await mysql.query(query, [category]);
+
+      return product;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findAllBySearch(word) {
+    try {
+      await mysql.connect();
+      const query = `SELECT no, title, price, interest_cnt AS interestCnt, thumbnail 
+      FROM products
+      WHERE MATCH(title, description) against(? IN BOOLEAN MODE)
+      ORDER BY no DESC;`;
+
+      const product = await mysql.query(query, [word]);
+      return product;
     } catch (err) {
       throw err;
     } finally {
@@ -214,7 +335,37 @@ class ProductRepository {
       if (sign === "-")
         query = `UPDATE products SET interest_cnt = interest_cnt - 1 WHERE no = ?;`;
 
-      const result = await mysql.query(query, [productNo, sign]);
+      const result = await mysql.query(query, [productNo]);
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async updateHitByProductNo(productNo) {
+    try {
+      await mysql.connect();
+      const query = `UPDATE products SET hit = hit + 1 WHERE no = ?;`;
+
+      const result = await mysql.query(query, [productNo]);
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist Product");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async updateStatus(productNo, status) {
+    try {
+      await mysql.connect();
+      const query = `UPDATE products SET trading_status_no = ? WHERE no = ?;`;
+      const result = await mysql.query(query, [status, productNo]);
+
       if (result.affectedRows) return true;
       throw new Error("Not Exist Product");
     } catch (err) {

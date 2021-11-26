@@ -6,7 +6,7 @@ class ProductImageRepository {
       await mysql.connect();
       const query = `
         SELECT url FROM product_images
-        WHERE product_no = 12;`;
+        WHERE product_no = ?;`;
 
       const images = await mysql.query(query, [productNo]);
 

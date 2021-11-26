@@ -8,13 +8,13 @@ const router = express.Router();
 router.get("/today", ctrl.home.today);
 router.get(
   "/by-price",
-  validation(joi.home.byPrice_GET_schema, "query"),
+  validation(joi.home.byPrice, "query"),
   ctrl.home.byPrice,
 );
 router.get(
   "/users/:userNo/viewed-products",
-  validation(joi.home.viewedProducts.query_GET_schema, "query"),
-  validation(joi.home.viewedProducts.params_GET_schema, "params"),
+  validation(joi.home.viewedProducts.query, "query"),
+  validation(joi.home.viewedProducts.params, "params"),
   ctrl.home.viewedProducts,
 );
 

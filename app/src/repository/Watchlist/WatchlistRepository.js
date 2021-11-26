@@ -5,7 +5,7 @@ class WatchlistRepository {
     try {
       await mysql.connect();
 
-      const query = `SELECT pr.title, pr.price, pr.interest_cnt AS likeCnt, pr.thumbnail, pr.trading_status_no AS statusNum, DATE_FORMAT(pr.in_date, "%Y.%m.%d") AS inDate  FROM interest_products AS ip
+      const query = `SELECT pr.no, pr.title, pr.price, pr.interest_cnt AS likeCnt, pr.thumbnail, pr.trading_status_no AS statusNum, DATE_FORMAT(pr.in_date, "%Y.%m.%d") AS inDate  FROM interest_products AS ip
       JOIN products AS pr
       ON pr.no = ip.product_no
        WHERE ip.user_no = ?;`;
@@ -19,16 +19,14 @@ class WatchlistRepository {
     }
   }
 
-  static async isExistWatchlist(content) {
-    const { userNo, productNo } = content;
+  static async isExistWatchlist(userNo, productNo) {
     try {
       await mysql.connect();
 
-      const query = `SELECT * FROM interest_products WHERE user_no = ? AND product_no = ?;`;
+      const query = `SELECT no AS no FROM interest_products WHERE user_no = ? AND product_no = ?;`;
 
       const result = await mysql.query(query, [userNo, productNo]);
-      if (result.length > 0) throw new Error("Already Exist Watchlist");
-      return true;
+      return result;
     } catch (err) {
       throw err;
     } finally {

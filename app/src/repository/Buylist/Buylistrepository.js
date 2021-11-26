@@ -8,7 +8,7 @@ class Buylistrepository {
       const query = `SELECT pro.title, pro.price, pro.thumbnail, pro.interest_cnt AS likeCnt, DATE_FORMAT(pro.in_date, "%Y.%m.%d") AS inDate FROM reviews AS rv
       JOIN products pro
       ON pro.no = rv.product_no
-      WHERE rv.buyer_no = ? AND rv.writer = 1;`;
+      WHERE rv.buyer_no = ? AND rv.writer = 0;`;
 
       const result = await mysql.query(query, [userNo]);
       return result;
