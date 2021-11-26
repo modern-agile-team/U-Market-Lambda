@@ -21,9 +21,39 @@ class SearchService {
 
   async findCommunityBySearch() {
     let word = this.query.query;
+    let free = [];
+    let forAlone = [];
+    let promotion = [];
+    let question = [];
+    const communities = {};
     try {
       word = word.replace(/\+/g, " ");
-      const communities = await CommunityRepository.findAllBySearch(word);
+      const searchResult = await CommunityRepository.findAllBySearch(word);
+
+      searchResult.map(community => {
+        if (community.categoryNo === 1) {
+          free = [...free, community];
+        }
+        if (community.categoryNo === 2) {
+          forAlone = [...forAlone, community];
+        }
+        if (community.categoryNo === 3) {
+          promotion = [...promotion, community];
+        }
+        if (community.categoryNo === 4) {
+          question = [...question, community];
+        }
+      });
+
+      communities.free = free;
+      communities.forAlone = forAlone;
+      communities.promotion = promotion;
+      communities.question = question;
+      communities.freeCount = free.length;
+      communities.forAloneCount = forAlone.length;
+      communities.promotionCount = promotion.length;
+      communities.questionCount = question.length;
+
       return { communities };
     } catch (err) {
       throw err;
