@@ -284,7 +284,7 @@ class ProductRepository {
       await mysql.connect();
       const query = `SELECT no, title, price, interest_cnt AS interestCnt, thumbnail 
       FROM products
-      WHERE MATCH(title) against(? IN BOOLEAN MODE)
+      WHERE MATCH(title, description) against(? IN BOOLEAN MODE)
       ORDER BY no DESC;`;
 
       const product = await mysql.query(query, [word]);
