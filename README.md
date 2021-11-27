@@ -1,4 +1,4 @@
-# 🛒 SCHOOL-BARTER
+# 🛒 U-MARKET
 
   * <a href="#-기술-스택">기술 스택</a>
   * <a href="#개발자">개발자</a>
