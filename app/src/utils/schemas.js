@@ -1122,6 +1122,23 @@ const search = {
   },
 };
 
+const notification = {
+  params: Joi.object().keys({
+    userNo: Joi.number().required().messages({
+      "number.base": "userNo은 숫자 형식입니다.",
+      "number.integer": "userNo은 정수입니다.",
+      "any.required": "userNo 필드가 비었습니다.",
+    }),
+  }),
+  body: Joi.object().keys({
+    token: Joi.string().required().messages({
+      "string.base": "token 은 문자 형식입니다.",
+      "string.empty": "token 값을 입력해주세요.",
+      "any.required": "token 필드가 비었습니다.",
+    }),
+  }),
+};
+
 module.exports = {
   major,
   user,
@@ -1142,6 +1159,7 @@ module.exports = {
   chat,
   advertisement,
   search,
+  notification,
 };
 
 // export const market_POST_schema = Joi.object().keys({

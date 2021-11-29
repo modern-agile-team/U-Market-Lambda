@@ -586,6 +586,25 @@ functions:
           cors: true
           # private: true
 
+      # 알림 토큰 저장
+      - http:
+          method: POST
+          path: /api/notification/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/notification/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
 
 
       
