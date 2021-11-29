@@ -14,6 +14,10 @@ class NotificationService {
 
       return { msg: "token 저장 완료" };
     } catch (err) {
+      if (err.errno === 1062) {
+        await NotificationRepository.update(userNo, token);
+        return { msg: "token 변경 완료" };
+      }
       throw err;
     }
   }

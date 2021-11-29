@@ -33,6 +33,23 @@ class NotificationRepository {
       mysql?.end();
     }
   }
+
+  static async update(userNo, token) {
+    try {
+      await mysql.connect();
+
+      const query = `UPDATE notification_tokens SET token = ? WHERE user_no = ?`;
+
+      const result = await mysql.query(query, [token, userNo]);
+
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist User");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = NotificationRepository;
