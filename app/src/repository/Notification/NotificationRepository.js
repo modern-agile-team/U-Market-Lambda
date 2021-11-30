@@ -50,6 +50,23 @@ class NotificationRepository {
       mysql?.end();
     }
   }
+
+  static async delete(token) {
+    try {
+      await mysql.connect();
+
+      const query = `DELETE FROM notification_tokens WHERE token = ?`;
+
+      const result = await mysql.query(query, [token]);
+
+      if (result.affectedRows) return true;
+      throw new Error("Not Exist User");
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
 }
 
 module.exports = NotificationRepository;

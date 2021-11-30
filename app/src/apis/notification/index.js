@@ -11,10 +11,19 @@ router.post(
   validation(joi.notification.body, "body"),
   ctrl.create,
 );
+
+router.patch(
+  "/:userNo",
+  validation(joi.notification.params, "params"),
+  validation(joi.notification.body, "body"),
+  ctrl.update,
+);
+
 router.get(
   "/:userNo",
   validation(joi.notification.params, "params"),
   ctrl.findTokenByUserNo,
 );
+router.delete("/", validation(joi.notification.body, "body"), ctrl.delete);
 
 module.exports = router;

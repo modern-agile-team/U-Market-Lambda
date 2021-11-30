@@ -26,6 +26,30 @@ const process = {
       next(err);
     }
   },
+
+  update: async (req, res, next) => {
+    try {
+      const notificationService = new NotificationService(req);
+      const response = await notificationService.update();
+
+      logger.info(`PATCH /api/notification/${req.params.userNo} 201`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  delete: async (req, res, next) => {
+    try {
+      const notificationService = new NotificationService(req);
+      const response = await notificationService.delete();
+
+      logger.info(`DELETE /api/notification 201`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = process;
