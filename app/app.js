@@ -27,6 +27,7 @@ const chat = require("./src/apis/chat");
 const advertisement = require("./src/apis/advertisement");
 const review = require("./src/apis/review");
 const search = require("./src/apis/search");
+const notification = require("./src/apis/notification");
 
 app.use("/api/user", user);
 app.use("/api/home", home);
@@ -48,6 +49,7 @@ app.use("/api/chat", chat);
 app.use("/api/advertisements", advertisement);
 app.use("/api/review", review);
 app.use("/api/search", search);
+app.use("/api/notification", notification);
 app.use(errorMiddleware);
 
 module.exports = app;
