@@ -47,6 +47,7 @@ class UserService {
             msg: `${whoWantsLogin.nickname}님이 로그인을 성공했습니다.`,
             jwt,
             email,
+            nickname: whoWantsLogin.nickname,
             userNo: whoWantsLogin.userNo,
             regionNo: whoWantsLogin.regionNo,
             schoolNo: whoWantsLogin.schoolNo,
