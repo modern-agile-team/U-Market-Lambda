@@ -589,7 +589,7 @@ functions:
       # 알림 토큰 저장
       - http:
           method: POST
-          path: /api/notification/{userNo}
+          path: /api/notification/token/{userNo}
           cors: true
           request:
             parameters:
@@ -598,6 +598,29 @@ functions:
 
       - http:
           method: PATCH
+          path: /api/notification/token/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/notification/token/{userNo}
+          cors: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+      - http:
+          method: DELETE
+          path: /api/notification
+          cors: true
+
+      # 알림 저장
+      - http:
+          method: POST
           path: /api/notification/{userNo}
           cors: true
           request:
@@ -613,10 +636,3 @@ functions:
             parameters:
               paths:
                 userNo: true
-      - http:
-          method: DELETE
-          path: /api/notification
-          cors: true
-
-
-      
