@@ -15,12 +15,36 @@ const process = {
     }
   },
 
+  findAllByUserNo: async (req, res, next) => {
+    try {
+      const notificationService = new NotificationService(req);
+      const response = await notificationService.findAllByUserNo();
+
+      logger.info(`GET /api/notification/${req.params.userNo} 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  createToken: async (req, res, next) => {
+    try {
+      const notificationService = new NotificationService(req);
+      const response = await notificationService.createToken();
+
+      logger.info(`POST /api/notification/token/${req.params.userNo} 201`);
+      return res.status(201).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   findTokenByUserNo: async (req, res, next) => {
     try {
       const notificationService = new NotificationService(req);
       const response = await notificationService.findTokenByUserNo();
 
-      logger.info(`GET /api/notification/${req.params.userNo} 200`);
+      logger.info(`GET /api/notification/token/${req.params.userNo} 200`);
       return res.status(200).json(response);
     } catch (err) {
       next(err);
@@ -32,7 +56,7 @@ const process = {
       const notificationService = new NotificationService(req);
       const response = await notificationService.update();
 
-      logger.info(`PATCH /api/notification/${req.params.userNo} 201`);
+      logger.info(`PATCH /api/notification/token/${req.params.userNo} 201`);
       return res.status(201).json(response);
     } catch (err) {
       next(err);

@@ -12,18 +12,32 @@ router.post(
   ctrl.create,
 );
 
-router.patch(
-  "/:userNo",
+router.post(
+  "/token/:userNo",
   validation(joi.notification.params, "params"),
-  validation(joi.notification.body, "body"),
+  validation(joi.notification.tokenBody, "body"),
+  ctrl.createToken,
+);
+
+router.patch(
+  "/token/:userNo",
+  validation(joi.notification.params, "params"),
+  validation(joi.notification.tokenBody, "body"),
   ctrl.update,
+);
+
+router.get(
+  "/token/:userNo",
+  validation(joi.notification.params, "params"),
+  ctrl.findTokenByUserNo,
 );
 
 router.get(
   "/:userNo",
   validation(joi.notification.params, "params"),
-  ctrl.findTokenByUserNo,
+  ctrl.findAllByUserNo,
 );
+
 router.delete("/", validation(joi.notification.body, "body"), ctrl.delete);
 
 module.exports = router;

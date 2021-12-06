@@ -8,15 +8,38 @@ class NotificationService {
 
   async create() {
     const userNo = this.params.userNo;
+    const info = this.body;
+    try {
+      await NotificationRepository.create(userNo, info);
+
+      return { msg: "알림 저장 완료" };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async findAllByUserNo() {
+    const userNo = this.params.userNo;
+    try {
+      const notiList = await NotificationRepository.findAllByUserNo(userNo);
+
+      return { notiList };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async createToken() {
+    const userNo = this.params.userNo;
     const token = this.body.token;
     try {
-      await NotificationRepository.create(userNo, token);
+      await NotificationRepository.createToken(userNo, token);
 
       return { msg: "token 저장 완료" };
     } catch (err) {
       if (err.errno === 1062) {
         await NotificationRepository.delete(token);
-        await NotificationRepository.create(userNo, token);
+        await NotificationRepository.createToken(userNo, token);
 
         return { msg: "다른 사람 token 삭제 후 저장 완료" };
       }

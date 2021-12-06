@@ -1130,11 +1130,27 @@ const notification = {
       "any.required": "userNo 필드가 비었습니다.",
     }),
   }),
-  body: Joi.object().keys({
+  tokenBody: Joi.object().keys({
     token: Joi.string().required().messages({
       "string.base": "token 은 문자 형식입니다.",
       "string.empty": "token 값을 입력해주세요.",
       "any.required": "token 필드가 비었습니다.",
+    }),
+  }),
+  body: Joi.object().keys({
+    type: Joi.string().required().messages({
+      "string.base": "type 은 문자 형식입니다.",
+      "string.empty": "type 값을 입력해주세요.",
+      "any.required": "type 필드가 비었습니다.",
+    }),
+    writerNo: Joi.number().required().messages({
+      "number.base": "writerNo 은 숫자 형식입니다.",
+      "number.integer": "writerNo 은 정수입니다.",
+      "any.required": "writerNo 필드가 비었습니다.",
+    }),
+    contentNo: Joi.number().messages({
+      "number.base": "contentNo 은 숫자 형식입니다.",
+      "number.integer": "contentNo 은 정수입니다.",
     }),
   }),
 };
