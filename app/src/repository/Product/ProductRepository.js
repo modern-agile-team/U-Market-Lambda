@@ -296,15 +296,15 @@ class ProductRepository {
     }
   }
 
-  static async insertOne(product) {
+  static async insertOne(product, isDirect, isDelivery) {
     try {
       await mysql.connect();
       const query = `
       INSERT INTO products 
       (user_no, region_no, school_no, department_no, major_no, 
         product_detail_category_no, title, price, bargaining_flag, 
-        description, thumbnail) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+        description, thumbnail, direct_flag, delivery_flag) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
 
       const result = await mysql.query(query, [
         product.userNo,
@@ -318,6 +318,8 @@ class ProductRepository {
         product.isBargaining,
         product.description,
         product.thumbnail,
+        isDirect,
+        isDelivery,
       ]);
 
       return result.insertId;
