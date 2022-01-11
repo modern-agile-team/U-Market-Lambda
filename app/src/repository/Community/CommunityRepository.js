@@ -104,7 +104,7 @@ class CommunityRepository {
     try {
       await mysql.connect();
 
-      const query = `SELECT com.no, com.nickname, com.user_no AS writerNo, com.title, com.description, com.community_category_no AS categoryNo, com.hit, com.like_cnt AS likeCnt, com.thumbnail, DATE_FORMAT(com.in_date, "%y.%m.%d") AS inDate,
+      const query = `SELECT com.no, com.user_no AS writerNo, com.title, com.description, com.community_category_no AS categoryNo, com.hit, com.like_cnt AS likeCnt, com.thumbnail, DATE_FORMAT(com.in_date, "%y.%m.%d") AS inDate,
       u.nickname, u.profile_img_url AS profileUrl, COUNT(cc.no) AS commentCount
       FROM communities AS com
       LEFT JOIN users AS u
