@@ -302,9 +302,9 @@ class ProductRepository {
       const query = `
       INSERT INTO products 
       (user_no, region_no, school_no, department_no, major_no, 
-        product_detail_category_no, title, price, bargaining_flag, 
-        description, thumbnail) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+        product_detail_category_no, title, price, bargaining_flag,
+        damage_status_no, direct_flag, delivery_flag, description, thumbnail) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
 
       const result = await mysql.query(query, [
         product.userNo,
@@ -316,6 +316,9 @@ class ProductRepository {
         product.title,
         product.price,
         product.isBargaining,
+        product.damageStatusNo,
+        product.tradingMethods.isDirect,
+        product.tradingMethods.isDelivery,
         product.description,
         product.thumbnail,
       ]);
