@@ -429,6 +429,11 @@ const products = {
             "string.max": "title은 최대 20글자 입니다.",
             "any.required": "title 필드가 비었습니다.",
           }),
+          detailCategoryNo: Joi.number().required().messages({
+            "number.base": "detailCategoryNo은 숫자 형식입니다.",
+            "number.integer": "detailCategoryNo은 정수입니다.",
+            "any.required": "detailCategoryNo 필드가 비었습니다.",
+          }),
           price: Joi.number().required().min(0).max(4200000000).messages({
             "number.base": "price은 숫자 형식입니다.",
             "number.integer": "price은 정수입니다.",

@@ -381,7 +381,7 @@ class ProductRepository {
   static async updateOneByNo(product) {
     try {
       await mysql.connect();
-      const query = `UPDATE products SET title = ?, product_detail_category_no = ?, price = ?, description = ?, thumbnail = ?, categorybargaining_flag = ?, damage_status_no = ?, direct_flag = ?, delivery_flag = ? WHERE no = ?;`;
+      const query = `UPDATE products SET title = ?, product_detail_category_no = ?, price = ?, description = ?, thumbnail = ?, bargaining_flag = ?, damage_status_no = ?, direct_flag = ?, delivery_flag = ? WHERE no = ?;`;
 
       const result = await mysql.query(query, [
         product.title,
