@@ -175,12 +175,13 @@ class CommunityRepository {
   static async updateOneByNo(community) {
     try {
       await mysql.connect();
-      const query = `UPDATE communities SET title = ?, description = ?, thumbnail = ? WHERE no = ?;`;
+      const query = `UPDATE communities SET title = ?, description = ?, thumbnail = ?, categoryNo = ? WHERE no = ?;`;
 
       const result = await mysql.query(query, [
         community.title,
         community.description,
         community.thumbnail,
+        community.categoryNo,
         community.no,
       ]);
 
