@@ -603,6 +603,11 @@ const communities = {
             "string.max": "title은 최대 20글자 입니다.",
             "any.required": "title 필드가 비었습니다.",
           }),
+          categoryNo: Joi.number().required().messages({
+            "number.base": "categoryNo 는 숫자 형식입니다.",
+            "number.integer": "categoryNo 는 정수입니다.",
+            "any.required": "categoryNo 필드가 비었습니다.",
+          }),
           description: Joi.string().required().max(21844).messages({
             "string.base": "description은 문자 형식입니다.",
             "string.max": "description은 최대 21844글자 입니다.",
