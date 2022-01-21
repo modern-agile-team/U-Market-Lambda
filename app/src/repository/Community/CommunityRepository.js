@@ -43,14 +43,16 @@ class CommunityRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT cmu_outer.no, nickname, cmu_outer.user_no AS writerNo, profile_img_url AS profileUrl, cmu_outer.title, cmu_outer.description, hit, cmu_outer.like_cnt AS likeCnt, comment_cnt AS commentCnt, COUNT(bmk_cmu.no) AS bookmarkCnt, DATE_FORMAT(cmu_outer.in_date, "%Y.%m.%d %H:%i") AS inDate
+        SELECT cmu_outer.no, categoryNo, categoryName, nickname, cmu_outer.user_no AS writerNo, profile_img_url AS profileUrl, cmu_outer.title, cmu_outer.description, hit, cmu_outer.like_cnt AS likeCnt, comment_cnt AS commentCnt, COUNT(bmk_cmu.no) AS bookmarkCnt, DATE_FORMAT(cmu_outer.in_date, "%Y.%m.%d %H:%i") AS inDate
         FROM (
-          SELECT cmu_inner.no, users.nickname, users.profile_img_url, cmu_inner.user_no, title, cmu_inner.description, hit, cmu_inner.like_cnt, COUNT(cmu_cmt.no) AS comment_cnt, cmu_inner.in_date
+          SELECT cmu_inner.no, cmu_cate.no AS categoryNo, cmu_cate.name AS categoryName, users.nickname, users.profile_img_url, cmu_inner.user_no, title, cmu_inner.description, hit, cmu_inner.like_cnt, COUNT(cmu_cmt.no) AS comment_cnt, cmu_inner.in_date
           FROM communities AS cmu_inner
           LEFT JOIN community_comments AS cmu_cmt
           ON cmu_inner.no = cmu_cmt.community_no
           LEFT JOIN users
           ON users.no = cmu_inner.user_no
+          LEFT JOIN community_categories AS cmu_cate
+          ON cmu_cate.no = cmu_inner.community_category_no
           GROUP BY cmu_inner.no
         ) AS cmu_outer
         LEFT JOIN bookmark_communities AS bmk_cmu
