@@ -175,7 +175,7 @@ class CommunityRepository {
   static async updateOneByNo(community) {
     try {
       await mysql.connect();
-      const query = `UPDATE communities SET title = ?, description = ?, thumbnail = ?, category_no = ? WHERE no = ?;`;
+      const query = `UPDATE communities SET title = ?, description = ?, thumbnail = ?, community_category_no = ? WHERE no = ?;`;
 
       const result = await mysql.query(query, [
         community.title,
