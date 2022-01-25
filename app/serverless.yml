@@ -160,7 +160,7 @@ functions:
 
       - http:
           method: GET
-          path: /api/products/category/{categoryNo}
+          path: /api/products/categories/{categoryNo}
           cors: true
           # private: true
           request:
