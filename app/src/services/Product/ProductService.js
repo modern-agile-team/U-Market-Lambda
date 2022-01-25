@@ -65,9 +65,17 @@ class ProductService {
   }
 
   async findAllByDetailCategory() {
-    const { detail } = this.query;
+    const { detailCategoryName, startNo, limit } = this.query;
+    const attr = {
+      startNo: startNo <= 0 ? 99999999999999999999 : Number(startNo),
+      limit: Number(limit),
+      detailCategoryName,
+    };
     try {
-      const products = await ProductRepository.findAllByDetailCategory(detail);
+      const products = await ProductRepository.findAllByDetailCategory(
+        attr,
+        this.sql,
+      );
 
       return { products };
     } catch (err) {

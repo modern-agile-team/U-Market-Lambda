@@ -21,10 +21,13 @@ const products = {
 
   findAllByDetailCategory: async (req, res, next) => {
     try {
+      req.sql = Validator.makeSqlAboutWhereStatements(req.query);
       const product = new ProductService(req);
       const response = await product.findAllByDetailCategory();
 
-      logger.info(`GET /api/products/category?detail=${req.query.detail} 200`);
+      logger.info(
+        `GET /api/products/category?detail=${req.query.detailCategoryName} 200`,
+      );
       return res.status(200).json(response);
     } catch (err) {
       next(err);
