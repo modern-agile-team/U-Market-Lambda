@@ -58,6 +58,7 @@ class ProductService {
     return { products };
   }
 
+  // 내가 조회한 상품 -> 현재 기능 삭제됨.
   async findAllOfViewed() {
     const { userNo } = this.params;
     const { startNo, limit } = this.query;

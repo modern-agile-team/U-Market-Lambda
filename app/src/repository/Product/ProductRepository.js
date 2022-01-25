@@ -146,6 +146,7 @@ class ProductRepository {
     }
   }
 
+  // 내가 조회한 상품 -> 현재 기능 삭제됨.
   static async findAllOfViewedByUserNo(userNo, attr) {
     const { startNo, limit } = attr;
     try {
