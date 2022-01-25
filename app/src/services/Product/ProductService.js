@@ -77,8 +77,18 @@ class ProductService {
 
   async findAllByCategory() {
     const { categoryNo } = this.params;
+    const { startNo, limit } = this.query;
+    const attr = {
+      startNo: startNo <= 0 ? 99999999999999999999 : Number(startNo),
+      limit: Number(limit),
+      categoryNo: Number(categoryNo),
+    };
+
     try {
-      const products = await ProductRepository.findAllByCategory(categoryNo);
+      const products = await ProductRepository.findAllByCategory(
+        attr,
+        this.sql,
+      );
 
       return { products };
     } catch (err) {

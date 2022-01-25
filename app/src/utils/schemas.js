@@ -286,16 +286,43 @@ const products = {
         "any.required": "detail 필드가 비었습니다.",
       }),
     }),
+    categoryNo: Joi.object().keys({
+      startNo: Joi.number().required().messages({
+        "number.base": "startNo는 숫자 형식입니다.",
+        "number.integer": "startNo는 정수입니다.",
+        "any.required": "startNo 필드가 비었습니다.",
+      }),
+      limit: Joi.number().required().messages({
+        "number.base": "limit은 숫자 형식입니다.",
+        "number.integer": "limit은 정수입니다.",
+        "any.required": "limit 필드가 비었습니다.",
+      }),
+      regionNo: Joi.number().messages({
+        "number.base": "regionNo은 숫자 형식입니다.",
+        "number.integer": "regionNo은 정수입니다.",
+      }),
+      schoolNo: Joi.number().messages({
+        "number.base": "schoolNo은 숫자 형식입니다.",
+        "number.integer": "schoolNo은 정수입니다.",
+      }),
+      departmentNo: Joi.number().messages({
+        "number.base": "departmentNo은 숫자 형식입니다.",
+        "number.integer": "departmentNo은 정수입니다.",
+      }),
+      majorNo: Joi.number().messages({
+        "number.base": "majorNo은 숫자 형식입니다.",
+        "number.integer": "majorNo은 정수입니다.",
+      }),
+    }),
   },
   params: {
-    category: Joi.object().keys({
+    categoryNo: Joi.object().keys({
       categoryNo: Joi.number().required().messages({
         "number.base": "category 은 문자 형식입니다.",
         "number.integer": "category 값을 입력해주세요.",
         "any.required": "category 필드가 비었습니다.",
       }),
     }),
-
     productNo: Joi.object().keys({
       productNo: Joi.number().required().messages({
         "number.base": "productNo은 숫자 형식입니다.",

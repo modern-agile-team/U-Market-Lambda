@@ -254,7 +254,9 @@ class ProductRepository {
     }
   }
 
-  static async findAllByCategory(category) {
+  static async findAllByCategory(attr, filterSql = "") {
+    const { startNo, limit, categoryNo } = attr;
+
     try {
       await mysql.connect();
       const query = `
@@ -265,11 +267,12 @@ class ProductRepository {
         ON pc.no = pdc.product_category_no
         RIGHT JOIN products AS pd
         ON pdc.no = pd.product_detail_category_no
-        WHERE pc.no = ?
-        ORDER BY pd.no DESC;
+        WHERE pd.no <= ? AND pc.no = ? ${filterSql}
+        ORDER BY pd.no DESC
+        LIMIT ?;
       `;
 
-      const product = await mysql.query(query, [category]);
+      const product = await mysql.query(query, [startNo, categoryNo, limit]);
 
       return product;
     } catch (err) {

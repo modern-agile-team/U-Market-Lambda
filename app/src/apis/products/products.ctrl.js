@@ -33,6 +33,7 @@ const products = {
 
   findAllByCategory: async (req, res, next) => {
     try {
+      req.sql = Validator.makeSqlAboutWhereStatements(req.query);
       const product = new ProductService(req);
       const response = await product.findAllByCategory();
 
