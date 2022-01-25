@@ -103,7 +103,7 @@ class ProductRepository {
         FROM products AS pd
         LEFT JOIN interest_products AS i_pd
         ON i_pd.product_no = pd.no
-        WHERE pd.no >= ?
+        WHERE pd.no <= ?
         GROUP BY pd.no
         ORDER BY price ${sort}
         LIMIT ?;`;

@@ -34,7 +34,11 @@ class ProductService {
 
   async findAllAboutHomeBasedPrice() {
     const { startNo, sort, limit } = this.query;
-    const attr = { startNo: Number(startNo), sort, limit: Number(limit) };
+    const attr = {
+      startNo: startNo <= 0 ? MAX_START_NO : Number(startNo),
+      sort,
+      limit: Number(limit),
+    };
     const products = await ProductRepository.findAllBasedPriceBy(attr);
     return { products };
   }
