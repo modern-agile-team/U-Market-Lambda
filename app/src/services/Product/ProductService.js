@@ -6,6 +6,8 @@ const ProductImageRepository = require("../../repository/Product/ProductImageRep
 const WatchlistRepository = require("../../repository/Watchlist/WatchlistRepository");
 // const ProductHashTagRepository = require("../../repository/Product/ProductHashTagRepository");
 
+const MAX_START_NO = 99999999999999999999;
+
 class ProductService {
   constructor(req) {
     this.query = req.query;
@@ -67,7 +69,7 @@ class ProductService {
   async findAllByDetailCategory() {
     const { detailCategoryName, startNo, limit } = this.query;
     const attr = {
-      startNo: startNo <= 0 ? 99999999999999999999 : Number(startNo),
+      startNo: startNo <= 0 ? MAX_START_NO : Number(startNo),
       limit: Number(limit),
       detailCategoryName,
     };
@@ -87,7 +89,7 @@ class ProductService {
     const { categoryNo } = this.params;
     const { startNo, limit } = this.query;
     const attr = {
-      startNo: startNo <= 0 ? 99999999999999999999 : Number(startNo),
+      startNo: startNo <= 0 ? MAX_START_NO : Number(startNo),
       limit: Number(limit),
       categoryNo: Number(categoryNo),
     };
