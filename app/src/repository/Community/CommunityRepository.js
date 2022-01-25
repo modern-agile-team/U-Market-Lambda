@@ -14,7 +14,7 @@ class CommunityRepository {
           ON cmu_inner.user_no = users.no
           LEFT JOIN community_comments AS cmu_cmt
           ON cmu_inner.no = cmu_cmt.community_no
-          WHERE cmu_inner.no >= ? AND cmu_inner.community_category_no = ?
+          WHERE cmu_inner.no >= ? AND cmu_inner.community_category_no = ? ${filterSql}
           GROUP BY cmu_inner.no
           ORDER BY cmu_inner.no DESC
           LIMIT ?) AS cmu_outer
