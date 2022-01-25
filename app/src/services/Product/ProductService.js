@@ -42,7 +42,7 @@ class ProductService {
   async findAllAboutMarketBasedPrice() {
     const { startNo, startPriceRange, endPriceRange, limit } = this.query;
     const attr = {
-      startNo: Number(startNo),
+      startNo: startNo <= 0 ? MAX_START_NO : Number(startNo),
       startPriceRange: Number(startPriceRange),
       endPriceRange: Number(endPriceRange),
       limit: Number(limit),

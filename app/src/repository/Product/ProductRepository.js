@@ -126,7 +126,7 @@ class ProductRepository {
           SELECT pd.no, title, price,
             interest_cnt AS interestCnt, thumbnail 
           FROM products AS pd
-          WHERE pd.no >= ? AND price >= ? AND price <= ? ${filterSql}
+          WHERE pd.no <= ? AND price >= ? AND price <= ? ${filterSql}
           GROUP BY pd.no
           ORDER BY price ASC, pd.no DESC
           LIMIT ?;`;
