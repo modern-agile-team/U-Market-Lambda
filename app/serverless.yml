@@ -214,9 +214,13 @@ functions:
       # 커뮤니티 API
       - http:
           method: GET
-          path: /api/communities
+          path: /api/communities/categories/{categoryNo}
           cors: true
         #   private: true
+          request:
+            parameters:
+              paths:
+                categoryNo: true
       - http:
           method: GET
           path: /api/communities/{communityNo}/{userNo}
