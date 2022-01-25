@@ -15,7 +15,7 @@ class CommunityService {
     const { categoryNo } = this.params;
     const { startNo, limit } = this.query;
     const attr = {
-      startNo: Number(startNo),
+      startNo: startNo <= 0 ? 99999999999999999999 : Number(startNo),
       limit: Number(limit),
       categoryNo: Number(categoryNo),
     };
