@@ -8,24 +8,23 @@ class CommunityRepository {
       const query = `
         SELECT cmu_outer.no, cmu_outer.nickname, cmu_outer.profileUrl, cmu_outer.title, cmu_outer.description, cmu_outer.hit, cmu_outer.like_cnt AS likeCnt, cmu_outer.comment_cnt AS commentCnt, COUNT(bmk_cmu.no) AS bookmarkCnt, cmu_outer.thumbnail, DATE_FORMAT(cmu_outer.in_date, "%Y.%m.%d") AS inDate
         FROM (
-          SELECT cmu_inner.no, users.nickname AS nickname, users.profile_img_url AS profileUrl, cmu_inner.region_no, cmu_inner.school_no, cmu_inner.department_no, cmu_inner.major_no, community_category_no, title, cmu_inner.description, hit, cmu_inner.like_cnt, COUNT(cmu_cmt.no) AS comment_cnt, thumbnail, cmu_inner.in_date
+          SELECT cmu_inner.no, users.nickname AS nickname, users.profile_img_url AS profileUrl, cmu_inner.region_no, cmu_inner.school_no, cmu_inner.department_no, cmu_inner.major_no, title, cmu_inner.description, hit, cmu_inner.like_cnt, COUNT(cmu_cmt.no) AS comment_cnt, thumbnail, cmu_inner.in_date
           FROM communities AS cmu_inner
           JOIN users
           ON cmu_inner.user_no = users.no
           LEFT JOIN community_comments AS cmu_cmt
           ON cmu_inner.no = cmu_cmt.community_no
+          WHERE cmu_inner.no >= ? AND cmu_inner.community_category_no = ?
           GROUP BY cmu_inner.no
           ORDER BY cmu_inner.no DESC
           LIMIT ?) AS cmu_outer
         LEFT JOIN bookmark_communities AS bmk_cmu
         ON cmu_outer.no = bmk_cmu.community_no
-        WHERE cmu_outer.no >= ? AND cmu_outer.community_category_no = ? ${filterSql}
         GROUP BY cmu_outer.no
-        ORDER BY cmu_outer.no DESC
-        LIMIT ?;`;
+        ORDER BY cmu_outer.no DESC;
+        `;
 
       const communities = await mysql.query(query, [
-        limit,
         startNo,
         categoryNo,
         limit,
