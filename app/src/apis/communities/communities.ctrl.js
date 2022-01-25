@@ -11,7 +11,7 @@ const communities = {
       const community = new CommunityService(req);
       const response = await community.findAllAboutCategory();
 
-      logger.info(`GET /api/communities 200`);
+      logger.info(`GET /api/communities/categories/:categoryNo 200`);
       return res.status(200).json(response);
     } catch (err) {
       next(err);

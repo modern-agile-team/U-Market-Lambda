@@ -497,14 +497,16 @@ const communities = {
         "number.integer": "limit은 정수입니다.",
         "any.required": "limit 필드가 비었습니다.",
       }),
+    }),
+  },
+  params: {
+    root: Joi.object().keys({
       categoryNo: Joi.number().required().messages({
         "number.base": "categoryNo은 숫자 형식입니다.",
         "number.integer": "categoryNo은 정수입니다.",
         "any.required": "categoryNo 필드가 비었습니다.",
       }),
     }),
-  },
-  params: {
     detail: Joi.object().keys({
       communityNo: Joi.number().required().messages({
         "number.base": "communityNo은 숫자 형식입니다.",

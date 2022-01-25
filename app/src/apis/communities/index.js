@@ -14,7 +14,8 @@ router.post(
 
 // communities
 router.get(
-  "/",
+  "/categories/:categoryNo",
+  validation(joi.communities.params.root, "params"),
   validation(joi.communities.query.root, "query"),
   ctrl.communities.home,
 );

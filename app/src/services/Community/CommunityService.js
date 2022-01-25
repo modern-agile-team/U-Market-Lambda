@@ -12,7 +12,8 @@ class CommunityService {
   }
 
   async findAllAboutCategory() {
-    const { startNo, categoryNo, limit } = this.query;
+    const { categoryNo } = this.params;
+    const { startNo, limit } = this.query;
     const attr = {
       startNo: Number(startNo),
       limit: Number(limit),
