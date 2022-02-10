@@ -90,7 +90,7 @@ class ProductService {
     const { userNo } = this.params;
 
     const purchaseFinishProducts =
-      await ProductRepository.findTradeFinishByUserNo(userNo);
+      await ProductRepository.findTradeFinishByBuyerNo(userNo);
 
     return { purchaseFinishProducts };
   }

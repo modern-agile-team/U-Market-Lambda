@@ -177,7 +177,8 @@ class ProductRepository {
       FROM products AS pro
       LEFT JOIN users
       ON users.no = pro.user_no
-      WHERE pro.user_no = ? AND pro.trading_status_no = 1;`;
+      WHERE pro.user_no = ? AND pro.trading_status_no = 1
+      ORDER BY pro.no DESC;`;
 
       const products = await mysql.query(query, [userNo]);
       return products;
@@ -195,7 +196,29 @@ class ProductRepository {
       FROM products AS pro
       LEFT JOIN users
       ON users.no = pro.user_no
-      WHERE pro.user_no = ? AND pro.trading_status_no = 3;`;
+      WHERE pro.user_no = ? AND pro.trading_status_no = 3
+      ORDER BY pro.no DESC;`;
+
+      const products = await mysql.query(query, [userNo]);
+      return products;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findTradeFinishByBuyerNo(userNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT pro.no, pro.title, pro.price, pro.interest_cnt AS interestCnt, pro.thumbnail, users.nickname, users.no AS buyerNo, DATE_FORMAT(pro.in_date, "%Y.%m.%d") AS inDate
+      FROM purchase_products AS pp
+      LEFT JOIN products AS pro
+      ON pp.product_no = pro.no
+      LEFT JOIN users
+      ON users.no = pp.user_no
+      WHERE pp.user_no = ? AND pro.trading_status_no = 3
+      ORDER BY pro.no DESC;`;
 
       const products = await mysql.query(query, [userNo]);
       return products;
@@ -215,7 +238,8 @@ class ProductRepository {
       ON pp.product_no = pro.no
       LEFT JOIN users
       ON users.no = pp.user_no
-      WHERE pro.user_no = ? AND pro.trading_status_no = 3;`;
+      WHERE pro.user_no = ? AND pro.trading_status_no = 3
+      ORDER BY pro.no DESC;`;
 
       const products = await mysql.query(query, [userNo]);
       return products;
