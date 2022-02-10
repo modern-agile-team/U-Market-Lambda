@@ -126,6 +126,27 @@ class CommunityRepository {
     }
   }
 
+  static async findAllMyWrote(userNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT cc.no, cc.title,users.profile_img_url AS profileUrl, users.nickname, cc.description, cc.hit, cc.thumbnail, cc.like_cnt AS likeCnt, DATE_FORMAT(cc.in_date, "%Y.%m.%d") AS inDate, COUNT(cmt.no) AS commentCnt
+        FROM communities AS cc
+          LEFT JOIN users
+          ON users.no = cc.user_no
+          LEFT JOIN community_comments AS cmt
+          ON cmt.community_no = cc.no
+          WHERE cc.user_no = ?
+          GROUP BY cc.no
+          ORDER BY no desc;`;
+      const wrotes = await mysql.query(query, [userNo]);
+      return wrotes;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async insertOne(community) {
     try {
       await mysql.connect();

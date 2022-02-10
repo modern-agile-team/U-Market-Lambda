@@ -28,6 +28,17 @@ const communities = {
       next(err);
     }
   },
+  myWrote: async (req, res, next) => {
+    try {
+      const community = new CommunityService(req);
+      const response = await community.myWrote();
+
+      logger.info(`GET /api/communities/:userNo 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
   create: async (req, res, next) => {
     try {
       const community = new CommunityService(req);

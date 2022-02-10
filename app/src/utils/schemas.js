@@ -551,6 +551,13 @@ const communities = {
         "any.required": "limit 필드가 비었습니다.",
       }),
     }),
+    myWrite: Joi.object().keys({
+      userNo: Joi.number().required().messages({
+        "number.base": "userNo 는 숫자 형식입니다.",
+        "number.integer": "userNo 는 정수입니다.",
+        "any.required": "userNo 필드가 비었습니다.",
+      }),
+    }),
   },
   params: {
     root: Joi.object().keys({

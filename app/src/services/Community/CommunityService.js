@@ -64,6 +64,18 @@ class CommunityService {
     return { community };
   }
 
+  async myWrote() {
+    const { userNo } = this.params;
+
+    try {
+      const wrote = await CommunityRepository.findAllMyWrote(userNo);
+
+      return { wrote };
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async register() {
     // 이슈: images 저장 실패시 기존에 수행된 트랜잭션이 복구 되어야한다. -> 삽입된 데이터 다시 삭제되도록 구현해야함. 어떻게..?
     const { community } = this.body;
