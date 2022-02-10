@@ -170,10 +170,46 @@ class ProductRepository {
     }
   }
 
+  static async findTradeBySellerNo(userNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT pro.no, pro.title, pro.thumbnail, pro.interest_cnt AS interestCnt, users.nickname, pro.price, DATE_FORMAT(pro.in_date, "%Y.%m.%d") AS inDate
+      FROM products AS pro
+      LEFT JOIN users
+      ON users.no = pro.user_no
+      WHERE pro.user_no = ? AND pro.trading_status_no = 1;`;
+
+      const products = await mysql.query(query, [userNo]);
+      return products;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
+  static async findTradeFinishBySellerNo(userNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT pro.no, pro.title, pro.price, pro.interest_cnt AS interestCnt, pro.thumbnail, users.nickname, pro.price, DATE_FORMAT(pro.in_date, "%Y.%m.%d") AS inDate
+      FROM products AS pro
+      LEFT JOIN users
+      ON users.no = pro.user_no
+      WHERE pro.user_no = ? AND pro.trading_status_no = 3;`;
+
+      const products = await mysql.query(query, [userNo]);
+      return products;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async findTradeFinishByUserNo(userNo) {
     try {
       await mysql.connect();
-      const query = `SELECT pro.no, pro.title, pro.thumbnail, users.nickname, users.no AS buyerNo
+      const query = `SELECT pro.no, pro.title, pro.price, pro.interest_cnt AS interestCnt, pro.thumbnail, users.nickname, users.no AS buyerNo, DATE_FORMAT(pro.in_date, "%Y.%m.%d") AS inDate
       FROM products AS pro
       LEFT JOIN purchase_products AS pp
       ON pp.product_no = pro.no

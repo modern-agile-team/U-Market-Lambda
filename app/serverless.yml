@@ -169,6 +169,36 @@ functions:
                 categoryNo: true
 
       - http:
+          method: GET
+          path: /api/products/trade/{userNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/products/trade/finish/{userNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
+          method: GET
+          path: /api/products/purchase/finish/{userNo}
+          cors: true
+          # private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+
+      - http:
           method: POST
           path: /api/product
           cors: true
@@ -231,6 +261,17 @@ functions:
               paths:
                 communityNo: true
                 userNo: true
+      
+      - http:
+          method: GET
+          path: /api/community/{userNo}
+          cors: true
+        #   private: true
+          request:
+            parameters:
+              paths:
+                userNo: true
+      
       - http:
           method: POST
           path: /api/community

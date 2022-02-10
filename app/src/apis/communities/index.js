@@ -12,6 +12,12 @@ router.post(
   ctrl.communities.create,
 );
 
+router.get(
+  "/:userNo",
+  validation(joi.communities.query.myWrite, "params"),
+  ctrl.communities.myWrote,
+);
+
 // communities
 router.get(
   "/categories/:categoryNo",

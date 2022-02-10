@@ -342,6 +342,13 @@ const products = {
     }),
   },
   params: {
+    userNo: Joi.object().keys({
+      userNo: Joi.number().required().messages({
+        "number.base": "userNo 은 숫자 형식입니다.",
+        "number.integer": "userNo 값을 입력해주세요.",
+        "any.required": "userNo 필드가 비었습니다.",
+      }),
+    }),
     categoryNo: Joi.object().keys({
       categoryNo: Joi.number().required().messages({
         "number.base": "category 은 문자 형식입니다.",
@@ -549,6 +556,13 @@ const communities = {
         "number.base": "limit은 숫자 형식입니다.",
         "number.integer": "limit은 정수입니다.",
         "any.required": "limit 필드가 비었습니다.",
+      }),
+    }),
+    myWrite: Joi.object().keys({
+      userNo: Joi.number().required().messages({
+        "number.base": "userNo 는 숫자 형식입니다.",
+        "number.integer": "userNo 는 정수입니다.",
+        "any.required": "userNo 필드가 비었습니다.",
       }),
     }),
   },

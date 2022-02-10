@@ -47,6 +47,42 @@ const products = {
     }
   },
 
+  findAllTradingProduct: async (req, res, next) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.findAllTradingProduct();
+
+      logger.info(`GET /api/products/trade/${req.params.userNo} 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  findAllTradeFinish: async (req, res, next) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.findAllTradeFinish();
+
+      logger.info(`GET /api/products/trade//finish${req.params.userNo} 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  purchaseFinish: async (req, res, next) => {
+    try {
+      const product = new ProductService(req);
+      const response = await product.purchaseFinish();
+
+      logger.info(`GET /api/products/purchase/finish/${req.params.userNo} 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   detailView: async (req, res, next) => {
     try {
       const product = new ProductService(req);
