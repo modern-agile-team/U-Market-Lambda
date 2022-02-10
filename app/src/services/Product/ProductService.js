@@ -71,6 +71,30 @@ class ProductService {
     return { products };
   }
 
+  async findAllTradingProduct() {
+    const { userNo } = this.params;
+    const tradingProducts = await ProductRepository.findTradeBySellerNo(userNo);
+
+    return { tradingProducts };
+  }
+
+  async findAllTradeFinish() {
+    const { userNo } = this.params;
+    const tradeFinishProducts =
+      await ProductRepository.findTradeFinishBySellerNo(userNo);
+
+    return { tradeFinishProducts };
+  }
+
+  async purchaseFinish() {
+    const { userNo } = this.params;
+
+    const purchaseFinishProducts =
+      await ProductRepository.findTradeFinishByUserNo(userNo);
+
+    return { purchaseFinishProducts };
+  }
+
   async findAllByDetailCategory() {
     const { detailCategoryName, startNo, limit } = this.query;
     const attr = {
