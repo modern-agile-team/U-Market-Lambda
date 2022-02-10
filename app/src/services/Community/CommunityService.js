@@ -68,9 +68,9 @@ class CommunityService {
     const { userNo } = this.params;
 
     try {
-      const wrote = await CommunityRepository.findAllMyWrote(userNo);
+      const wrotes = await CommunityRepository.findAllMyWrote(userNo);
 
-      return { wrote };
+      return { wrotes };
     } catch (err) {
       throw err;
     }

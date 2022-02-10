@@ -19,6 +19,24 @@ router.get(
 );
 
 router.get(
+  "/trade/:userNo",
+  validation(joi.products.params.userNo, "params"),
+  ctrl.products.findAllTradingProduct,
+);
+
+router.get(
+  "/trade/finish/:userNo",
+  validation(joi.products.params.userNo, "params"),
+  ctrl.products.findAllTradeFinish,
+);
+
+router.get(
+  "/purchase/finish/:userNo",
+  validation(joi.products.params.userNo, "params"),
+  ctrl.products.purchaseFinish,
+);
+
+router.get(
   "/:productNo/:userNo",
   validation(joi.products.params.detail, "params"),
   ctrl.products.detailView,
