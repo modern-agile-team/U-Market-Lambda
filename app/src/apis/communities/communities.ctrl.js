@@ -11,7 +11,7 @@ const communities = {
       const community = new CommunityService(req);
       const response = await community.findAllAboutCategory();
 
-      logger.info(`GET /api/communities 200`);
+      logger.info(`GET /api/communities/categories/:categoryNo 200`);
       return res.status(200).json(response);
     } catch (err) {
       next(err);
@@ -23,6 +23,17 @@ const communities = {
       const response = await community.detailView();
 
       logger.info(`GET /api/communities/:communityNo 200`);
+      return res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+  myWrote: async (req, res, next) => {
+    try {
+      const community = new CommunityService(req);
+      const response = await community.myWrote();
+
+      logger.info(`GET /api/communities/:userNo 200`);
       return res.status(200).json(response);
     } catch (err) {
       next(err);

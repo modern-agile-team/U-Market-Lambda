@@ -12,9 +12,10 @@ class CommunityService {
   }
 
   async findAllAboutCategory() {
-    const { startNo, categoryNo, limit } = this.query;
+    const { categoryNo } = this.params;
+    const { startNo, limit } = this.query;
     const attr = {
-      startNo: Number(startNo),
+      startNo: startNo <= 0 ? 99999999999999999999 : Number(startNo),
       limit: Number(limit),
       categoryNo: Number(categoryNo),
     };
@@ -61,6 +62,18 @@ class CommunityService {
     if (!isLike.length) community.likeFlag = 0;
 
     return { community };
+  }
+
+  async myWrote() {
+    const { userNo } = this.params;
+
+    try {
+      const wrote = await CommunityRepository.findAllMyWrote(userNo);
+
+      return { wrote };
+    } catch (err) {
+      throw err;
+    }
   }
 
   async register() {

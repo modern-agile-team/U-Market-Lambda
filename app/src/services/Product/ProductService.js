@@ -6,6 +6,8 @@ const ProductImageRepository = require("../../repository/Product/ProductImageRep
 const WatchlistRepository = require("../../repository/Watchlist/WatchlistRepository");
 // const ProductHashTagRepository = require("../../repository/Product/ProductHashTagRepository");
 
+const MAX_START_NO = 99999999999999999999;
+
 class ProductService {
   constructor(req) {
     this.query = req.query;
@@ -32,7 +34,11 @@ class ProductService {
 
   async findAllAboutHomeBasedPrice() {
     const { startNo, sort, limit } = this.query;
-    const attr = { startNo: Number(startNo), sort, limit: Number(limit) };
+    const attr = {
+      startNo: startNo <= 0 ? MAX_START_NO : Number(startNo),
+      sort,
+      limit: Number(limit),
+    };
     const products = await ProductRepository.findAllBasedPriceBy(attr);
     return { products };
   }
@@ -40,7 +46,7 @@ class ProductService {
   async findAllAboutMarketBasedPrice() {
     const { startNo, startPriceRange, endPriceRange, limit } = this.query;
     const attr = {
-      startNo: Number(startNo),
+      startNo: startNo <= 0 ? MAX_START_NO : Number(startNo),
       startPriceRange: Number(startPriceRange),
       endPriceRange: Number(endPriceRange),
       limit: Number(limit),
@@ -52,6 +58,7 @@ class ProductService {
     return { products };
   }
 
+  // 내가 조회한 상품 -> 현재 기능 삭제됨.
   async findAllOfViewed() {
     const { userNo } = this.params;
     const { startNo, limit } = this.query;
@@ -65,9 +72,17 @@ class ProductService {
   }
 
   async findAllByDetailCategory() {
-    const { detail } = this.query;
+    const { detailCategoryName, startNo, limit } = this.query;
+    const attr = {
+      startNo: startNo <= 0 ? MAX_START_NO : Number(startNo),
+      limit: Number(limit),
+      detailCategoryName,
+    };
     try {
-      const products = await ProductRepository.findAllByDetailCategory(detail);
+      const products = await ProductRepository.findAllByDetailCategory(
+        attr,
+        this.sql,
+      );
 
       return { products };
     } catch (err) {
@@ -77,8 +92,18 @@ class ProductService {
 
   async findAllByCategory() {
     const { categoryNo } = this.params;
+    const { startNo, limit } = this.query;
+    const attr = {
+      startNo: startNo <= 0 ? MAX_START_NO : Number(startNo),
+      limit: Number(limit),
+      categoryNo: Number(categoryNo),
+    };
+
     try {
-      const products = await ProductRepository.findAllByCategory(categoryNo);
+      const products = await ProductRepository.findAllByCategory(
+        attr,
+        this.sql,
+      );
 
       return { products };
     } catch (err) {

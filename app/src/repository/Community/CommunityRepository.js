@@ -8,24 +8,23 @@ class CommunityRepository {
       const query = `
         SELECT cmu_outer.no, cmu_outer.nickname, cmu_outer.profileUrl, cmu_outer.title, cmu_outer.description, cmu_outer.hit, cmu_outer.like_cnt AS likeCnt, cmu_outer.comment_cnt AS commentCnt, COUNT(bmk_cmu.no) AS bookmarkCnt, cmu_outer.thumbnail, DATE_FORMAT(cmu_outer.in_date, "%Y.%m.%d") AS inDate
         FROM (
-          SELECT cmu_inner.no, users.nickname AS nickname, users.profile_img_url AS profileUrl, cmu_inner.region_no, cmu_inner.school_no, cmu_inner.department_no, cmu_inner.major_no, community_category_no, title, cmu_inner.description, hit, cmu_inner.like_cnt, COUNT(cmu_cmt.no) AS comment_cnt, thumbnail, cmu_inner.in_date
+          SELECT cmu_inner.no, users.nickname AS nickname, users.profile_img_url AS profileUrl, cmu_inner.region_no, cmu_inner.school_no, cmu_inner.department_no, cmu_inner.major_no, title, cmu_inner.description, hit, cmu_inner.like_cnt, COUNT(cmu_cmt.no) AS comment_cnt, thumbnail, cmu_inner.in_date
           FROM communities AS cmu_inner
           JOIN users
           ON cmu_inner.user_no = users.no
           LEFT JOIN community_comments AS cmu_cmt
           ON cmu_inner.no = cmu_cmt.community_no
+          WHERE cmu_inner.no <= ? AND cmu_inner.community_category_no = ? ${filterSql}
           GROUP BY cmu_inner.no
           ORDER BY cmu_inner.no DESC
           LIMIT ?) AS cmu_outer
         LEFT JOIN bookmark_communities AS bmk_cmu
         ON cmu_outer.no = bmk_cmu.community_no
-        WHERE cmu_outer.no >= ? AND cmu_outer.community_category_no = ? ${filterSql}
         GROUP BY cmu_outer.no
-        ORDER BY cmu_outer.no DESC
-        LIMIT ?;`;
+        ORDER BY cmu_outer.no DESC;
+        `;
 
       const communities = await mysql.query(query, [
-        limit,
         startNo,
         categoryNo,
         limit,
@@ -43,14 +42,16 @@ class CommunityRepository {
     try {
       await mysql.connect();
       const query = `
-        SELECT cmu_outer.no, nickname, cmu_outer.user_no AS writerNo, profile_img_url AS profileUrl, cmu_outer.title, cmu_outer.description, hit, cmu_outer.like_cnt AS likeCnt, comment_cnt AS commentCnt, COUNT(bmk_cmu.no) AS bookmarkCnt, DATE_FORMAT(cmu_outer.in_date, "%Y.%m.%d %H:%i") AS inDate
+        SELECT cmu_outer.no, categoryNo, categoryName, nickname, cmu_outer.user_no AS writerNo, profile_img_url AS profileUrl, cmu_outer.title, cmu_outer.description, hit, cmu_outer.like_cnt AS likeCnt, comment_cnt AS commentCnt, COUNT(bmk_cmu.no) AS bookmarkCnt, DATE_FORMAT(cmu_outer.in_date, "%Y.%m.%d %H:%i") AS inDate
         FROM (
-          SELECT cmu_inner.no, users.nickname, users.profile_img_url, cmu_inner.user_no, title, cmu_inner.description, hit, cmu_inner.like_cnt, COUNT(cmu_cmt.no) AS comment_cnt, cmu_inner.in_date
+          SELECT cmu_inner.no, cmu_cate.no AS categoryNo, cmu_cate.name AS categoryName, users.nickname, users.profile_img_url, cmu_inner.user_no, title, cmu_inner.description, hit, cmu_inner.like_cnt, COUNT(cmu_cmt.no) AS comment_cnt, cmu_inner.in_date
           FROM communities AS cmu_inner
           LEFT JOIN community_comments AS cmu_cmt
           ON cmu_inner.no = cmu_cmt.community_no
           LEFT JOIN users
           ON users.no = cmu_inner.user_no
+          LEFT JOIN community_categories AS cmu_cate
+          ON cmu_cate.no = cmu_inner.community_category_no
           GROUP BY cmu_inner.no
         ) AS cmu_outer
         LEFT JOIN bookmark_communities AS bmk_cmu
@@ -125,6 +126,27 @@ class CommunityRepository {
     }
   }
 
+  static async findAllMyWrote(userNo) {
+    try {
+      await mysql.connect();
+      const query = `SELECT cc.no, cc.title,users.profile_img_url AS profileUrl, users.nickname, cc.description, cc.hit, cc.thumbnail, cc.like_cnt AS likeCnt, DATE_FORMAT(cc.in_date, "%Y.%m.%d") AS inDate, COUNT(cmt.no) AS commentCnt
+        FROM communities AS cc
+          LEFT JOIN users
+          ON users.no = cc.user_no
+          LEFT JOIN community_comments AS cmt
+          ON cmt.community_no = cc.no
+          WHERE cc.user_no = ?
+          GROUP BY cc.no
+          ORDER BY no desc;`;
+      const wrotes = await mysql.query(query, [userNo]);
+      return wrotes;
+    } catch (err) {
+      throw err;
+    } finally {
+      mysql?.end();
+    }
+  }
+
   static async insertOne(community) {
     try {
       await mysql.connect();
@@ -173,12 +195,13 @@ class CommunityRepository {
   static async updateOneByNo(community) {
     try {
       await mysql.connect();
-      const query = `UPDATE communities SET title = ?, description = ?, thumbnail = ? WHERE no = ?;`;
+      const query = `UPDATE communities SET title = ?, description = ?, thumbnail = ?, community_category_no = ? WHERE no = ?;`;
 
       const result = await mysql.query(query, [
         community.title,
         community.description,
         community.thumbnail,
+        community.categoryNo,
         community.no,
       ]);
 

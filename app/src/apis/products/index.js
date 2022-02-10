@@ -12,8 +12,9 @@ router.get(
 );
 
 router.get(
-  "/category/:categoryNo",
-  validation(joi.products.params.category, "params"),
+  "/categories/:categoryNo",
+  validation(joi.products.params.categoryNo, "params"),
+  validation(joi.products.query.categoryNo, "query"),
   ctrl.products.findAllByCategory,
 );
 

@@ -103,7 +103,7 @@ class ProductRepository {
         FROM products AS pd
         LEFT JOIN interest_products AS i_pd
         ON i_pd.product_no = pd.no
-        WHERE pd.no >= ?
+        WHERE pd.no <= ?
         GROUP BY pd.no
         ORDER BY price ${sort}
         LIMIT ?;`;
@@ -126,7 +126,7 @@ class ProductRepository {
           SELECT pd.no, title, price,
             interest_cnt AS interestCnt, thumbnail 
           FROM products AS pd
-          WHERE pd.no >= ? AND price >= ? AND price <= ? ${filterSql}
+          WHERE pd.no <= ? AND price >= ? AND price <= ? ${filterSql}
           GROUP BY pd.no
           ORDER BY price ASC, pd.no DESC
           LIMIT ?;`;
@@ -146,6 +146,7 @@ class ProductRepository {
     }
   }
 
+  // 내가 조회한 상품 -> 현재 기능 삭제됨.
   static async findAllOfViewedByUserNo(userNo, attr) {
     const { startNo, limit } = attr;
     try {
@@ -231,7 +232,8 @@ class ProductRepository {
     }
   }
 
-  static async findAllByDetailCategory(category) {
+  static async findAllByDetailCategory(attr, filterSql = "") {
+    const { startNo, limit, detailCategoryName } = attr;
     try {
       await mysql.connect();
       const query = `
@@ -240,11 +242,16 @@ class ProductRepository {
         FROM product_detail_categories AS pdc
         RIGHT JOIN products AS pd
         ON pdc.no = pd.product_detail_category_no
-        WHERE pdc.name = ?
-        ORDER BY pd.no DESC;
+        WHERE pd.no <= ? AND pdc.name = ? ${filterSql}
+        ORDER BY pd.no DESC
+        LIMIT ?;
       `;
 
-      const product = await mysql.query(query, [category]);
+      const product = await mysql.query(query, [
+        startNo,
+        detailCategoryName,
+        limit,
+      ]);
 
       return product;
     } catch (err) {
@@ -254,7 +261,9 @@ class ProductRepository {
     }
   }
 
-  static async findAllByCategory(category) {
+  static async findAllByCategory(attr, filterSql = "") {
+    const { startNo, limit, categoryNo } = attr;
+
     try {
       await mysql.connect();
       const query = `
@@ -265,11 +274,12 @@ class ProductRepository {
         ON pc.no = pdc.product_category_no
         RIGHT JOIN products AS pd
         ON pdc.no = pd.product_detail_category_no
-        WHERE pc.no = ?
-        ORDER BY pd.no DESC;
+        WHERE pd.no <= ? AND pc.no = ? ${filterSql}
+        ORDER BY pd.no DESC
+        LIMIT ?;
       `;
 
-      const product = await mysql.query(query, [category]);
+      const product = await mysql.query(query, [startNo, categoryNo, limit]);
 
       return product;
     } catch (err) {
@@ -381,10 +391,11 @@ class ProductRepository {
   static async updateOneByNo(product) {
     try {
       await mysql.connect();
-      const query = `UPDATE products SET title = ?, price = ?, description = ?, thumbnail = ?, bargaining_flag = ?, damage_status_no = ?, direct_flag = ?, delivery_flag = ? WHERE no = ?;`;
+      const query = `UPDATE products SET title = ?, product_detail_category_no = ?, price = ?, description = ?, thumbnail = ?, bargaining_flag = ?, damage_status_no = ?, direct_flag = ?, delivery_flag = ? WHERE no = ?;`;
 
       const result = await mysql.query(query, [
         product.title,
+        product.detailCategoryNo,
         product.price,
         product.description,
         product.thumbnail,
