@@ -1234,6 +1234,26 @@ const notification = {
   }),
 };
 
+const inquiry = {
+  body: Joi.object().keys({
+    title: Joi.string().required().messages({
+      "string.base": "title 은 문자 형식입니다.",
+      "string.empty": "title 값을 입력해주세요.",
+      "any.required": "title 필드가 비었습니다.",
+    }),
+    context: Joi.string().required().messages({
+      "string.base": "title 은 문자 형식입니다.",
+      "string.empty": "title 값을 입력해주세요.",
+      "any.required": "title 필드가 비었습니다.",
+    }),
+    userNo: Joi.number().required().messages({
+      "number.base": "userNo 은 숫자 형식입니다.",
+      "number.integer": "userNo 은 정수입니다.",
+      "any.required": "userNo 필드가 비었습니다.",
+    }),
+  }),
+};
+
 module.exports = {
   major,
   user,
@@ -1255,6 +1275,7 @@ module.exports = {
   advertisement,
   search,
   notification,
+  inquiry,
 };
 
 // export const market_POST_schema = Joi.object().keys({

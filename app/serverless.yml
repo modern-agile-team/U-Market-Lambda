@@ -636,6 +636,7 @@ functions:
           method: POST
           path: /api/notification/token/{userNo}
           cors: true
+           # private: true
           request:
             parameters:
               paths:
@@ -645,6 +646,7 @@ functions:
           method: PATCH
           path: /api/notification/token/{userNo}
           cors: true
+           # private: true
           request:
             parameters:
               paths:
@@ -654,6 +656,7 @@ functions:
           method: GET
           path: /api/notification/token/{userNo}
           cors: true
+           # private: true
           request:
             parameters:
               paths:
@@ -662,6 +665,7 @@ functions:
           method: DELETE
           path: /api/notification
           cors: true
+           # private: true
 
       # 알림 저장
       - http:
@@ -681,3 +685,10 @@ functions:
             parameters:
               paths:
                 userNo: true
+
+      # 문의 사항 API 
+      - http:
+          method: POST
+          path: /api/inquiry
+          cors: true
+          

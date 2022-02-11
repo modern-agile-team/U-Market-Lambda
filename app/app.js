@@ -28,6 +28,7 @@ const advertisement = require("./src/apis/advertisement");
 const review = require("./src/apis/review");
 const search = require("./src/apis/search");
 const notification = require("./src/apis/notification");
+const inquiry = require("./src/apis/inquiry");
 
 app.use("/api/user", user);
 app.use("/api/home", home);
@@ -50,6 +51,7 @@ app.use("/api/advertisements", advertisement);
 app.use("/api/review", review);
 app.use("/api/search", search);
 app.use("/api/notification", notification);
+app.use("/api/inquiry", inquiry);
 app.use(errorMiddleware);
 
 module.exports = app;
