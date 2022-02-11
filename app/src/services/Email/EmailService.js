@@ -4,6 +4,7 @@ const Cryptor = require("../../utils/Cryptor");
 
 const mailOption = require("../../config/mail");
 const MajorRepository = require("../../repository/Major/MajorRepository");
+const InquiryRepository = require("../../repository/Inquiry/InquiryRepository");
 
 class EmailService {
   constructor(req) {
@@ -67,6 +68,34 @@ class EmailService {
 
       if (response[0] === "2")
         return { msg: "관리자에게 회원인증을 요청하셨습니다." };
+      throw Error("Failed to send the email to administrator");
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async sendInquiry() {
+    const inquiry = this.body;
+    try {
+      const userInfo = await InquiryRepository.findAllByUserNo(inquiry.userNo);
+      const message = {
+        from: process.env.MAIL_EMAIL,
+        to: process.env.MAIL_EMAIL,
+        subject: `[U-Market] ${userInfo[0].name}님이 문의를 남겼습니다!`,
+        html: `
+          <b>이름 : </b>${userInfo[0].name} <br>
+          <b>이메일 : </b>${userInfo[0].email} <br>
+          <b>닉네임 : </b>${userInfo[0].nickname} <br>
+          <b>제목 : </b>${inquiry.title} <br>
+          <b>내용 : </b>${inquiry.context} <br>
+          `,
+      };
+
+      const transporter = nodemailer.createTransport(mailOption);
+      const { response } = await transporter.sendMail(message);
+
+      if (response[0] === "2")
+        return { msg: `${userInfo[0].nickname}님이 문의사항을 남겼습니다!` };
       throw Error("Failed to send the email to administrator");
     } catch (err) {
       throw err;
